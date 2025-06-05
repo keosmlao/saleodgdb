@@ -1,0 +1,12 @@
+body {
+    font-family: 'Noto Sans Lao', sans-serif;
+}
+
+.navbar,
+.navbar * {
+    font-family: 'Noto Sans Lao', sans-serif !important;
+}
+
+.navbar-brand {
+    font-family: 'Noto Sans Lao', sans-serif !important;
+}

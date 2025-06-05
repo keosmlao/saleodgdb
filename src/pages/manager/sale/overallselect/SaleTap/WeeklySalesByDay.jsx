@@ -1,0 +1,45 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList } from 'recharts';
+import api from '../../../../../services/api';
+
+export default function WeeklySalesByDayChart() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    api.get('/all/sales-by-day')
+      .then(response => {
+        const chartData = response.data.map(item => ({
+          day: item.day_name.trim(),
+          total: parseFloat(item.total_amount)
+        }));
+        setData(chartData);
+      })
+      .catch(err => {
+        console.error('Error fetching data:', err);
+        setError('ດຶງຂໍ້ມູນຜິດ');
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+
+  return (
+    <div style={{ width: '100%', height: 400 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+          <CartesianGrid strokeDasharray="3 3"  fontSize={10}/>
+          <XAxis dataKey="day" fontSize={10}/>
+          <YAxis />
+          <Tooltip formatter={(value) => new Intl.NumberFormat().format(value)} fontSize={10} />
+          <Bar dataKey="total" fill="#82ca9d" fontSize={10}>
+            <LabelList dataKey="total" position="top" formatter={(value) => new Intl.NumberFormat().format(value)}  fontSize={10}/>
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
