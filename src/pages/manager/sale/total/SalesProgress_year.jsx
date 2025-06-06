@@ -11,14 +11,15 @@ const formatNumber = (value) =>
     maximumFractionDigits: 0
   });
 
-const ComparisonCard = ({ title, data, icon, color }) => {
+const ComparisonCard = ({ title, data, icon, color, barColor }) => {
   const target = Number(data.target || 0);
   const revenue = Number(data.revenue || 0);
   const lastYear = Number(data.last_year || 0);
   const toPercent = (value) => (target > 0 ? (value / target) * 100 : 0);
   const percentRevenue = toPercent(revenue);
   const percentLastYear = lastYear > 0 ? (revenue / lastYear) * 100 : 0;
-
+  const salesTarget = target / revenue;
+  const comparePastYear = (revenue / lastYear) * 100;
   return (
     <div className="card shadow-sm border-0 p-3 rounded-4 bg-white mb-3 h-100 d-flex flex-column justify-content-center align-items-center">
       <h6 className="fw-bold text-center" style={{ color }}>{title}</h6>
@@ -46,18 +47,23 @@ const ComparisonCard = ({ title, data, icon, color }) => {
         </div>
         <div className="d-flex justify-content-between mt-1">
           <span>📆 ຍອດຂາຍ</span>
-          <span className="fw-bold text-info">{formatNumber(revenue)} ({percentRevenue.toFixed(1)}%)</span>
+          <span className="fw-bold text-info">{formatNumber(revenue)} </span>
         </div>
         <div className="progress rounded-pill" style={{ height: '8px' }}>
-          <div className="progress-bar" style={{ width: `${percentRevenue}%`, backgroundColor: color }}></div>
+          <div className="progress-bar " style={{ width: `${percentRevenue}%`, backgroundColor: barColor }}></div>
         </div>
         <div className="d-flex justify-content-between mt-1">
           <span>📅 ປີຜ່ານມາ</span>
-          <span className="fw-bold text-danger">{formatNumber(lastYear)} ({percentLastYear.toFixed(1)}%)</span>
+          <span className="fw-bold text-danger">{formatNumber(lastYear)}</span>
         </div>
         <div className="progress rounded-pill" style={{ height: '8px' }}>
           <div className="progress-bar bg-danger" style={{ width: `${percentLastYear}%` }}></div>
         </div>
+        <div className='pt-1'>
+          <label >ປຽບທຽບເປົ້າຂາຍ : ({salesTarget.toFixed(1)}%)</label>
+          <label className='px-4'>ປຽບທຽບປີທີ່ຜ່ານມາ : {comparePastYear.toFixed(1)}%</label>
+        </div>
+
       </div>
     </div>
   );
@@ -114,16 +120,16 @@ export default function SalesComparisonProgressAll() {
       ) : (
         <div className="row g-3 justify-content-center">
           <div className="col-12 col-sm-6 col-md-6 col-lg-3">
-            <ComparisonCard title="📅 ເດືອນນີ້" data={data.total_month} icon={<FaCalendarAlt />} color="#06ab9b" />
+            <ComparisonCard title="📅 ເດືອນນີ້" data={data.total_month} icon={<FaCalendarAlt />} color="#06ab9b" barColor="#06ab9b" />
           </div>
           <div className="col-12 col-sm-6 col-md-6 col-lg-3">
-            <ComparisonCard title="📦 ເດືອນກ່ອນ" data={data.lastMonth} icon={<FaBoxOpen />} color="#ffa500" />
+            <ComparisonCard title="📦 ເດືອນກ່ອນ" data={data.lastMonth} icon={<FaBoxOpen />} color="#ffa500" barColor="#06ab9b" />
           </div>
           <div className="col-12 col-sm-6 col-md-6 col-lg-3">
-            <ComparisonCard title="📚 ສະສົມ" data={data.total_avg} icon={<FaLayerGroup />} color="#673ab7" />
+            <ComparisonCard title="📚 ສະສົມ" data={data.total_avg} icon={<FaLayerGroup />} color="#673ab7" barColor="#06ab9b" />
           </div>
           <div className="col-12 col-sm-6 col-md-6 col-lg-3">
-            <ComparisonCard title="📈 ທັງປີ" data={data.total_year} icon={<FaChartLine />} color="#e53935" />
+            <ComparisonCard title="📈 ທັງປີ" data={data.total_year} icon={<FaChartLine />} color="#e53935" barColor="#06ab9b" />
           </div>
         </div>
       )}

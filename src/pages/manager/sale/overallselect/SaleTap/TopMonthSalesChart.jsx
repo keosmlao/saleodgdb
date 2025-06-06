@@ -27,7 +27,10 @@ const TopMonthSaleChart = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const formatCurrency = (value) => `${value.toLocaleString()} ກີບ`;
+  const formatCurrency = v => {
+    const num = parseInt(Number(v).toFixed(0), 10);
+    return num.toLocaleString('en-US') + ' ກີບ';
+  };
 
   return (
     <div style={{ width: '100%', height: 400 }}>
@@ -42,14 +45,14 @@ const TopMonthSaleChart = () => {
             <ResponsiveContainer width="100%" height={300}>
               <BarChart
                 data={chartData}
-                // margin={{ top: 20, right: 30, left: 30, bottom: 10 }}
+              // margin={{ top: 20, right: 30, left: 30, bottom: 10 }}
               >
                 <CartesianGrid strokeDasharray="3 3" fontSize={9} />
-                <XAxis dataKey="month"fontSize={9} />
-                <YAxis tickFormatter={formatCurrency} fontSize={9}/>
-                <Tooltip formatter={(value) => [formatCurrency(value), 'ຍອດຂາຍ']} fontSize={9}/>
+                <XAxis dataKey="month" fontSize={9} />
+                <YAxis tickFormatter={formatCurrency} fontSize={9} />
+                <Tooltip formatter={(value) => [formatCurrency(value), 'ຍອດຂາຍ']} fontSize={9} />
                 <Bar dataKey="total" fill="#4CAF50" fontSize={9}>
-                  <LabelList dataKey="total" position="top" formatter={(value) => `${value.toLocaleString()}`} fontSize={9}/>
+                  <LabelList dataKey="total" position="top" formatter={(value) => `${value.toLocaleString()}`} fontSize={9} />
                 </Bar>
               </BarChart>
             </ResponsiveContainer>

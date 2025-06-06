@@ -18,17 +18,22 @@ export default function WeeklySalesChart() {
         console.error('Error fetching weekly sales data:', error);
       });
   }, []);
+  const formatCurrency = v => {
+    const num = parseInt(Number(v).toFixed(0), 10);
+    return num.toLocaleString('en-US') + ' ກີບ';
+  };
+
 
   return (
     <div style={{ width: '100%', height: 400 }}>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 20}}>
+        <BarChart data={data} margin={{ top: 20 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="week" tick={{ fontSize: 10 }} />
           <YAxis tick={{ fontSize: 10 }} tickFormatter={(value) => new Intl.NumberFormat().format(value)} />
-          <Tooltip formatter={(value) => new Intl.NumberFormat().format(value)} fontSize={10} />
+          <Tooltip formatter={formatCurrency} fontSize={10} />
           <Bar dataKey="total" fill="#4CAF50" barSize={30} fontSize={10}>
-            <LabelList dataKey="total" position="top" formatter={(value) => new Intl.NumberFormat().format(value)} fontSize={10} />
+            <LabelList dataKey="total" position="top" formatter={formatCurrency} fontSize={10} />
           </Bar>
         </BarChart>
       </ResponsiveContainer>

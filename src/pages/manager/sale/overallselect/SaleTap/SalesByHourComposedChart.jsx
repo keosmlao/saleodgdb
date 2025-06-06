@@ -31,7 +31,11 @@ const HourlySalesChart = () => {
             .finally(() => setLoading(false));
     }, []);
 
-    const formatCurrency = (value) => `${value.toLocaleString()} ກີບ`;
+    const formatCurrency = v => {
+        const num = parseInt(Number(v).toFixed(0), 10);
+        return num.toLocaleString('en-US') + ' ກີບ';
+    };
+
 
     // Custom Tooltip
     const CustomTooltip = ({ active, payload, label }) => {

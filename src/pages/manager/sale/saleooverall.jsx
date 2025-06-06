@@ -32,23 +32,22 @@ export default function Saloverall() {
                     <hr />
                     <div className="mt-3 p-2 rounded shadow-sm">
                         {/* 👇 Your detail content here */}
-                        <div className="row">
+                        <div className="row equal-height-row">
                             <div className="col-sm-6">
-                                <QuarterlyBarChart />
-                                <AccumulatedBarChart />
-                                <TopCustomerList />
-                                <ChannelSummary />
-                                <TopSalespersons />
+                                <div className="dashboard-card"><QuarterlyBarChart /></div>
+                                <div className="dashboard-card"><AccumulatedBarChart /></div>
+                                <div className="dashboard-card"><TopCustomerList /></div>
+                                <div className="dashboard-card"><ChannelSummary /></div>
+                                <div className="dashboard-card"><TopSalespersons /></div>
                             </div>
                             <div className="col-sm-6">
-                                <MonthlySalesChart />
-                                <TopSellingProducts />
-                                <ChartTab />
-                                <TopItemBrands />
-
-
+                                <div className="dashboard-card"><MonthlySalesChart /></div>
+                                <div className="dashboard-card"><TopSellingProducts /></div>
+                                <div className="dashboard-card"><ChartTab /></div>
+                                <div className="dashboard-card"><TopItemBrands /></div>
                             </div>
                         </div>
+
                         <ProvinceSalesComparison />
                         <SalesMap />
                     </div>

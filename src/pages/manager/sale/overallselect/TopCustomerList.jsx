@@ -47,6 +47,8 @@ export default function TopCustomerListWithChart() {
       .catch(err => { console.error('❌ Load API failed:', err); setData([]); });
   }, [filter, zone, bu]);
 
+  console.log("data res", data)
+
   return (
     <div className="card shadow-sm border-0 p-2 bg-white rounded-1 mb-2">
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -84,7 +86,9 @@ export default function TopCustomerListWithChart() {
               <LabelList dataKey="percentcompare" position="right" formatter={formatPercent} style={{ fontSize: 10 }} />
               <LabelList dataKey="total" position="insideRight" formatter={formatNumber} style={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} />
             </Bar>
-            <Bar dataKey="total_24" name="📅 ປີຜ່ານມາ" fill="#DE5E57" barSize={10} />
+            <Bar dataKey="total_24" name="📅 ປີຜ່ານມາ" fill="#DE5E57" barSize={10} >
+              <LabelList dataKey="total_24" position="insideRight" formatter={formatNumber} style={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} />
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       )}
