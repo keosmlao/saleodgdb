@@ -4,7 +4,11 @@ import api from '../../../../services/api';
 
 const COLORS = ['#007bff', '#6610f2', '#6f42c1', '#fd7e14', '#28a745', '#20c997', '#17a2b8', '#dc3545', '#ffc107', '#6c757d'];
 const format = (val) => Number(val).toLocaleString('en-US') + ' ฿';
-const formatNumber = (num) => Number(num || 0).toLocaleString();
+// const formatNumber = (num) => Number(num || 0).toLocaleString();
+const formatNumber = v => {
+    const num = parseInt(Number(v).toFixed(0), 10);
+    return num.toLocaleString('en-US') + ' ฿';
+};
 const CustomTopLabel = ({ x, y, value }) => <text x={x} y={y - 2} textAnchor="start" fill="#000" fontSize={10} style={{ fontFamily: 'Noto Sans Lao' }}>{value}</text>;
 
 export default function ChannelSummary() {
@@ -28,7 +32,7 @@ export default function ChannelSummary() {
 
     return (
         <div className="card p-3 rounded-4 shadow-sm">
-            <h5 className="fw-bold mb-3 text-primary" style={{ fontSize: '15px' }}>📊 Channel Summary</h5>
+            <h5 className="fw-bold mb-3 text-primary" style={{ fontSize: '15px' }}>📊 ສະຫຼູບຊອ່ງທາງ</h5>
             <div className="d-flex gap-2 mb-3">
                 <select className="form-select w-auto" value={filter} onChange={e => setFilter(e.target.value)}>
                     <option value="thisMonth">ເດືອນນີ້</option>
@@ -44,27 +48,57 @@ export default function ChannelSummary() {
 
             {chartType === 'bar' && (
                 <ResponsiveContainer width="100%" height={500}>
-                    <BarChart data={data} layout="vertical" barGap={30}>
+                    <BarChart
+                        data={data}
+                        layout="vertical"
+                        barGap={30}
+                    >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis type="number" tickFormatter={formatNumber} />
-                        <YAxis type="category" dataKey="channel" tick={{ fontSize: 12 }} hide />
-                        <Tooltip formatter={format} />
+                        <YAxis
+                            type="category"
+                            dataKey="channel"
+                            tick={{ fontSize: 12, fill: '#333', fontFamily: 'Noto Sans Lao' }}
+                        />
+                        <Tooltip formatter={formatNumber} />
                         <Legend />
-                        <Bar dataKey="total2025" name="2025" barSize={20} fill="#06ab9b">
-                                          <LabelList dataKey="name" content={<CustomTopLabel />} />
+
+                        <Bar dataKey="total2025" name="2025" barSize={30}>
                             {data.map((entry, index) => (
-                                <Cell key={`cell-2025-${index}`} fill={entry.color} />
+                                <Cell key={`cell-2025-${index}`} fill={'#FF6B6B'} />
                             ))}
-                            <LabelList dataKey="total2025" position="insideRight" formatter={formatNumber} style={{ fontSize: 10, fontWeight: 'bold' }} />
+                            <LabelList
+                                dataKey="total2025"
+                                position="right"
+                                formatter={formatNumber}
+                                style={{
+                                    fontSize: 10,
+                                    fill: '#000',
+                                    textDecoration: 'none',
+                                    fontFamily: 'Arial, sans-serif'
+                                }}
+                            />
                         </Bar>
-                        <Bar dataKey="total2024" name="2024" barSize={20} fill="#DE5E57">
-                            <LabelList dataKey="total2024" position="insideRight" formatter={formatNumber} style={{ fontSize: 10, fontWeight: 'bold' }} />
+
+                        <Bar dataKey="total2024" name="2024" barSize={30}>
+                            {data.map((entry, index) => (
+                                <Cell key={`cell-2024-${index}`} fill={'#FFA726'} />
+                            ))}
+                            <LabelList
+                                dataKey="total2024"
+                                position="right"
+                                formatter={formatNumber}
+                                style={{
+                                    fontSize: 10,
+                                    fill: '#000',
+                                    textDecoration: 'none',
+                                    fontFamily: 'Arial, sans-serif'
+                                }}
+                            />
                         </Bar>
                     </BarChart>
                 </ResponsiveContainer>
             )}
-
-
 
             {chartType === 'table' && (
                 <div className="table-responsive">

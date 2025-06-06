@@ -14,7 +14,7 @@ export default function TopItemBrands() {
   const [data, setData] = useState([]);
   const [buList, setBuList] = useState([{ code: 'all', name_1: 'ALL BU' }]);
   const [channelList, setChannelList] = useState([
-    { name: 'all', display: 'ALL CHANNELS' },
+    { name: 'all', display: 'ຊອ່ງທາງທັງໝົດ' },
     { name: 'ຂາຍສົ່ງ', display: 'ຂາຍສົ່ງ' },
     { name: 'ຂາຍໜ້າຮ້ານ', display: 'ຂາຍໜ້າຮ້ານ' },
     { name: 'ຂາຍໂຄງການ', display: 'ຂາຍໂຄງການ' },
@@ -50,7 +50,7 @@ export default function TopItemBrands() {
 
   return (
     <div className="card p-3 rounded-4 shadow-sm">
-      <h5 className="fw-bold mb-3 text-primary" style={{ fontSize: '15px' }}>🏆 Top 10 Item Brands</h5>
+      <h5 className="fw-bold mb-3 text-primary" style={{ fontSize: '15px' }}>🏆 10 ອັນດັບແບຮນສີນຄ້າຍອດນິຍົມ</h5>
       <div className="d-flex gap-2 mb-3">
         <select className="form-select w-auto" value={filter} onChange={e => setFilter(e.target.value)}>
           <option value="thisMonth">This Month</option>
@@ -96,20 +96,20 @@ export default function TopItemBrands() {
 
       {chartType === 'bar' && (
         <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={data} layout="vertical" barGap={10}>
+          <BarChart data={data} layout="vertical" barGap={30}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="number" tickFormatter={formatNumber} />
-            <YAxis type="category" dataKey="brand" />
+            <YAxis type="category" dataKey="brand" fontSize={10} />
             <Tooltip formatter={format} />
             <Legend />
             <Bar dataKey="total2025" name="2025" barSize={20}>
               {data.map((entry, index) => (
                 <Cell key={`cell-2025-${index}`} fill={entry.color} />
               ))}
-              <LabelList dataKey="total2025" position="insideRight" formatter={formatNumber} style={{ fontSize: 10, fontWeight: 'bold' }} />
+              <LabelList dataKey="total2025" position="right" formatter={formatNumber} style={{ fontSize: 10, fontWeight: 'bold' }} />
             </Bar>
             <Bar dataKey="total2024" name="2024" fill="#FF9933" barSize={20}>
-              <LabelList dataKey="total2024" position="insideRight" formatter={formatNumber} style={{ fontSize: 10, fontWeight: 'bold' }} />
+              <LabelList dataKey="total2024" position="right" formatter={formatNumber} style={{ fontSize: 10, fontWeight: 'bold' }} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>

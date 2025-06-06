@@ -14,7 +14,7 @@ export default function TopSalespersons() {
   const [data, setData] = useState([]);
   const [buList, setBuList] = useState([{ code: 'all', name_1: 'ALL BU' }]);
   const channelList = [
-    { name: 'all', display: 'ALL CHANNELS' },
+    { name: 'all', display: 'ຊ່ອງທາງທັງໝົດ' },
     { name: 'ຂາຍສົ່ງ', display: 'ຂາຍສົ່ງ' },
     { name: 'ຂາຍໜ້າຮ້ານ', display: 'ຂາຍໜ້າຮ້ານ' },
     { name: 'ຂາຍໂຄງການ', display: 'ຂາຍໂຄງການ' },
@@ -50,13 +50,13 @@ export default function TopSalespersons() {
 
   return (
     <div className="card p-3 rounded-4 shadow-sm">
-      <h5 className="fw-bold mb-3 text-primary" style={{ fontSize: '15px' }}>🏆 Top 10 Salespersons</h5>
+      <h5 className="fw-bold mb-3 text-primary" style={{ fontSize: '15px' }}>🏆10 ອັນດັບພະນັກງານຂາຍຍອດນິຍົມ</h5>
       <div className="d-flex gap-2 mb-3">
         <select className="form-select w-auto" value={filter} onChange={e => setFilter(e.target.value)}>
-          <option value="thisMonth">This Month</option>
-          <option value="lastMonth">Last Month</option>
-          <option value="accumulated">Accumulated</option>
-          <option value="fullYear">Full Year</option>
+          <option value="thisMonth">ເດືອນນີ້</option>
+          <option value="lastMonth">ເດືອນກອ່ນ</option>
+          <option value="accumulated">ຍອດສະສົມ</option>
+          <option value="fullYear">ທັງໝົດໃນປີ</option>
         </select>
         <select className="form-select w-auto" value={bu} onChange={e => setBu(e.target.value)}>
           {buList.map(b => <option key={b.code} value={b.code}>{b.name_1}</option>)}

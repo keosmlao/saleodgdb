@@ -23,6 +23,10 @@ export default function WeeklySalesByDayChart() {
       })
       .finally(() => setLoading(false));
   }, []);
+  const formatCurrency = v => {
+    const num = parseInt(Number(v).toFixed(0), 10);
+    return num.toLocaleString('en-US') + ' ກີບ';
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -31,12 +35,12 @@ export default function WeeklySalesByDayChart() {
     <div style={{ width: '100%', height: 400 }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-          <CartesianGrid strokeDasharray="3 3"  fontSize={10}/>
-          <XAxis dataKey="day" fontSize={10}/>
+          <CartesianGrid strokeDasharray="3 3" fontSize={10} />
+          <XAxis dataKey="day" fontSize={10} />
           <YAxis />
-          <Tooltip formatter={(value) => new Intl.NumberFormat().format(value)} fontSize={10} />
+          <Tooltip formatter={formatCurrency} fontSize={10} />
           <Bar dataKey="total" fill="#82ca9d" fontSize={10}>
-            <LabelList dataKey="total" position="top" formatter={(value) => new Intl.NumberFormat().format(value)}  fontSize={10}/>
+            <LabelList dataKey="total" position="top" formatter={formatCurrency} fontSize={10} />
           </Bar>
         </BarChart>
       </ResponsiveContainer>

@@ -40,7 +40,38 @@ const AccumulatedBarChart = () => {
             });
     }, [bu]);
 
-    const formatNumber = (num) => Number(num || 0).toLocaleString();
+    // const formatNumber = (num) => Number(num || 0).toLocaleString();
+    const formatNumber = v => { const num = Math.round(Number(v)); return num.toLocaleString('en-US', { maximumFractionDigits: 0, minimumFractionDigits: 0 }) + ' ฿'; };
+    console.log("yrt da som ", data)
+    const CustomTooltip = ({ active, payload, label }) => {
+        if (active && payload && payload.length) {
+            const data = payload[0].payload;
+
+            return (
+                <div style={{
+                    backgroundColor: 'white',
+                    border: '1px solid #ccc',
+                    padding: '10px',
+                    fontSize: '12px',
+                    borderRadius: '5px',
+                    boxShadow: '0 0 4px rgba(0,0,0,0.2)'
+                }}>
+                    <p><strong>Month:</strong> {label}</p>
+                    <p>🎯 ເປົ້າໝາຍ: {formatNumber(data.accumulated_target)}</p>
+                    <p>📆 ຍອດຂາຍ: {formatNumber(data.accumulated_revenue)}</p>
+                    <p>📅 ປີຜ່ານມາ: {formatNumber(data.accumulated_last_year)}</p>
+                    <p style={{ color: data.percent_vs_target >= 100 ? 'green' : 'red' }}>
+                        {data.percent_vs_target >= 100 ? '▲' : '🔻'} % ບັນລຸ: {data.percent_vs_target.toFixed(1)}%
+                    </p>
+                    <p style={{ color: data.percent_vs_last_year >= 100 ? 'green' : 'red' }}>
+                        {data.percent_vs_last_year >= 100 ? '▲' : '🔻'} % ປຽບທຽບປີຜ່ານມາ: {data.percent_vs_last_year.toFixed(1)}%
+                    </p>
+                </div>
+            );
+        }
+
+        return null;
+    };
 
     return (
         <div>
@@ -66,42 +97,33 @@ const AccumulatedBarChart = () => {
 
                     {viewMode === 'chart' ? (
                         <ResponsiveContainer width="100%" height={400}>
-                            <BarChart data={data}>
+                            <BarChart data={data} layout="vertical" barGap={30}  >
                                 <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="monthLabel" fontSize={9} />
-                                <YAxis fontSize={9} tickFormatter={(value) => new Intl.NumberFormat().format(value)} />
-                                <Tooltip fontSize={9} contentStyle={{ fontSize: '10px' }} formatter={(value, name, props) => {
-                                    const { payload } = props;
-                                    const percentVsTarget = payload.percent_vs_target?.toFixed(2) + '%' || 'N/A';
-                                    const percentVsLastYear = payload.percent_vs_last_year?.toFixed(2) + '%' || 'N/A';
-                                    const formattedValue = new Intl.NumberFormat().format(value);
-                                    let additionalInfo = '';
-                                    if (name === 'ຍອດຂາຍ') {
-                                        additionalInfo = ` (vs Target: ${percentVsTarget}, vs Last Year: ${percentVsLastYear})`;
-                                    }
-                                    return [`${formattedValue}`, name + additionalInfo];
-                                }} />
+                                <XAxis type="number" fontSize={9} tickFormatter={(value) => new Intl.NumberFormat().format(value)} />
+                                <YAxis type="category" dataKey="monthLabel" fontSize={9} width={50} />
+                                <Tooltip content={<CustomTooltip />} />
                                 <Legend />
                                 <Bar dataKey="accumulated_target" fill="#FFD580" name="ເປົ້າໝາຍ" fontSize={9} />
                                 <Bar dataKey="accumulated_revenue" fill="#06ab9b" name="ຍອດຂາຍ" fontSize={9}>
-                                    <LabelList dataKey="percent_vs_target" position="top" formatter={(value) => `${value.toFixed(1)}%`} fontSize={9} />
+                                    <LabelList dataKey="percent_vs_target" position="right" formatter={(value) => `${value.toFixed(1)}%`} fontSize={9} />
                                 </Bar>
                                 <Bar dataKey="accumulated_last_year" fill="#EF5350" name="ປີຜ່ານມາ" fontSize={9}>
-                                    <LabelList dataKey="percent_vs_last_year" position="top" formatter={(value) => `${value.toFixed(1)}%`} fontSize={9} />
+                                    <LabelList dataKey="percent_vs_last_year" position="right" formatter={(value) => `${value.toFixed(1)}%`} fontSize={9} />
                                 </Bar>
                             </BarChart>
                         </ResponsiveContainer>
+
                     ) : (
                         <div className="table-responsive mt-2">
                             <table className="table table-bordered table-striped text-center align-middle">
                                 <thead className="table-light">
                                     <tr>
                                         <th>ເດືອນ</th>
-                                        <th>🎯 ເປົ້າຂາຍ</th>
-                                        <th>📆 ປີນີ້</th>
+                                        <th>🎯 ເປົ້າໝາຍ</th>
+                                        <th>📆 ຍອດຂາຍ</th>
+                                        <th>% ປຽບທຽບເປົ້າ</th>
                                         <th>📅 ປີຜ່ານມາ</th>
-                                        <th>% vs Target</th>
-                                        <th>% vs Last Year</th>
+                                        <th>📊 % ປຽບທຽບປີຜ່ານມາ</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -110,14 +132,15 @@ const AccumulatedBarChart = () => {
                                             <td>{row.monthLabel}</td>
                                             <td>{formatNumber(row.accumulated_target)}</td>
                                             <td>{formatNumber(row.accumulated_revenue)}</td>
-                                            <td>{formatNumber(row.accumulated_last_year)}</td>
-                                            <td className={row.percent_vs_target >= 100 ? 'text-success fw-bold' : row.percent_vs_target >= 50 ? 'text-warning fw-bold' : 'text-danger fw-bold'}>
-                                                {row.percent_vs_target.toFixed(1)}%
+                                            <td>
+                                                {row.percent_vs_target >= 100 ? '▲' : '🔻'} {row.percent_vs_target.toFixed(1)}%
                                             </td>
-                                            <td className={row.percent_vs_last_year >= 100 ? 'text-success fw-bold' : row.percent_vs_last_year >= 50 ? 'text-warning fw-bold' : 'text-danger fw-bold'}>
-                                                {row.percent_vs_last_year.toFixed(1)}%
+                                            <td>{formatNumber(row.accumulated_last_year)}</td>
+                                            <td>
+                                                {row.percent_vs_last_year >= 100 ? '▲' : '🔻'} {row.percent_vs_last_year.toFixed(1)}%
                                             </td>
                                         </tr>
+
                                     ))}
                                 </tbody>
                             </table>

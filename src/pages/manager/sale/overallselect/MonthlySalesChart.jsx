@@ -9,6 +9,7 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import api from '../../../../services/api';
+import { color } from 'chart.js/helpers';
 
 export default function MonthlySalesChart() {
   const chartRef = useRef();
@@ -53,7 +54,12 @@ export default function MonthlySalesChart() {
       .catch(err => console.error('❌ Error fetching monthly data:', err));
   }, [selectedBu]);
 
-  const formatCurrency = val => Number(val).toLocaleString('en-US') + ' ฿';
+  const formatCurrency = v => {
+    const num = Math.round(Number(v));
+    return num.toLocaleString('en-US', { maximumFractionDigits: 0, minimumFractionDigits: 0 }) + ' ฿';
+  };
+
+
 
   const handleExportPDF = async () => {
     const canvas = await html2canvas(chartRef.current);
@@ -74,9 +80,39 @@ export default function MonthlySalesChart() {
     const file = new Blob([excelBuffer], { type: 'application/octet-stream' });
     saveAs(file, 'monthly-sales-report.xlsx');
   };
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+
+      return (
+        <div style={{
+          backgroundColor: 'white',
+          border: '1px solid #ccc',
+          padding: '10px',
+          fontSize: '12px',
+          borderRadius: '5px',
+          boxShadow: '0 0 4px rgba(0,0,0,0.2)'
+        }}>
+          <p><strong>Quarter:</strong> {label}</p>
+          <p>🎯 ເປົ້າໝາຍ: {formatCurrency(data.target)}</p>
+          <p>📆 ຍອດຂາຍ: {formatCurrency(data.current)}</p>
+          <p>📅 ປີຜ່ານມາ: {formatCurrency(data.lastYear)}</p>
+          <p style={{ color: data.percentAchieved >= 100 ? 'green' : 'red' }}>
+            {data.percentAchieved >= 100 ? '▲' : '🔻'} % ບັນລຸ: {data.percentAchieved.toFixed(1)}%
+          </p>
+          <p style={{ color: data.compareLastYear >= 100 ? 'green' : 'red' }}>
+            {data.compareLastYear >= 100 ? '▲' : '🔻'} % ປຽບທຽບປີຜ່ານມາ: {data.compareLastYear.toFixed(1)}%
+          </p>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
 
   const CustomLabel = ({ x, y, value }) => {
-    const icon = value >= 100 ? '🔺' : '🔻';
+    const icon = value >= 100 ? '▲' : '🔻';
     const color = value >= 100 ? 'green' : 'red';
     return (
       <text x={x} y={y - 5} fontSize={10} textAnchor="middle">
@@ -119,12 +155,12 @@ export default function MonthlySalesChart() {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" fontSize={9} />
               <YAxis tickFormatter={v => Number(v).toLocaleString()} fontSize={9} />
-              <Tooltip formatter={v => formatCurrency(v)} />
+              <Tooltip content={<CustomTooltip />} />
               <Legend />
               <Bar dataKey="target" name="🎯 ເປົ້າໝາຍ" fill="#FFD580" isAnimationActive animationDuration={1500} animationBegin={0} />
               <Bar dataKey="current" name="📆 ຍອດຂາຍ" fill="#06ab9b" isAnimationActive animationDuration={1500} animationBegin={300}>
                 <LabelList dataKey="percentAchieved" content={CustomLabel} />
-                <LabelList dataKey="compareLastYear" position="insideTop" formatter={v => `${v}%`} fontSize={8} />
+                <LabelList fill="#000" dataKey="compareLastYear" position="insideTop" formatter={v => `${v}%`} fontSize={8} />
               </Bar>
               <Bar dataKey="lastYear" name="📅 ປີຜ່ານມາ" fill="#EF5350" isAnimationActive animationDuration={1500} animationBegin={600} />
             </BarChart>
@@ -137,7 +173,7 @@ export default function MonthlySalesChart() {
                   <th>ເດືອນ</th>
                   <th>🎯 ເປົ້າໝາຍ</th>
                   <th>📆 ຍອດຂາຍ</th>
-                  <th>% ຍອດຂາຍ/ເປົ້າ</th>
+                  <th>% ປຽບທຽບເປົ້າ</th>
                   <th>📅 ປີຜ່ານມາ</th>
                   <th>📊 % ປຽບທຽບປີຜ່ານມາ</th>
                 </tr>
@@ -156,7 +192,7 @@ export default function MonthlySalesChart() {
                         {percent > 0 ? (
                           <>
                             <span style={{ color: percent >= 100 ? 'green' : 'red' }}>
-                              {percent >= 100 ? '🔺' : '🔻'}
+                              {percent >= 100 ? '▲' : '🔻'}
                             </span> {percent}%
                           </>
                         ) : '-'}
@@ -166,7 +202,7 @@ export default function MonthlySalesChart() {
                         {compare > 0 ? (
                           <>
                             <span style={{ color: compare >= 100 ? 'green' : 'red' }}>
-                              {compare >= 100 ? '🔺' : '🔻'}
+                              {compare >= 100 ? '▲' : '🔻'}
                             </span> {compare}%
                           </>
                         ) : '-'}
