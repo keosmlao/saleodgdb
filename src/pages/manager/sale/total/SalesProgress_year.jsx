@@ -59,9 +59,9 @@ const ComparisonCard = ({ title, data, icon, color, barColor }) => {
         <div className="progress rounded-pill" style={{ height: '8px' }}>
           <div className="progress-bar bg-danger" style={{ width: `${percentLastYear}%` }}></div>
         </div>
-        <div className='pt-1'>
-          <label >ປຽບທຽບເປົ້າຂາຍ : ({salesTarget.toFixed(1)}%)</label>
-          <label className='px-4'>ປຽບທຽບປີທີ່ຜ່ານມາ : {comparePastYear.toFixed(1)}%</label>
+        <div className='pt-1 d-flex justify-content-between align-items-center'>
+          <label className='text-success ' >ປຽບທຽບເປົ້າຂາຍ : ({percentRevenue.toFixed(1)}%)</label>
+          <label className='text-danger'>ປຽບທຽບປີທີ່ຜ່ານມາ : {percentLastYear.toFixed(1)}%</label>
         </div>
 
       </div>

@@ -9,7 +9,6 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import api from '../../../../services/api';
-import { color } from 'chart.js/helpers';
 
 export default function MonthlySalesChart() {
   const chartRef = useRef();
@@ -17,6 +16,22 @@ export default function MonthlySalesChart() {
   const [processedData, setProcessedData] = useState([]);
   const [buList, setBuList] = useState([]);
   const [selectedBu, setSelectedBu] = useState('all');
+  const [selectedChannel, setSelectedChannel] = useState('all');
+  const [selectedZone, setSelectedZone] = useState('all');
+
+  console.log("select zone monthly", selectedZone);
+  console.log("data", processedData);
+
+
+  const channelList = [
+    { name: 'all', display: '🌐 ຊອ່ງທາງທັງໝົດ' },
+    { name: 'ຂາຍສົ່ງ', display: 'ຂາຍສົ່ງ' },
+    { name: 'ຂາຍໜ້າຮ້ານ', display: 'ຂາຍໜ້າຮ້ານ' },
+    { name: 'ຂາຍໂຄງການ', display: 'ຂາຍໂຄງການ' },
+    { name: 'ຂາຍຊ່າງ', display: 'ຂາຍຊ່າງ' },
+    { name: 'ບໍລິການ', display: 'ບໍລິການ' },
+    { name: 'ອື່ນໆ', display: 'ອື່ນໆ' },
+  ];
 
   useEffect(() => {
     api.get('/all/bu-list')
@@ -27,39 +42,53 @@ export default function MonthlySalesChart() {
   }, []);
 
   useEffect(() => {
-    const currentMonth = new Date().getMonth() + 1;
-    const url = `/all/monthly${selectedBu !== 'all' ? `?bu=${selectedBu}` : ''}`;
-    api.get(url)
+    api.get('/all/bu-list')
       .then(res => {
-        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        const data = res.data.map(item => {
-          const month = monthNames[item.month - 1];
-          const target = parseFloat(item.target || 0);
-          const current = parseFloat(item.revenue || 0);
-          const lastYear = parseFloat(item.last_year || 0);
-          const percentAchieved = target > 0 ? Math.round((current / target) * 100) : 0;
-          const compareLastYear = lastYear > 0 ? Math.round((current / lastYear) * 100) : 0;
-          return {
-            month,
-            target,
-            current,
-            lastYear,
-            percentAchieved,
-            compareLastYear,
-            isCurrentMonth: item.month === currentMonth,
-          };
-        });
-        setProcessedData(data);
+        setBuList([{ code: 'all', name_1: 'ທຸກ BU' }, ...res.data]);
       })
-      .catch(err => console.error('❌ Error fetching monthly data:', err));
-  }, [selectedBu]);
+      .catch(err => console.error('❌ Error fetching BU list:', err));
+  }, []);
+
+  const loadData = () => {
+    const params = new URLSearchParams();
+    if (selectedBu !== 'all') params.append('bu', selectedBu);
+    if (selectedZone !== 'all') params.append('area', selectedZone); // 🔥 Update เป็น 'area'
+    if (selectedChannel !== 'all') params.append('channel', selectedChannel); // 🔥 เพิ่ม 'channel'
+    api.get(`/all/monthly?${params.toString()}`) // 🔥 เรียก API /quarterly
+      .then(res => {
+        const processed = Array.isArray(res.data)
+          ? res.data.map(item => {
+            const target = Number(item.target || 0);
+            const revenue = Number(item.revenue || 0);
+            const lastYear = Number(item.last_year || 0);
+            const percentAchieved = target > 0 ? Number(((revenue / target) * 100).toFixed(1)) : 0;
+            const compareLastYear = lastYear > 0 ? Number(((revenue / lastYear) * 100).toFixed(1)) : 0;
+            return {
+              quarter: item.quarter,
+              target,
+              current: revenue,
+              lastYear,
+              percentAchieved,
+              compareLastYear,
+            };
+          })
+          : [];
+
+        setProcessedData(processed);
+      })
+      .catch(err => console.error('Error loading API:', err));
+  };
+
+  useEffect(() => {
+    if (selectedBu && selectedZone && selectedChannel) {
+      loadData();
+    }
+  }, [selectedBu, selectedZone, selectedChannel]);
 
   const formatCurrency = v => {
     const num = Math.round(Number(v));
     return num.toLocaleString('en-US', { maximumFractionDigits: 0, minimumFractionDigits: 0 }) + ' ฿';
   };
-
-
 
   const handleExportPDF = async () => {
     const canvas = await html2canvas(chartRef.current);
@@ -80,6 +109,7 @@ export default function MonthlySalesChart() {
     const file = new Blob([excelBuffer], { type: 'application/octet-stream' });
     saveAs(file, 'monthly-sales-report.xlsx');
   };
+
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
@@ -93,7 +123,7 @@ export default function MonthlySalesChart() {
           borderRadius: '5px',
           boxShadow: '0 0 4px rgba(0,0,0,0.2)'
         }}>
-          <p><strong>Quarter:</strong> {label}</p>
+          <p><strong>Month:</strong> {label}</p>
           <p>🎯 ເປົ້າໝາຍ: {formatCurrency(data.target)}</p>
           <p>📆 ຍອດຂາຍ: {formatCurrency(data.current)}</p>
           <p>📅 ປີຜ່ານມາ: {formatCurrency(data.lastYear)}</p>
@@ -110,7 +140,6 @@ export default function MonthlySalesChart() {
     return null;
   };
 
-
   const CustomLabel = ({ x, y, value }) => {
     const icon = value >= 100 ? '▲' : '🔻';
     const color = value >= 100 ? 'green' : 'red';
@@ -122,29 +151,49 @@ export default function MonthlySalesChart() {
   };
 
   return (
-    <div className="card p-2 mb-2">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5 className="text-danger fw-bold mb-0" style={{ fontSize: '15px' }}>
-          📊 ລາຍງານຍອດຂາຍລາຍເດືອນ
-        </h5>
-        <div className="d-flex gap-2">
-          <select
-            className="form-select form-select-sm w-auto"
-            value={selectedBu}
-            onChange={e => setSelectedBu(e.target.value)}
-          >
-            {buList.map(bu => (
-              <option key={bu.code} value={bu.code}>{bu.name_1}</option>
-            ))}
+    <div className="card p-3 mb-2 rounded-1 shadow-sm">
+      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+        <h5 className="text-danger fw-bold mb-0" style={{ fontSize: '15px' }}> 📊 ລາຍງານຍອດຂາຍລາຍເດືອນ</h5>
+        <div className="d-flex align-items-center gap-2 flex-wrap">
+          <label className="fw-bold" style={{ fontSize: '14px' }}>🔍 BU:</label>
+          <select className="form-select form-select-sm" style={{ width: '130px' }} value={selectedBu} onChange={e => setSelectedBu(e.target.value)}>
+            {buList.map(bu => <option key={bu.code} value={bu.code}>{bu.name_1}</option>)}
           </select>
-          <select
-            className="form-select form-select-sm w-auto"
-            value={viewMode}
-            onChange={e => setViewMode(e.target.value)}
-          >
-            <option value="chart">📈 Chart</option>
-            <option value="table">📋 Table</option>
+
+          <label className="fw-bold" style={{ fontSize: '14px' }}>📢 ຊອ່ງທາງ:</label>
+          <select className="form-select form-select-sm" style={{ width: '130px' }} value={selectedChannel} onChange={e => setSelectedChannel(e.target.value)}>
+            {channelList.map(ch => <option key={ch.name} value={ch.name}>{ch.display}</option>)}
           </select>
+            <>
+              <label className="fw-bold" style={{ fontSize: '14px' }}>🌍 ຂອບເຂດ:</label>
+              <select
+                className="form-select form-select-sm"
+                style={{ width: '130px' }}
+                value={selectedZone}
+                onChange={e => setSelectedZone(e.target.value)}
+              >
+                {[
+                  { code: 'all', name_1: 'ທຸກ ZONE' },
+                  { code: '11', name_1: 'ZONE A' },
+                  { code: '12', name_1: 'ZONE B' },
+                  { code: '13', name_1: 'ZONE C' },
+                  { code: '14', name_1: 'ZONE D' },
+                  { code: '15', name_1: 'ZONE E' },
+                  { code: '16', name_1: 'ZONE F' },
+                ].map(z => (
+                  <option key={z.code} value={z.code}>
+                    {z.name_1}
+                  </option>
+                ))}
+              </select>
+            </>
+
+
+          <div className="btn-group ms-2" role="group">
+            <button className={`btn btn-sm ${viewMode === 'all' ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setViewMode('all')}>ທັງໝົດ</button>
+            <button className={`btn btn-sm ${viewMode === 'chart' ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setViewMode('chart')}>Chart</button>
+            <button className={`btn btn-sm ${viewMode === 'table' ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setViewMode('table')}>ຕາຕະລາງ</button>
+          </div>
         </div>
       </div>
 

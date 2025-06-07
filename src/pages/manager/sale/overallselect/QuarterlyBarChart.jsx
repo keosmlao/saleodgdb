@@ -12,6 +12,7 @@ export default function QuarterlyBarChart() {
   const [selectedZone, setSelectedZone] = useState('all');
   const [selectedChannel, setSelectedChannel] = useState('all');
   const [viewMode, setViewMode] = useState('chart');
+  console.log("select zone", selectedZone)
 
   const channelList = [
     { name: 'all', display: '🌐 ຊອ່ງທາງທັງໝົດ' },
@@ -34,6 +35,7 @@ export default function QuarterlyBarChart() {
     if (selectedBU !== 'all') params.append('bu', selectedBU);
     if (selectedZone !== 'all') params.append('area', selectedZone); // 🔥 Update เป็น 'area'
     if (selectedChannel !== 'all') params.append('channel', selectedChannel); // 🔥 เพิ่ม 'channel'
+    console.log("**********", params)
 
     api.get(`/all/quarterly?${params.toString()}`) // 🔥 เรียก API /quarterly
       .then(res => {
@@ -128,12 +130,12 @@ export default function QuarterlyBarChart() {
             {buList.map(bu => <option key={bu.code} value={bu.code}>{bu.name_1}</option>)}
           </select>
 
-          <label className="fw-bold" style={{ fontSize: '14px' }}>📢 Channel:</label>
+          <label className="fw-bold" style={{ fontSize: '14px' }}>📢 ຊອ່ງທາງ:</label>
           <select className="form-select form-select-sm" style={{ width: '130px' }} value={selectedChannel} onChange={e => setSelectedChannel(e.target.value)}>
             {channelList.map(ch => <option key={ch.name} value={ch.name}>{ch.display}</option>)}
           </select>
 
-          <label className="fw-bold" style={{ fontSize: '14px' }}>🌍 Zone:</label>
+          <label className="fw-bold" style={{ fontSize: '14px' }}>🌍 ຂອບເຂດ:</label>
           <select className="form-select form-select-sm" style={{ width: '130px' }} value={selectedZone} onChange={e => setSelectedZone(e.target.value)}>
             {[{ code: 'all', name_1: 'ທຸກ ZONE' }, { code: '11', name_1: 'ZONE A' }, { code: '12', name_1: 'ZONE B' }, { code: '13', name_1: 'ZONE C' },
             { code: '14', name_1: 'ZONE D' }, { code: '15', name_1: 'ZONE E' }, { code: '16', name_1: 'ZONE F' }]

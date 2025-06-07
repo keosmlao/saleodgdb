@@ -87,6 +87,7 @@ export default function TopCustomerListWithChart() {
               <LabelList dataKey="total" position="insideRight" formatter={formatNumber} style={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} />
             </Bar>
             <Bar dataKey="total_24" name="📅 ປີຜ່ານມາ" fill="#DE5E57" barSize={10} >
+              <LabelList dataKey="total_24" formatter={formatNumber} style={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} content={<CustomTopLabel />} />
               <LabelList dataKey="total_24" position="insideRight" formatter={formatNumber} style={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} />
             </Bar>
           </BarChart>
