@@ -19,7 +19,7 @@ export default function TopCustomerListWithChart() {
   const [zone, setZone] = useState('all');
   const [bu, setBu] = useState('all');
   const [buList, setBuList] = useState([{ code: 'all', name_1: 'ALL BU' }]);
-  console.log("log data customer", data)
+  console.log("ສີນຄ້າຍອດຊື້ສູງສຸດ (Top 10)", data)
 
   useEffect(() => {
     api.get('/all/bu-list')

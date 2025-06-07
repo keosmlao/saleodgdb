@@ -23,7 +23,6 @@ export default function QuarterlyBarChart() {
     { name: 'ບໍລິການ', display: 'ບໍລິການ' },
     { name: 'ອື່ນໆ', display: 'ອື່ນໆ' },
   ];
-  console.log("log data", data)
   useEffect(() => {
     api.get('/all/bu-list')
       .then(res => setBuList([{ code: 'all', name_1: '📦 ທຸກ BU' }, ...res.data]))
@@ -33,11 +32,10 @@ export default function QuarterlyBarChart() {
   const loadData = () => {
     const params = new URLSearchParams();
     if (selectedBU !== 'all') params.append('bu', selectedBU);
-    if (selectedZone !== 'all') params.append('area', selectedZone); // 🔥 Update เป็น 'area'
-    if (selectedChannel !== 'all') params.append('channel', selectedChannel); // 🔥 เพิ่ม 'channel'
-    console.log("**********", params)
+    if (selectedZone !== 'all') params.append('area', selectedZone);
+    if (selectedChannel !== 'all') params.append('channel', selectedChannel);
 
-    api.get(`/all/quarterly?${params.toString()}`) // 🔥 เรียก API /quarterly
+    api.get(`/all/quarterly?${params.toString()}`)
       .then(res => {
         const processed = (res.data || []).map(item => {
           const target = Number(item.target || 0);
@@ -80,15 +78,32 @@ export default function QuarterlyBarChart() {
     }
   };
 
-
-
   const formatPercent = v => `${v.toFixed(1)}%`;
 
-  const CustomLabel = ({ x, y, value }) => (
-    <text x={x} y={y - 5} fill={value >= 100 ? 'green' : 'red'} fontSize={6} textAnchor="middle">
-      {value >= 100 ? '🔺' : '🔻'} {value.toFixed(1)}%
+  const CustomCompareLastYearLabel = ({ x, y, width, value }) => (
+    <text
+      x={x + width / 2}
+      y={y - 15}
+      fill={value >= 100 ? 'green' : 'red'}
+      fontSize={8}
+      textAnchor="middle"
+    >
+      {value >= 100 ? '▲' : '🔻'}  {value.toFixed(1)}%
     </text>
   );
+
+  const CustomPercentAchievedLabel = ({ x, y, width, value }) => (
+    <text
+      x={x + width / 2}
+      y={y - 25}
+      fill={value >= 100 ? 'green' : 'red'}
+      fontSize={8}
+      textAnchor="middle"
+    >
+      {value >= 100 ? '▲' : '🔻'}  {value.toFixed(1)}%
+    </text>
+  );
+
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
@@ -118,7 +133,6 @@ export default function QuarterlyBarChart() {
 
     return null;
   };
-
 
   return (
     <div className="card p-3 mb-2 rounded-1 shadow-sm">
@@ -150,10 +164,10 @@ export default function QuarterlyBarChart() {
         </div>
       </div>
 
-      {/* BarChart และ Table เหมือนเดิม */}
+      {/* BarChart with fixed label positioning */}
       {(viewMode === 'all' || viewMode === 'chart') && (
-        <ResponsiveContainer width="100%" height={350}>
-          <BarChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
+        <ResponsiveContainer width="100%" height={400}>
+          <BarChart data={data} margin={{ top: 30, right: 10, left: 0, bottom: 10 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="quarter" fontSize={10} />
             <YAxis tickFormatter={v => v.toLocaleString('en-US')} fontSize={10} />
@@ -164,23 +178,25 @@ export default function QuarterlyBarChart() {
               { value: '📆 ຍອດຂາຍ', type: 'square', color: '#06ab9b' },
               { value: '📅 ປີຜ່ານມາ', type: 'square', color: '#EF5350' },
             ]} />
+
             <Bar dataKey="target" name="🎯 ເປົ້າໝາຍ" fill="#FFD580">
-              <LabelList dataKey="target" position="top" formatter={formatCurrencies} style={{ fontSize: 7 }} />
+              <LabelList dataKey="target" position="top" formatter={formatCurrencies} style={{ fontSize: 8 }} />
             </Bar>
+
             <Bar dataKey="current" name="📆 ຍອດຂາຍ" fill="#06ab9b">
               <LabelList
                 dataKey="current"
                 position="insideTop"
                 formatter={formatCurrencies}
-                style={{ fontSize: 7 }}
+                style={{ fontSize: 8 }}
                 fill="#000"
               />
-
-              <LabelList dataKey="percentAchieved" content={CustomLabel} />
-              <LabelList dataKey="compareLastYear" fill="#000" position="centerTop" formatter={v => `${v.toFixed(1)}%`} style={{ fontSize: 7 }} />
+              <LabelList dataKey="percentAchieved" content={CustomPercentAchievedLabel} />
+              <LabelList dataKey="compareLastYear" content={CustomCompareLastYearLabel} />
             </Bar>
-            <Bar dataKey="lastYear" name="📅 ປີຜ່ານມາ" fill="#EF5350" >
-              <LabelList dataKey="lastYear" position="top" formatter={formatCurrencies} style={{ fontSize: 7 }} />
+
+            <Bar dataKey="lastYear" name="📅 ປີຜ່ານມາ" fill="#EF5350">
+              <LabelList dataKey="lastYear" position="top" formatter={formatCurrencies} style={{ fontSize: 8 }} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
@@ -188,7 +204,6 @@ export default function QuarterlyBarChart() {
 
       {(viewMode === 'all' || viewMode === 'table') && (
         <div className="table-responsive mt-3">
-          {/* Table Content */}
           <table className="table table-bordered table-sm">
             <thead className="table-light">
               <tr>

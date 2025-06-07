@@ -144,10 +144,30 @@ export default function MonthlySalesChart() {
     const icon = value >= 100 ? '▲' : '🔻';
     const color = value >= 100 ? 'green' : 'red';
     return (
-      <text x={x} y={y - 5} fontSize={10} textAnchor="middle">
+      <text x={x} y={y - 10} fontSize={8} textAnchor="middle">
         <tspan fill={color}>{icon}</tspan> {value}%
       </text>
     );
+  };
+  const CustomCompair = ({ x, y, value }) => {
+    const icon = value >= 100 ? '▲' : '🔻';
+    const color = value >= 100 ? 'green' : 'red';
+    return (
+      <text x={x} y={y - 0} fontSize={8} textAnchor="middle">
+        <tspan fill={color}>{icon}</tspan> {value}%
+      </text>
+    );
+  }
+  const formatCurrencies = (v) => {
+    const num = Math.round(Number(v));
+
+    if (num >= 1_000_000) {
+      return '฿' + (num / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+    } else if (num >= 1_000) {
+      return '฿' + (num / 1_000).toFixed(1).replace(/\.0$/, '') + 'k';
+    } else {
+      return '฿' + num.toLocaleString('en-US');
+    }
   };
 
   return (
@@ -164,29 +184,29 @@ export default function MonthlySalesChart() {
           <select className="form-select form-select-sm" style={{ width: '130px' }} value={selectedChannel} onChange={e => setSelectedChannel(e.target.value)}>
             {channelList.map(ch => <option key={ch.name} value={ch.name}>{ch.display}</option>)}
           </select>
-            <>
-              <label className="fw-bold" style={{ fontSize: '14px' }}>🌍 ຂອບເຂດ:</label>
-              <select
-                className="form-select form-select-sm"
-                style={{ width: '130px' }}
-                value={selectedZone}
-                onChange={e => setSelectedZone(e.target.value)}
-              >
-                {[
-                  { code: 'all', name_1: 'ທຸກ ZONE' },
-                  { code: '11', name_1: 'ZONE A' },
-                  { code: '12', name_1: 'ZONE B' },
-                  { code: '13', name_1: 'ZONE C' },
-                  { code: '14', name_1: 'ZONE D' },
-                  { code: '15', name_1: 'ZONE E' },
-                  { code: '16', name_1: 'ZONE F' },
-                ].map(z => (
-                  <option key={z.code} value={z.code}>
-                    {z.name_1}
-                  </option>
-                ))}
-              </select>
-            </>
+          <>
+            <label className="fw-bold" style={{ fontSize: '14px' }}>🌍 ຂອບເຂດ:</label>
+            <select
+              className="form-select form-select-sm"
+              style={{ width: '130px' }}
+              value={selectedZone}
+              onChange={e => setSelectedZone(e.target.value)}
+            >
+              {[
+                { code: 'all', name_1: 'ທຸກ ZONE' },
+                { code: '11', name_1: 'ZONE A' },
+                { code: '12', name_1: 'ZONE B' },
+                { code: '13', name_1: 'ZONE C' },
+                { code: '14', name_1: 'ZONE D' },
+                { code: '15', name_1: 'ZONE E' },
+                { code: '16', name_1: 'ZONE F' },
+              ].map(z => (
+                <option key={z.code} value={z.code}>
+                  {z.name_1}
+                </option>
+              ))}
+            </select>
+          </>
 
 
           <div className="btn-group ms-2" role="group">
@@ -199,17 +219,19 @@ export default function MonthlySalesChart() {
 
       <div ref={chartRef}>
         {viewMode === 'chart' ? (
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={400}>
             <BarChart data={processedData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" fontSize={9} />
               <YAxis tickFormatter={v => Number(v).toLocaleString()} fontSize={9} />
               <Tooltip content={<CustomTooltip />} />
               <Legend />
-              <Bar dataKey="target" name="🎯 ເປົ້າໝາຍ" fill="#FFD580" isAnimationActive animationDuration={1500} animationBegin={0} />
+              <Bar dataKey="target" name="🎯 ເປົ້າໝາຍ" fill="#FFD580" isAnimationActive animationDuration={1500} animationBegin={0} >
+                <LabelList dataKey="target" position="top" formatter={formatCurrencies} style={{ fontSize: 8 }} />
+              </Bar>
               <Bar dataKey="current" name="📆 ຍອດຂາຍ" fill="#06ab9b" isAnimationActive animationDuration={1500} animationBegin={300}>
-                <LabelList dataKey="percentAchieved" content={CustomLabel} />
-                <LabelList fill="#000" dataKey="compareLastYear" position="insideTop" formatter={v => `${v}%`} fontSize={8} />
+                <LabelList dataKey="percentAchieved" fontSize={8} content={CustomLabel} />
+                <LabelList fill="#000" dataKey="compareLastYear" position="insideTop" content={CustomCompair} fontSize={8} />
               </Bar>
               <Bar dataKey="lastYear" name="📅 ປີຜ່ານມາ" fill="#EF5350" isAnimationActive animationDuration={1500} animationBegin={600} />
             </BarChart>

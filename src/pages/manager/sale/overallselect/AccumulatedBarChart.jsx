@@ -42,6 +42,17 @@ const AccumulatedBarChart = () => {
 
     // const formatNumber = (num) => Number(num || 0).toLocaleString();
     const formatNumber = v => { const num = Math.round(Number(v)); return num.toLocaleString('en-US', { maximumFractionDigits: 0, minimumFractionDigits: 0 }) + ' ฿'; };
+    const formatCurrencies = (v) => {
+        const num = Math.round(Number(v));
+
+        if (num >= 1_000_000) {
+            return '฿' + (num / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+        } else if (num >= 1_000) {
+            return '฿' + (num / 1_000).toFixed(1).replace(/\.0$/, '') + 'k';
+        } else {
+            return '฿' + num.toLocaleString('en-US');
+        }
+    };
     console.log("yrt da som ", data)
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
@@ -96,19 +107,35 @@ const AccumulatedBarChart = () => {
                     </div>
 
                     {viewMode === 'chart' ? (
-                        <ResponsiveContainer width="100%" height={400}>
-                            <BarChart data={data} layout="vertical" barGap={30}  >
+                        <ResponsiveContainer width="100%" height={600}>
+                            <BarChart key={data.length} data={data} layout="vertical" barGap={30}  >
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis type="number" fontSize={9} tickFormatter={(value) => new Intl.NumberFormat().format(value)} />
                                 <YAxis type="category" dataKey="monthLabel" fontSize={9} width={50} />
                                 <Tooltip content={<CustomTooltip />} />
                                 <Legend />
-                                <Bar dataKey="accumulated_target" fill="#FFD580" name="ເປົ້າໝາຍ" fontSize={9} />
+                                <Bar dataKey="accumulated_target" fill="#FFD580" name="ເປົ້າໝາຍ" fontSize={9} >
+                                    <LabelList dataKey="accumulated_target" position="right" fontSize={9} formatter={formatCurrencies} />
+                                </Bar>
                                 <Bar dataKey="accumulated_revenue" fill="#06ab9b" name="ຍອດຂາຍ" fontSize={9}>
-                                    <LabelList dataKey="percent_vs_target" position="right" formatter={(value) => `${value.toFixed(1)}%`} fontSize={9} />
+                                    {/* <LabelList dataKey="percent_vs_target" position="right" formatter={(value) => `${value.toFixed(1)}%`} fontSize={9} /> */}
+                                    {/* <LabelList
+                                        dataKey="percent_vs_target"
+                                        content={({ x, y, width, index }) => {
+                                            const row = data[index];
+                                            const percentLabel = `${(row?.percent_vs_target ?? 0).toFixed(1)}%`;
+                                            return (
+                                                <g transform={`translate(${x + width + 100}, ${y - 2})`}>
+                                                    <text y={12} fontSize={9} fill="#999">{percentLabel}</text>
+                                                </g>
+                                            );
+                                        }}
+                                    /> */}
+                                    <LabelList dataKey="accumulated_revenue" position="right" fontSize={9} formatter={formatCurrencies} />
                                 </Bar>
                                 <Bar dataKey="accumulated_last_year" fill="#EF5350" name="ປີຜ່ານມາ" fontSize={9}>
-                                    <LabelList dataKey="percent_vs_last_year" position="right" formatter={(value) => `${value.toFixed(1)}%`} fontSize={9} />
+                                    {/* <LabelList dataKey="percent_vs_last_year" position="insideRight" formatter={(value) => `${value.toFixed(1)}%`} fontSize={9} /> */}
+                                    <LabelList dataKey="accumulated_last_year" position="right" fontSize={9} formatter={formatCurrencies} />
                                 </Bar>
                             </BarChart>
                         </ResponsiveContainer>
