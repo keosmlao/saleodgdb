@@ -1,5 +1,6 @@
 // src/App.jsx
 import { Routes, Route } from 'react-router-dom';
+import React from 'react';
 import Login from './pages/Login';
 import Home from './pages/home';
 import PromotionLineoa from './pages/manager/promotion/promotionlineoa';

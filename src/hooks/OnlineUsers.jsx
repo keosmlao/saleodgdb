@@ -6,6 +6,7 @@ const SOCKET_SERVER_URL = 'http://119.59.124.56:5000';
 
 export default function OnlineUsers({ user_id, username }) {
   const [usersStatus, setUsersStatus] = useState([]);
+  console.log("user status", usersStatus)
 
   useEffect(() => {
     const socket = io(SOCKET_SERVER_URL, { transports: ['websocket'] });
@@ -23,6 +24,7 @@ export default function OnlineUsers({ user_id, username }) {
   const fetchUsersStatus = async () => {
     try {
       const res = await api.get('/all-users-status');
+      console.log("response" , res )
       const data = Array.isArray(res.data) ? res.data : res.data?.data || [];
       setUsersStatus(data);
     } catch (err) {
@@ -37,15 +39,20 @@ export default function OnlineUsers({ user_id, username }) {
   };
 
   return (
-    <div className="online-users-container mt-4">
+    <div className=" py-4">
       <h4 className="fw-bold text-primary">📡 User Status with Last Login</h4>
-      <div className="card shadow-sm mt-3">
-        <div className="card-body">
+      <div className="border rounded-2xl ">
+        <div className="">
           {usersStatus.length > 0 ? (
             <ul className="list-group list-group-flush">
               {usersStatus.map((user) => (
                 <li key={user.user_id || user.id} className="list-group-item">
                   <div className="d-flex justify-content-between align-items-center">
+                    <div
+                        className={`w-3 h-3 rounded-full ${
+                            user.status === 'online' ? 'bg-green-400 animate-pulse' : 'bg-red-500'
+                        }`}
+                    ></div>
                     <span className="fw-semibold">
                       👤 {user.username || 'Unknown'} ({user.status || 'offline'})
                     </span>

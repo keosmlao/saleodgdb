@@ -1,255 +1,255 @@
-body {
-    font-family: 'Noto Sans Lao', sans-serif;
-  }
-  .navbar,
-  .navbar * {
-      font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  
-  .navbar-brand {
-      font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .btn {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .form-control {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-    font-size: 9pt !important;
-    border: 1px solid red !important; /* สีเทาอ่อน */
-    border-radius: 4px; /* มุมโค้งนิดหน่อย */
-    padding: 4px 8px; /* เพิ่ม padding */
-  }
-  
-  .form-label {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-    font-size: 9pt;
-  }
-  .form-text {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-    font-size: 9pt;
-  }
-  .form-check-label {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-    font-size: 9pt;
-  }
-  .form-check-input {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-    font-size: 9pt;
-  }
-  .form-select {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-    font-size: 9pt !important;
-    border: 1px solid red !important; /* สีเทาอ่อน */
-    border-radius: 4px; /* มุมโค้งนิดหน่อย */
-    padding: 4px 8px; /* เพิ่ม padding */
-  }
-  .form-select-sm {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  } 
-  table {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-    font-size: 9pt;
-  }
-  th {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-    font-size: 9pt;
-    /* background-color: #549E76 !important; สีเขียว */
-    /* color: white !important; สีขาว */
-    text-align: center ; /* จัดกลาง */ 
-    
-  }
-  td {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-    font-size: 9pt;
-  }
-  .alert {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .alert-heading {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .alert-link {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .card {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .card-title {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .card-text {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .card-header {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .card-footer {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .modal {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .modal-title {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .modal-body {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .modal-footer {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .dropdown-menu {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .dropdown-item {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .dropdown-toggle {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-item {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-link {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-next {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-prev {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-ellipsis {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-link {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-item {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-item.active {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-item.disabled {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-item.active .pagination-page-link {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-item.disabled .pagination-page-link {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-item.active .pagination-page-link {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-item.disabled .pagination-page-link {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-item.active .pagination-page-link {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-item.disabled .pagination-page-link {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-item.active .pagination-page-link {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-item.disabled .pagination-page-link {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-item.active .pagination-page-link {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-item.disabled .pagination-page-link {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .pagination-page-item.active .pagination-page-link {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  .option{
-    font-size: 9pt;
-  }
-  .select{
-    font-size: 9pt;
-  }
-  .arrow-white .dropdown-toggle::after {
-    border-top-color: white !important;
-  }
-  .no-border {
-    border: none !important;
-    border-top: none !important;
-    border-bottom: none !important;
-    border-left: none !important;
-    border-right: none !important;
-  }
-  
-/* Styles for the screen */
-.my-component {
-  color: blue;
-  /* ... other screen styles ... */
-}
+@import "tailwindcss";
+/*body {*/
+/*    font-family: 'Noto Sans Lao', sans-serif;*/
+/*  }*/
+/*  .navbar,*/
+/*  .navbar * {*/
+/*      font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
 
-/* Styles specifically for printing */
-@media print {
-  .my-component {
-    color: black; /* Ensure readable text on paper */
-    /* Hide elements not needed for printing */
-    .no-print {
-      display: none;
-    }
-  }
-}
+/*  .navbar-brand {*/
+/*      font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  h1, h2, h3, h4, h5, h6 {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .btn {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .form-control {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*    font-size: 9pt !important;*/
+/*    border: 1px solid red !important; !* สีเทาอ่อน *!*/
+/*    border-radius: 4px; !* มุมโค้งนิดหน่อย *!*/
+/*    padding: 4px 8px; !* เพิ่ม padding *!*/
+/*  }*/
 
-.react-select__control {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-    font-size: 10px;
-  }
-  .react-select__menu {
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
-  
+/*  .form-label {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*    font-size: 9pt;*/
+/*  }*/
+/*  .form-text {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*    font-size: 9pt;*/
+/*  }*/
+/*  .form-check-label {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*    font-size: 9pt;*/
+/*  }*/
+/*  .form-check-input {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*    font-size: 9pt;*/
+/*  }*/
+/*  .form-select {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*    font-size: 9pt !important;*/
+/*    border: 1px solid red !important; !* สีเทาอ่อน *!*/
+/*    border-radius: 4px; !* มุมโค้งนิดหน่อย *!*/
+/*    padding: 4px 8px; !* เพิ่ม padding *!*/
+/*  }*/
+/*  .form-select-sm {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  table {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*    font-size: 9pt;*/
+/*  }*/
+/*  th {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*    font-size: 9pt;*/
+/*    !* background-color: #549E76 !important; สีเขียว *!*/
+/*    !* color: white !important; สีขาว *!*/
+/*    text-align: center ; !* จัดกลาง *!*/
 
-  p{
-    font-family: 'Noto Sans Lao', sans-serif !important;
-  }
+/*  }*/
+/*  td {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*    font-size: 9pt;*/
+/*  }*/
+/*  .alert {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .alert-heading {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .alert-link {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .card {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .card-title {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .card-text {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .card-header {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .card-footer {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .modal {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .modal-title {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .modal-body {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .modal-footer {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .dropdown-menu {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .dropdown-item {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .dropdown-toggle {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-item {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-link {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-next {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-prev {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-ellipsis {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-link {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-item {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-item.active {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-item.disabled {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-item.active .pagination-page-link {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-item.disabled .pagination-page-link {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-item.active .pagination-page-link {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-item.disabled .pagination-page-link {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-item.active .pagination-page-link {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-item.disabled .pagination-page-link {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-item.active .pagination-page-link {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-item.disabled .pagination-page-link {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-item.active .pagination-page-link {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-item.disabled .pagination-page-link {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .pagination-page-item.active .pagination-page-link {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
+/*  .option{*/
+/*    font-size: 9pt;*/
+/*  }*/
+/*  .select{*/
+/*    font-size: 9pt;*/
+/*  }*/
+/*  .arrow-white .dropdown-toggle::after {*/
+/*    border-top-color: white !important;*/
+/*  }*/
+/*  .no-border {*/
+/*    border: none !important;*/
+/*    border-top: none !important;*/
+/*    border-bottom: none !important;*/
+/*    border-left: none !important;*/
+/*    border-right: none !important;*/
+/*  }*/
+
+/*!* Styles for the screen *!*/
+/*.my-component {*/
+/*  color: blue;*/
+/*  !* ... other screen styles ... *!*/
+/*}*/
+
+/*!* Styles specifically for printing *!*/
+/*@media print {*/
+/*  .my-component {*/
+/*    color: black; !* Ensure readable text on paper *!*/
+/*    !* Hide elements not needed for printing *!*/
+/*    .no-print {*/
+/*      display: none;*/
+/*    }*/
+/*  }*/
+/*}*/
+
+/*.react-select__control {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*    font-size: 10px;*/
+/*  }*/
+/*  .react-select__menu {*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
 
 
+/*  p{*/
+/*    font-family: 'Noto Sans Lao', sans-serif !important;*/
+/*  }*/
 
 
-  .bg-info-gradient {
-    background: linear-gradient(135deg, #17a2b8, #63c2de);
-    color: white;
-  }
 
 
-  html, body, #root {
-    height: 100%;
-    margin: 0;
-  }
-  
-  #root {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  body {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .page-wrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  
+/*  .bg-info-gradient {*/
+/*    background: linear-gradient(135deg, #17a2b8, #63c2de);*/
+/*    color: white;*/
+/*  }*/
+
+
+/*  html, body, #root {*/
+/*    height: 100%;*/
+/*    margin: 0;*/
+/*  }*/
+
+/*  #root {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*  }*/
+
+/*  body {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*  }*/
+
+/*  .page-wrapper {*/
+/*    flex: 1;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*  }*/

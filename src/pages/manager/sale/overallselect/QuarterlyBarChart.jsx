@@ -186,7 +186,7 @@ export default function QuarterlyBarChart() {
             <Bar dataKey="current" name="📆 ຍອດຂາຍ" fill="#06ab9b">
               <LabelList
                 dataKey="current"
-                position="insideTop"
+                position="top"
                 formatter={formatCurrencies}
                 style={{ fontSize: 8 }}
                 fill="#000"
