@@ -13,7 +13,7 @@ const CustomTopLabel = ({ x, y, value }) => <text x={x} y={y - 2} textAnchor="st
 
 export default function ChannelSummary() {
     const [filter, setFilter] = useState('thisMonth');
-    const [chartType, setChartType] = useState('bar');
+    const [viewMode, setViewMode] = useState('chart');
     const [data, setData] = useState([]);
 
     useEffect(() => {
@@ -34,19 +34,27 @@ export default function ChannelSummary() {
         <div className="bg-white p-3 rounded-2xl shadow-sm">
             <h5 className="font-bold mb-2 text-[15px] font-[Noto_Sans_Lao]">📊 ສະຫຼູບຊອ່ງທາງ</h5>
             <div className="flex flex-wrap gap-2 mb-3">
-                <select className="text-sm border font-[Noto_Sans_Lao] rounded px-2 py-1 w-auto" value={filter} onChange={e => setFilter(e.target.value)}>
-                    <option value="thisMonth">ເດືອນນີ້</option>
-                    <option value="lastMonth">ເດືອນຜ່ານມາ</option>
-                    <option value="accumulated">ສະສົມ</option>
-                    <option value="fullYear">ປີນີ້</option>
-                </select>
-                <select className="text-sm border rounded px-2 py-1 w-auto" value={chartType} onChange={e => setChartType(e.target.value)}>
-                    <option value="table">Table</option>
-                    <option value="bar">Bar Chart</option>
-                </select>
+                <div className="flex items-center gap-1">
+                    <label className="font-bold text-[14px]">📅 ໄລຍະເວລາ:</label>
+                    <select className="text-sm border font-[Noto_Sans_Lao] rounded px-2 py-1 w-auto" value={filter} onChange={e => setFilter(e.target.value)}>
+                        <option value="thisMonth">ເດືອນນີ້</option>
+                        <option value="lastMonth">ເດືອນຜ່ານມາ</option>
+                        <option value="accumulated">ສະສົມ</option>
+                        <option value="fullYear">ປີນີ້</option>
+                    </select>
+                </div>
+
+                <div className="flex items-center gap-1">
+                    <label className="font-bold text-[14px]">📊 ຮູບແບບ:</label>
+                    <div className="ml-2 inline-flex rounded overflow-hidden border text-sm">
+                        <button className={`px-3 py-1 ${viewMode === 'all' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('all')}>ທັງໝົດ</button>
+                        <button className={`px-3 py-1 ${viewMode === 'chart' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('chart')}>Chart</button>
+                        <button className={`px-3 py-1 ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600'}`} onClick={() => setViewMode('table')}>ຕາຕະລາງ</button>
+                    </div>
+                </div>
             </div>
 
-            {chartType === 'bar' && (
+            {(viewMode === 'chart' || viewMode === 'all') && (
                 <ResponsiveContainer width="100%" height={500}>
                     <BarChart data={data} layout="vertical" barGap={30}>
                         <CartesianGrid strokeDasharray="3 3" />
@@ -59,7 +67,7 @@ export default function ChannelSummary() {
                         <Tooltip formatter={formatNumber} />
                         <Legend />
 
-                        <Bar dataKey="total2025" name="2025" barSize={30}>
+                        <Bar dataKey="total2025" name="📆 2025" barSize={30}>
                             {data.map((entry, index) => (
                                 <Cell key={`cell-2025-${index}`} fill={'#FF6B6B'} />
                             ))}
@@ -71,7 +79,7 @@ export default function ChannelSummary() {
                             />
                         </Bar>
 
-                        <Bar dataKey="total2024" name="2024" barSize={30}>
+                        <Bar dataKey="total2024" name="📅 2024" barSize={30}>
                             {data.map((entry, index) => (
                                 <Cell key={`cell-2024-${index}`} fill={'#FFA726'} />
                             ))}
@@ -86,28 +94,28 @@ export default function ChannelSummary() {
                 </ResponsiveContainer>
             )}
 
-            {chartType === 'table' && (
+            {(viewMode === 'table' || viewMode === 'all') && (
                 <div className="overflow-x-auto">
                     <table className="min-w-[500px] w-full border text-center text-sm">
                         <thead className="bg-gray-100">
-                        <tr>
-                            <th className="border px-2 py-1">Channel</th>
-                            <th className="border px-2 py-1">📆 2025</th>
-                            <th className="border px-2 py-1">📅 2024</th>
-                        </tr>
+                            <tr>
+                                <th className="border px-2 py-1">Channel</th>
+                                <th className="border px-2 py-1">📆 2025</th>
+                                <th className="border px-2 py-1">📅 2024</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {data.length === 0 ? (
-                            <tr><td colSpan="3" className="px-2 py-1">No Data</td></tr>
-                        ) : (
-                            data.map((row, idx) => (
-                                <tr key={idx}>
-                                    <td className="border px-2 py-1">{row.channel}</td>
-                                    <td className="border px-2 py-1">{formatNumber(row.total2025)}</td>
-                                    <td className="border px-2 py-1">{formatNumber(row.total2024)}</td>
-                                </tr>
-                            ))
-                        )}
+                            {data.length === 0 ? (
+                                <tr><td colSpan="3" className="px-2 py-1">No Data</td></tr>
+                            ) : (
+                                data.map((row, idx) => (
+                                    <tr key={idx}>
+                                        <td className="border px-2 py-1">{row.channel}</td>
+                                        <td className="border px-2 py-1">{formatNumber(row.total2025)}</td>
+                                        <td className="border px-2 py-1">{formatNumber(row.total2024)}</td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>

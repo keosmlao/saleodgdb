@@ -36,7 +36,7 @@ export default function MonthlySalesChart() {
   useEffect(() => {
     api.get('/all/bu-list')
       .then(res => {
-        setBuList([{ code: 'all', name_1: 'ທຸກ BU' }, ...res.data]);
+        setBuList([{ code: 'all', name_1: '📦 ທຸກ BU' }, ...res.data]);
       })
       .catch(err => console.error('❌ Error fetching BU list:', err));
   }, []);
@@ -44,7 +44,7 @@ export default function MonthlySalesChart() {
   useEffect(() => {
     api.get('/all/bu-list')
       .then(res => {
-        setBuList([{ code: 'all', name_1: 'ທຸກ BU' }, ...res.data]);
+        setBuList([{ code: 'all', name_1: '📦 ທຸກ BU' }, ...res.data]);
       })
       .catch(err => console.error('❌ Error fetching BU list:', err));
   }, []);
@@ -209,28 +209,30 @@ export default function MonthlySalesChart() {
         </div>
 
         <div ref={chartRef}>
-          {viewMode === 'chart' ? (
-              <ResponsiveContainer width="100%" height={400}>
-                <BarChart data={processedData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" fontSize={9} />
-                  <YAxis tickFormatter={v => Number(v).toLocaleString()} fontSize={9} />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Legend />
-                  <Bar dataKey="target" name="🎯 ເປົ້າໝາຍ" fill="#FFD580" isAnimationActive animationDuration={1500} animationBegin={0}>
-                    <LabelList dataKey="target" position="top" formatter={formatCurrencies} style={{ fontSize: 8 }} />
-                  </Bar>
-                  <Bar dataKey="current" name="📆 ຍອດຂາຍ" fill="#06ab9b" isAnimationActive animationDuration={1500} animationBegin={300}>
-                    <LabelList dataKey="percentAchieved" fontSize={8} content={CustomLabel} />
-                    <LabelList fill="#000" dataKey="compareLastYear" position="insideTop" content={CustomCompair} fontSize={8} />
-                  </Bar>
-                  <Bar dataKey="lastYear" name="📅 ປີຜ່ານມາ" fill="#EF5350" isAnimationActive animationDuration={1500} animationBegin={600} />
-                </BarChart>
-              </ResponsiveContainer>
-          ) : (
-              <div className="overflow-x-auto">
-                <table className="min-w-full border text-center text-sm">
-                  <thead className="bg-gray-100">
+          {(viewMode === 'all' || viewMode === 'chart') && (
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={processedData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" fontSize={8} />
+                <YAxis tickFormatter={v => Number(v).toLocaleString()} fontSize={9} />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend />
+                <Bar dataKey="target" name="🎯 ເປົ້າໝາຍ" fill="#FFD580" isAnimationActive animationDuration={1500} animationBegin={0}>
+                  <LabelList dataKey="target" position="top" formatter={formatCurrencies} style={{ fontSize: 8 }} />
+                </Bar>
+                <Bar dataKey="current" name="📆 ຍອດຂາຍ" fill="#06ab9b" isAnimationActive animationDuration={1500} animationBegin={300}>
+                  <LabelList dataKey="percentAchieved" fontSize={8} content={CustomLabel} />
+                  <LabelList fill="#000" dataKey="compareLastYear" position="insideTop" content={CustomCompair} fontSize={8} />
+                </Bar>
+                <Bar dataKey="lastYear" name="📅 ປີຜ່ານມາ" fill="#EF5350" isAnimationActive animationDuration={1500} animationBegin={600} />
+              </BarChart>
+            </ResponsiveContainer>
+          )}
+
+          {(viewMode === 'all' || viewMode === 'table') && (
+            <div className="overflow-x-auto mt-4">
+              <table className="min-w-full border text-center text-sm">
+                <thead className="bg-gray-100">
                   <tr>
                     <th className="border px-2 py-1">ເດືອນ</th>
                     <th className="border px-2 py-1">🎯 ເປົ້າໝາຍ</th>
@@ -239,36 +241,36 @@ export default function MonthlySalesChart() {
                     <th className="border px-2 py-1">📅 ປີຜ່ານມາ</th>
                     <th className="border px-2 py-1">📊 % ປຽບທຽບປີຜ່ານມາ</th>
                   </tr>
-                  </thead>
-                  <tbody>
+                </thead>
+                <tbody>
                   {processedData.map((row, i) => {
                     const percent = row.percentAchieved;
                     const compare = row.compareLastYear;
                     return (
-                        <tr key={i}>
-                          <td className="border px-2 py-1">{row.month}</td>
-                          <td className="border px-2 py-1">{formatCurrency(row.target)}</td>
-                          <td className="border px-2 py-1">{formatCurrency(row.current)}</td>
-                          <td className="border px-2 py-1">
-                            {percent > 0 ? (
-                                <>
-                        <span className={`font-bold ${percent >= 100 ? 'text-green-600' : 'text-red-600'}`}>
-                          {percent >= 100 ? '▲' : '🔻'}
-                        </span> {percent}%
-                                </>
-                            ) : '-'}
-                          </td>
-                          <td className="border px-2 py-1">{formatCurrency(row.lastYear)}</td>
-                          <td className="border px-2 py-1">
-                            {compare > 0 ? (
-                                <>
-                        <span className={`font-bold ${compare >= 100 ? 'text-green-600' : 'text-red-600'}`}>
-                          {compare >= 100 ? '▲' : '🔻'}
-                        </span> {compare}%
-                                </>
-                            ) : '-'}
-                          </td>
-                        </tr>
+                      <tr key={i}>
+                        <td className="border px-2 py-1">{row.month}</td>
+                        <td className="border px-2 py-1">{formatCurrency(row.target)}</td>
+                        <td className="border px-2 py-1">{formatCurrency(row.current)}</td>
+                        <td className="border px-2 py-1">
+                          {percent > 0 ? (
+                            <>
+                              <span className={`font-bold ${percent >= 100 ? 'text-green-600' : 'text-red-600'}`}>
+                                {percent >= 100 ? '▲' : '🔻'}
+                              </span> {percent}%
+                            </>
+                          ) : '-'}
+                        </td>
+                        <td className="border px-2 py-1">{formatCurrency(row.lastYear)}</td>
+                        <td className="border px-2 py-1">
+                          {compare > 0 ? (
+                            <>
+                              <span className={`font-bold ${compare >= 100 ? 'text-green-600' : 'text-red-600'}`}>
+                                {compare >= 100 ? '▲' : '🔻'}
+                              </span> {compare}%
+                            </>
+                          ) : '-'}
+                        </td>
+                      </tr>
                     );
                   })}
                   </tbody>

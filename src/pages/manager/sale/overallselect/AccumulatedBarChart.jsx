@@ -90,19 +90,35 @@ const AccumulatedBarChart = () => {
                 <h5 className="text-red-600 font-bold mb-0 text-[15px] font-[Noto_Sans_Lao]">📊 ຍອດສະສົມ (Accumulated Bar Chart)</h5>
                 <div className="flex items-center gap-2 flex-wrap">
                     <select className="text-sm border rounded px-2 py-1 w-[130px]" value={bu} onChange={(e) => setBu(e.target.value)}>
-                        <option value="ALL">ALL BU</option>
+                        <option value="ALL">📦 ທຸກ BU</option>
                         {buList.map((b, i) => (
                             <option key={i} value={b.code}>{b.name_1}</option>
                         ))}
                     </select>
-                    <select className="text-sm border rounded px-2 py-1 w-[130px]" value={viewMode} onChange={(e) => setViewMode(e.target.value)}>
-                        <option value="chart">📈 Chart</option>
-                        <option value="table">📋 Table</option>
+
+                    <select className="text-sm border rounded px-2 py-1 w-[130px]" value={bu} onChange={(e) => setBu(e.target.value)}>
+                        {[
+                            { code: 'all', name_1: '🌍 ໂຊນທັງໝົດ' },
+                            { code: '11', name_1: 'ZONE A' },
+                            { code: '12', name_1: 'ZONE B' },
+                            { code: '13', name_1: 'ZONE C' },
+                            { code: '14', name_1: 'ZONE D' },
+                            { code: '15', name_1: 'ZONE E' },
+                            { code: '16', name_1: 'ZONE F' },
+                        ].map(z => (
+                            <option key={z.code} value={z.code}>{z.name_1}</option>
+                        ))}
                     </select>
+
+                    <div className="ml-2 inline-flex rounded overflow-hidden border text-sm">
+                        <button className={`px-3 py-1 ${viewMode === 'all' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('all')}>ທັງໝົດ</button>
+                        <button className={`px-3 py-1 ${viewMode === 'chart' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('chart')}>Chart</button>
+                        <button className={`px-3 py-1 ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600'}`} onClick={() => setViewMode('table')}>ຕາຕະລາງ</button>
+                    </div>
                 </div>
             </div>
 
-            {viewMode === 'chart' ? (
+            {(viewMode === 'chart' || viewMode === 'all') && (
                 <ResponsiveContainer width="100%" height={600}>
                     <BarChart key={data.length} data={data} layout="vertical" barGap={30}>
                         <CartesianGrid strokeDasharray="3 3" />
@@ -110,45 +126,47 @@ const AccumulatedBarChart = () => {
                         <YAxis type="category" dataKey="monthLabel" fontSize={9} width={50} />
                         <Tooltip content={<CustomTooltip />} />
                         <Legend />
-                        <Bar dataKey="accumulated_target" fill="#FFD580" name="ເປົ້າໝາຍ" fontSize={9}>
+                        <Bar dataKey="accumulated_target" fill="#FFD580" name="🎯 ເປົ້າໝາຍ" fontSize={9}>
                             <LabelList dataKey="accumulated_target" position="right" fontSize={9} formatter={formatCurrencies} />
                         </Bar>
-                        <Bar dataKey="accumulated_revenue" fill="#06ab9b" name="ຍອດຂາຍ" fontSize={9}>
+                        <Bar dataKey="accumulated_revenue" fill="#06ab9b" name="📆 ຍອດຂາຍ" fontSize={9}>
                             <LabelList dataKey="accumulated_revenue" position="right" fontSize={9} formatter={formatCurrencies} />
                         </Bar>
-                        <Bar dataKey="accumulated_last_year" fill="#EF5350" name="ປີຜ່ານມາ" fontSize={9}>
+                        <Bar dataKey="accumulated_last_year" fill="#EF5350" name="📅 ປີຜ່ານມາ" fontSize={9}>
                             <LabelList dataKey="accumulated_last_year" position="right" fontSize={9} formatter={formatCurrencies} />
                         </Bar>
                     </BarChart>
                 </ResponsiveContainer>
-            ) : (
+            )}
+
+            {(viewMode === 'table' || viewMode === 'all') && (
                 <div className="overflow-x-auto mt-2">
                     <table className="min-w-full border text-center text-sm">
                         <thead className="bg-gray-100">
-                        <tr>
-                            <th className="border px-2 py-1">ເດືອນ</th>
-                            <th className="border px-2 py-1">🎯 ເປົ້າໝາຍ</th>
-                            <th className="border px-2 py-1">📆 ຍອດຂາຍ</th>
-                            <th className="border px-2 py-1">% ປຽບທຽບເປົ້າ</th>
-                            <th className="border px-2 py-1">📅 ປີຜ່ານມາ</th>
-                            <th className="border px-2 py-1">📊 % ປຽບທຽບປີຜ່ານມາ</th>
-                        </tr>
+                            <tr>
+                                <th className="border px-2 py-1">ເດືອນ</th>
+                                <th className="border px-2 py-1">🎯 ເປົ້າໝາຍ</th>
+                                <th className="border px-2 py-1">📆 ຍອດຂາຍ</th>
+                                <th className="border px-2 py-1">% ປຽບທຽບເປົ້າ</th>
+                                <th className="border px-2 py-1">📅 ປີຜ່ານມາ</th>
+                                <th className="border px-2 py-1">📊 % ປຽບທຽບປີຜ່ານມາ</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {data.map((row, index) => (
-                            <tr key={index}>
-                                <td className="border px-2 py-1">{row.monthLabel}</td>
-                                <td className="border px-2 py-1">{formatNumber(row.accumulated_target)}</td>
-                                <td className="border px-2 py-1">{formatNumber(row.accumulated_revenue)}</td>
-                                <td className="border px-2 py-1">
-                                    {row.percent_vs_target >= 100 ? '▲' : '🔻'} {row.percent_vs_target.toFixed(1)}%
-                                </td>
-                                <td className="border px-2 py-1">{formatNumber(row.accumulated_last_year)}</td>
-                                <td className="border px-2 py-1">
-                                    {row.percent_vs_last_year >= 100 ? '▲' : '🔻'} {row.percent_vs_last_year.toFixed(1)}%
-                                </td>
-                            </tr>
-                        ))}
+                            {data.map((row, index) => (
+                                <tr key={index}>
+                                    <td className="border px-2 py-1">{row.monthLabel}</td>
+                                    <td className="border px-2 py-1">{formatNumber(row.accumulated_target)}</td>
+                                    <td className="border px-2 py-1">{formatNumber(row.accumulated_revenue)}</td>
+                                    <td className="border px-2 py-1">
+                                        {row.percent_vs_target >= 100 ? '▲' : '🔻'} {row.percent_vs_target.toFixed(1)}%
+                                    </td>
+                                    <td className="border px-2 py-1">{formatNumber(row.accumulated_last_year)}</td>
+                                    <td className="border px-2 py-1">
+                                        {row.percent_vs_last_year >= 100 ? '▲' : '🔻'} {row.percent_vs_last_year.toFixed(1)}%
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

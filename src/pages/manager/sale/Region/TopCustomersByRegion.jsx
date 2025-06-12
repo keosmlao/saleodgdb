@@ -52,7 +52,7 @@ export default function TopCustomersChart() {
   };
 
   const getCompareData = () => {
-    const zones = ['A', 'B', 'C', 'D', 'E', 'F'];
+    const zones   = ['A', 'B', 'C', 'D', 'E', 'F'];
     const storeNames = apiData?.[filter]?.['ZONE A']?.map(s => s.name) || [];
     return storeNames.map(name => {
       const entry = { name };
