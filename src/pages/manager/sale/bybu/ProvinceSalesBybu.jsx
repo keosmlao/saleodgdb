@@ -58,15 +58,15 @@ export default function ProvinceSalesBybu({bu}) {
   if (loading) return <div className="text-center py-5">⏳ Loading...</div>;
 
   return (
-    <div className="card shadow-sm border-0 p-2 bg-white rounded-1 mb-2">
-      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-        <h5 className="fw-bold text-danger mb-0"style={{fontSize:'12px'}}>
+    <div className="bg-white rounded-lg shadow-sm p-4 mb-2">
+      <div className="flex justify-between items-center mb-3 flex-wrap gap-2">
+        <h5 className="font-bold text-red-600 text-xs mb-0">
           📊 ຍອດຂາຍຕາມແຂວງ ({period === 'thisMonth' ? 'ເດືອນນີ້' : period === 'lastMonth' ? 'ເດືອນກ່ອນ' : 'ທັງປີ'})
         </h5>
 
-        <div className="d-flex gap-2">
+        <div className="flex gap-2">
           <select
-            className="form-select form-select-sm"
+            className="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm"
             value={period}
             onChange={(e) => setPeriod(e.target.value)}
           >

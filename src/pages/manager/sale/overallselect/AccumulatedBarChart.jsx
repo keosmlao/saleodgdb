@@ -85,97 +85,76 @@ const AccumulatedBarChart = () => {
     };
 
     return (
-        <div>
-            <div className="card mb-2 rounded-1 shadow-sm">
-                <div className="card-body">
-                    <div className="d-flex justify-content-between align-items-center mb-2">
-                        <h5 className="text-danger fw-bold mb-0" style={{ fontSize: '15px' }}>
-                            📊 ຍອດສະສົມ (Accumulated Bar Chart)
-                        </h5>
-                        <div className="d-flex gap-2">
-                            <select className="form-select form-select-sm w-auto" value={bu} onChange={(e) => setBu(e.target.value)}>
-                                <option value="ALL">ALL BU</option>
-                                {buList.map((b, i) => (
-                                    <option key={i} value={b.code}>{b.name_1}</option>
-                                ))}
-                            </select>
-                            <select className="form-select form-select-sm w-auto" value={viewMode} onChange={(e) => setViewMode(e.target.value)}>
-                                <option value="chart">📈 Chart</option>
-                                <option value="table">📋 Table</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    {viewMode === 'chart' ? (
-                        <ResponsiveContainer width="100%" height={600}>
-                            <BarChart key={data.length} data={data} layout="vertical" barGap={30}  >
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis type="number" fontSize={9} tickFormatter={(value) => new Intl.NumberFormat().format(value)} />
-                                <YAxis type="category" dataKey="monthLabel" fontSize={9} width={50} />
-                                <Tooltip content={<CustomTooltip />} />
-                                <Legend />
-                                <Bar dataKey="accumulated_target" fill="#FFD580" name="ເປົ້າໝາຍ" fontSize={9} >
-                                    <LabelList dataKey="accumulated_target" position="right" fontSize={9} formatter={formatCurrencies} />
-                                </Bar>
-                                <Bar dataKey="accumulated_revenue" fill="#06ab9b" name="ຍອດຂາຍ" fontSize={9}>
-                                    {/* <LabelList dataKey="percent_vs_target" position="right" formatter={(value) => `${value.toFixed(1)}%`} fontSize={9} /> */}
-                                    {/* <LabelList
-                                        dataKey="percent_vs_target"
-                                        content={({ x, y, width, index }) => {
-                                            const row = data[index];
-                                            const percentLabel = `${(row?.percent_vs_target ?? 0).toFixed(1)}%`;
-                                            return (
-                                                <g transform={`translate(${x + width + 100}, ${y - 2})`}>
-                                                    <text y={12} fontSize={9} fill="#999">{percentLabel}</text>
-                                                </g>
-                                            );
-                                        }}
-                                    /> */}
-                                    <LabelList dataKey="accumulated_revenue" position="right" fontSize={9} formatter={formatCurrencies} />
-                                </Bar>
-                                <Bar dataKey="accumulated_last_year" fill="#EF5350" name="ປີຜ່ານມາ" fontSize={9}>
-                                    {/* <LabelList dataKey="percent_vs_last_year" position="insideRight" formatter={(value) => `${value.toFixed(1)}%`} fontSize={9} /> */}
-                                    <LabelList dataKey="accumulated_last_year" position="right" fontSize={9} formatter={formatCurrencies} />
-                                </Bar>
-                            </BarChart>
-                        </ResponsiveContainer>
-
-                    ) : (
-                        <div className="table-responsive mt-2">
-                            <table className="table table-bordered table-striped text-center align-middle">
-                                <thead className="table-light">
-                                    <tr>
-                                        <th>ເດືອນ</th>
-                                        <th>🎯 ເປົ້າໝາຍ</th>
-                                        <th>📆 ຍອດຂາຍ</th>
-                                        <th>% ປຽບທຽບເປົ້າ</th>
-                                        <th>📅 ປີຜ່ານມາ</th>
-                                        <th>📊 % ປຽບທຽບປີຜ່ານມາ</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {data.map((row, index) => (
-                                        <tr key={index}>
-                                            <td>{row.monthLabel}</td>
-                                            <td>{formatNumber(row.accumulated_target)}</td>
-                                            <td>{formatNumber(row.accumulated_revenue)}</td>
-                                            <td>
-                                                {row.percent_vs_target >= 100 ? '▲' : '🔻'} {row.percent_vs_target.toFixed(1)}%
-                                            </td>
-                                            <td>{formatNumber(row.accumulated_last_year)}</td>
-                                            <td>
-                                                {row.percent_vs_last_year >= 100 ? '▲' : '🔻'} {row.percent_vs_last_year.toFixed(1)}%
-                                            </td>
-                                        </tr>
-
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
+        <div className="bg-white p-3 mb-2 rounded-md shadow-sm">
+            <div className="flex justify-between items-center mb-3 flex-wrap">
+                <h5 className="text-red-600 font-bold mb-0 text-[15px] font-[Noto_Sans_Lao]">📊 ຍອດສະສົມ (Accumulated Bar Chart)</h5>
+                <div className="flex items-center gap-2 flex-wrap">
+                    <select className="text-sm border rounded px-2 py-1 w-[130px]" value={bu} onChange={(e) => setBu(e.target.value)}>
+                        <option value="ALL">ALL BU</option>
+                        {buList.map((b, i) => (
+                            <option key={i} value={b.code}>{b.name_1}</option>
+                        ))}
+                    </select>
+                    <select className="text-sm border rounded px-2 py-1 w-[130px]" value={viewMode} onChange={(e) => setViewMode(e.target.value)}>
+                        <option value="chart">📈 Chart</option>
+                        <option value="table">📋 Table</option>
+                    </select>
                 </div>
             </div>
+
+            {viewMode === 'chart' ? (
+                <ResponsiveContainer width="100%" height={600}>
+                    <BarChart key={data.length} data={data} layout="vertical" barGap={30}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis type="number" fontSize={9} tickFormatter={(value) => new Intl.NumberFormat().format(value)} />
+                        <YAxis type="category" dataKey="monthLabel" fontSize={9} width={50} />
+                        <Tooltip content={<CustomTooltip />} />
+                        <Legend />
+                        <Bar dataKey="accumulated_target" fill="#FFD580" name="ເປົ້າໝາຍ" fontSize={9}>
+                            <LabelList dataKey="accumulated_target" position="right" fontSize={9} formatter={formatCurrencies} />
+                        </Bar>
+                        <Bar dataKey="accumulated_revenue" fill="#06ab9b" name="ຍອດຂາຍ" fontSize={9}>
+                            <LabelList dataKey="accumulated_revenue" position="right" fontSize={9} formatter={formatCurrencies} />
+                        </Bar>
+                        <Bar dataKey="accumulated_last_year" fill="#EF5350" name="ປີຜ່ານມາ" fontSize={9}>
+                            <LabelList dataKey="accumulated_last_year" position="right" fontSize={9} formatter={formatCurrencies} />
+                        </Bar>
+                    </BarChart>
+                </ResponsiveContainer>
+            ) : (
+                <div className="overflow-x-auto mt-2">
+                    <table className="min-w-full border text-center text-sm">
+                        <thead className="bg-gray-100">
+                        <tr>
+                            <th className="border px-2 py-1">ເດືອນ</th>
+                            <th className="border px-2 py-1">🎯 ເປົ້າໝາຍ</th>
+                            <th className="border px-2 py-1">📆 ຍອດຂາຍ</th>
+                            <th className="border px-2 py-1">% ປຽບທຽບເປົ້າ</th>
+                            <th className="border px-2 py-1">📅 ປີຜ່ານມາ</th>
+                            <th className="border px-2 py-1">📊 % ປຽບທຽບປີຜ່ານມາ</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {data.map((row, index) => (
+                            <tr key={index}>
+                                <td className="border px-2 py-1">{row.monthLabel}</td>
+                                <td className="border px-2 py-1">{formatNumber(row.accumulated_target)}</td>
+                                <td className="border px-2 py-1">{formatNumber(row.accumulated_revenue)}</td>
+                                <td className="border px-2 py-1">
+                                    {row.percent_vs_target >= 100 ? '▲' : '🔻'} {row.percent_vs_target.toFixed(1)}%
+                                </td>
+                                <td className="border px-2 py-1">{formatNumber(row.accumulated_last_year)}</td>
+                                <td className="border px-2 py-1">
+                                    {row.percent_vs_last_year >= 100 ? '▲' : '🔻'} {row.percent_vs_last_year.toFixed(1)}%
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </div>
+
     );
 };
 

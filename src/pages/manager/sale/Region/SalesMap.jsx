@@ -79,61 +79,69 @@ export default function ProvinceSalesMap() {
   }
 
   return (
-    <div className="card shadow-sm border-0 p-3 rounded-4 bg-white">
-      <h5 className="fw-bold text-primary mb-3" style={{ fontSize: '15px', fontWeight: 'bold' }}>🗺️ ຂໍ້ມູນຍອດຂາຍປະຈຳແຂວງ</h5>
+      <div className="bg-white shadow-sm border-0 p-3 rounded-lg">
+        <h5 className="text-primary mb-3 font-bold text-[15px]">
+          🗺️ ຂໍ້ມູນຍອດຂາຍປະຈຳແຂວງ
+        </h5>
 
-      <div className="mb-3 d-flex gap-2">
-        {/* BU Dropdown */}
-        <select className="form-select w-auto" onChange={handleSelectBU} value={selectedBU}>
-          <option value="">📦 ເລືອກ BU...</option>
-          {buList.map((bu, i) => (
-            <option key={i} value={bu.code}>{bu.name_1}</option>
-          ))}
-        </select>
-
-        {/* Province Dropdown */}
-        <select className="form-select" onChange={handleSelectProvince} value={selected?.name || ''}>
-          <option value="">🔍 ເລືອກແຂວງ...</option>
-          {provinceSales.map((prov, i) => (
-            <option key={i} value={prov.name}>{prov.name}</option>
-          ))}
-        </select>
-      </div>
-
-      <MapContainer center={[18.5, 104]} zoom={6.5} style={{ height: '500px', width: '100%' }}>
-        <TileLayer
-          attribution='&copy; OpenStreetMap contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {selected && <MapFocus lat={selected.lat} lng={selected.lng} />}
-
-        {provinceSales.map((prov, idx) => (
-          <CircleMarker
-            key={idx}
-            center={[prov.lat, prov.lng]}
-            radius={16}
-            pathOptions={{
-              color: getColor(prov.total),
-              fillColor: getColor(prov.total),
-              fillOpacity: 0.6,
-            }}
+        <div className="mb-3 flex flex-col sm:flex-row gap-2">
+          <select
+              className="form-select w-full sm:w-auto border border-gray-300 rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={handleSelectBU}
+              value={selectedBU}
           >
-            <Tooltip direction="top" offset={[0, -8]} opacity={1} permanent>
-              <div style={{ fontFamily: 'Noto Sans Lao', fontSize: '12px', lineHeight: '1.5' }}>
-                <strong>{prov.name}</strong><br />
-                💰 <strong style={{ fontSize: '10px' }}>ມູນຄ່າຂາຍປີ 2025:</strong> {format(prov.total)}<br />
-                📅 <strong style={{ fontSize: '10px' }}>ມູນຄ່າຂາຍປີ 2024:</strong> {format(prov.lastYear)}<br />
-                📦 <strong style={{ fontSize: '10px' }}>ສິນຄ້າຂາຍດີ:</strong>
-                <ul style={{ margin: 0, paddingLeft: '1.2em', fontSize: '9px' }}>
-                  {prov.topProducts.slice(0, 5).map((item, i) => (
-                    <li key={i}>{item.name} — {format(item.value)}</li>
-                  ))}
-                </ul>
-              </div>
-            </Tooltip>
-          </CircleMarker>
-        ))}
-      </MapContainer>
-    </div>
+            <option value="">📦 ເລືອກ BU...</option>
+            {buList.map((bu, i) => (
+                <option key={i} value={bu.code}>{bu.name_1}</option>
+            ))}
+          </select>
+
+          <select
+              className="form-select w-full sm:w-auto border border-gray-300 rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={handleSelectProvince}
+              value={selected?.name || ''}
+          >
+            <option value="">🔍 ເລືອກແຂວງ...</option>
+            {provinceSales.map((prov, i) => (
+                <option key={i} value={prov.name}>{prov.name}</option>
+            ))}
+          </select>
+        </div>
+
+        <MapContainer center={[18.5, 104]} zoom={6.5} className="h-[500px] w-full">
+          <TileLayer
+              attribution='&copy; OpenStreetMap contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {selected && <MapFocus lat={selected.lat} lng={selected.lng} />}
+
+          {provinceSales.map((prov, idx) => (
+              <CircleMarker
+                  key={idx}
+                  center={[prov.lat, prov.lng]}
+                  radius={16}
+                  pathOptions={{
+                    color: getColor(prov.total),
+                    fillColor: getColor(prov.total),
+                    fillOpacity: 0.6,
+                  }}
+              >
+                <Tooltip direction="top" offset={[0, -8]} opacity={1} permanent>
+                  <div className="font-sans text-[12px] leading-snug">
+                    <strong>{prov.name}</strong><br />
+                    💰 <strong className="text-[10px]">ມູນຄ່າຂາຍປີ 2025:</strong> {format(prov.total)}<br />
+                    📅 <strong className="text-[10px]">ມູນຄ່າຂາຍປີ 2024:</strong> {format(prov.lastYear)}<br />
+                    📦 <strong className="text-[10px]">ສິນຄ້າຂາຍດີ:</strong>
+                    <ul className="ml-4 list-disc text-[9px] mt-1">
+                      {prov.topProducts.slice(0, 5).map((item, i) => (
+                          <li key={i}>{item.name} — {format(item.value)}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </Tooltip>
+              </CircleMarker>
+          ))}
+        </MapContainer>
+      </div>
   );
 }

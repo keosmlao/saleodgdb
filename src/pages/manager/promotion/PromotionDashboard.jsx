@@ -65,8 +65,8 @@ export default function PromotionDashboardPage() {
   const productTotalPages = Math.ceil(productRedeem.length / productPageSize);
 
   return (
-    <div className="container mt-4">
-      <h4 className="fw-bold text-primary mb-4">📊 ສະຫຼຸບໂປໂມຊັ່ນ 2025</h4>
+    <div className=" mx-auto mt-4 font-['Noto_Sans_Lao']">
+      <h4 className="font-bold text-blue-600 mb-4">📊 ສະຫຼຸບໂປໂມຊັ່ນ 2025</h4>
 
       {/* Summary Cards */}
       {summary && (
@@ -81,32 +81,32 @@ export default function PromotionDashboardPage() {
       )}
 
       {/* Promotion Table */}
-      <div className="table-responsive">
-        <table className="table table-bordered table-hover align-middle">
-          <thead className="table-light text-center">
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
             <tr>
-              <th onClick={() => handleSort('pro_code')} style={{ cursor: 'pointer' }}>ລະຫັດ</th>
-              <th onClick={() => handleSort('pro_name')} style={{ cursor: 'pointer' }}>ຊື່ໂປໂມຊັ່ນ</th>
-              <th onClick={() => handleSort('from_date')} style={{ cursor: 'pointer' }}>ວັນເລີ່ມ</th>
-              <th onClick={() => handleSort('to_date')} style={{ cursor: 'pointer' }}>ວັນສິ້ນສຸດ</th>
-              <th onClick={() => handleSort('status')} style={{ cursor: 'pointer' }}>ສະຖານະ</th>
-              <th>ຄະແນນ</th>
+              <th onClick={() => handleSort('pro_code')} className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">ລະຫັດ</th>
+              <th onClick={() => handleSort('pro_name')} className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">ຊື່ໂປໂມຊັ່ນ</th>
+              <th onClick={() => handleSort('from_date')} className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">ວັນເລີ່ມ</th>
+              <th onClick={() => handleSort('to_date')} className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">ວັນສິ້ນສຸດ</th>
+              <th onClick={() => handleSort('status')} className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">ສະຖານະ</th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">ຄະແນນ</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-white divide-y divide-gray-200">
             {paginatedData.map((pro, index) => (
-              <tr key={index}>
-                <td className="text-center">{pro.pro_code}</td>
-                <td>{pro.pro_name}</td>
-                <td className="text-center">{new Date(pro.from_date).toLocaleDateString()}</td>
-                <td className="text-center">{new Date(pro.to_date).toLocaleDateString()}</td>
-                <td className={`text-center ${pro.status === 'ສິ້ນສຸດແລ້ວ' ? 'text-danger' : 'text-success'}`}>
+              <tr key={index} className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">{pro.pro_code}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{pro.pro_name}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">{new Date(pro.from_date).toLocaleDateString()}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-900">{new Date(pro.to_date).toLocaleDateString()}</td>
+                <td className={`px-6 py-4 whitespace-nowrap text-center text-sm ${pro.status === 'ສິ້ນສຸດແລ້ວ' ? 'text-red-600' : 'text-green-600'}`}>
                   {pro.status}
                 </td>
-                <td className="text-end">
-                  ສະສົມ: {parseFloat(pro.get_point).toFixed(2)}<br />
-                  ແລກຂອງ: {parseFloat(pro.redeem).toFixed(2)}<br />
-                  ຍັງເຫຼືອ: {parseFloat(pro.bl_point).toFixed(2)}
+                <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                  <div>ສະສົມ: {parseFloat(pro.get_point).toFixed(2)}</div>
+                  <div>ແລກຂອງ: {parseFloat(pro.redeem).toFixed(2)}</div>
+                  <div>ຍັງເຫຼືອ: {parseFloat(pro.bl_point).toFixed(2)}</div>
                 </td>
               </tr>
             ))}
@@ -114,12 +114,19 @@ export default function PromotionDashboardPage() {
         </table>
 
         {/* Promotion Pagination */}
-        <div className="d-flex justify-content-center">
+        <div className="flex justify-center mt-3">
           <nav>
-            <ul className="pagination">
-              {Array.from({ length: totalPages }, (_, i) => (
-                <li key={i} className={`page-item ${i + 1 === currentPage ? 'active' : ''}`}>
-                  <button className="page-link" onClick={() => setCurrentPage(i + 1)}>
+            <ul className="flex space-x-1">
+              {Array.from({ length: productTotalPages }, (_, i) => (
+                <li key={i}>
+                  <button 
+                    onClick={() => setProductCurrentPage(i + 1)}
+                    className={`px-3 py-1 rounded-md ${
+                      i + 1 === productCurrentPage 
+                        ? 'bg-blue-600 text-white' 
+                        : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                    }`}
+                  >
                     {i + 1}
                   </button>
                 </li>

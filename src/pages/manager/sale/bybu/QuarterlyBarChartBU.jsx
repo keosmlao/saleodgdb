@@ -42,9 +42,8 @@ export default function QuarterlyBarChartBU({bu}) {
   const format = (v) => Number(v).toLocaleString('en-US') + ' ฿';
 
   return (
-    <div className="card p-2">
-      <h5 className="text-danger fw-bold mb-3">📊 ສະຫຼຸບຍອດຂາຍລາຍໄຕມາດ</h5>
-
+    <div className="bg-white rounded-lg shadow p-4">
+      <h5 className="text-black font-[Noto_Sans_Lao] font-bold mb-3">📊  ສະຫຼຸບຍອດຂາຍລາຍໄຕມາດ</h5>
       <ResponsiveContainer width="100%" height={360}>
         <BarChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 10 }}>
           <CartesianGrid strokeDasharray="3 3" />

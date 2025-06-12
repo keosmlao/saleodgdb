@@ -60,13 +60,13 @@ export default function ProductDefection() {
   return (
     <>
       <Navbar />
-      <div className="container mt-4">
-        <h4 className="text-danger fw-bold mb-3">🛑 Product Cost Defection Report</h4>
+      <div className="container mx-auto mt-4">
+        <h4 className="text-red-600 font-bold mb-3">🛑 Product Cost Defection Report</h4>
 
         <div className="mb-3">
           <input
             type="text"
-            className="form-control"
+            className="w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
             placeholder="🔍 Search by item code or name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -74,27 +74,27 @@ export default function ProductDefection() {
         </div>
 
         {currentItems.map((group, index) => (
-          <div className="card mb-4" key={index}>
-            <div className="card-header bg-danger text-white">
+          <div className="bg-white rounded-lg shadow-sm mb-4 overflow-hidden border border-gray-200" key={index}>
+            <div className="bg-red-600 text-white px-4 py-2 border-b border-gray-200">
               <strong>{group.item_code}</strong> - {group.item_name}
             </div>
-            <div className="card-body p-0">
-              <table className="table table-bordered table-striped mb-0">
-                <thead className="table-light">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200 border-2 border-gray-300">
+                <thead className="bg-gray-50">
                   <tr>
-                    <th>Cost Status</th>
-                    <th className="text-end">Total Sale Amount</th>
-                    <th className="text-end">Total Cost (VTE)</th>
-                    <th className="text-end">Total Cost (Pakse)</th>
+                    <th className="px-4 py-2 text-left text-sm font-medium text-gray-500 border-2 border-gray-300">Cost Status</th>
+                    <th className="px-4 py-2 text-right text-sm font-medium text-gray-500 border-2 border-gray-300">Total Sale Amount</th>
+                    <th className="px-4 py-2 text-right text-sm font-medium text-gray-500 border-2 border-gray-300">Total Cost (VTE)</th>
+                    <th className="px-4 py-2 text-right text-sm font-medium text-gray-500 border-2 border-gray-300">Total Cost (Pakse)</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="bg-white divide-y divide-gray-200">
                   {group.rows.map((item, i) => (
-                    <tr key={i}>
-                      <td>{item.cost_status}</td>
-                      <td className="text-end">{Number(item.total_sale_amount).toLocaleString()}</td>
-                      <td className="text-end">{Number(item.total_cost_vte).toLocaleString()}</td>
-                      <td className="text-end">{Number(item.total_cost_pakse).toLocaleString()}</td>
+                    <tr key={i} className="hover:bg-gray-50">
+                      <td className="px-4 py-2 text-sm text-gray-900 border-2 border-gray-300">{item.cost_status}</td>
+                      <td className="px-4 py-2 text-sm text-gray-900 text-right border-2 border-gray-300">{Number(item.total_sale_amount).toLocaleString()}</td>
+                      <td className="px-4 py-2 text-sm text-gray-900 text-right border-2 border-gray-300">{Number(item.total_cost_vte).toLocaleString()}</td>
+                      <td className="px-4 py-2 text-sm text-gray-900 text-right border-2 border-gray-300">{Number(item.total_cost_pakse).toLocaleString()}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -104,20 +104,20 @@ export default function ProductDefection() {
         ))}
 
         {/* Pagination Controls */}
-        <div className="d-flex justify-content-between align-items-center mt-3">
-          <div>
+        <div className="flex justify-between items-center mt-3">
+          <div className="text-sm text-gray-600">
             Page {currentPage} of {totalPages}
           </div>
-          <div>
+          <div className="space-x-2">
             <button
-              className="btn btn-outline-danger btn-sm me-2"
+              className="px-3 py-1 text-sm border border-red-600 text-red-600 rounded hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
               disabled={currentPage === 1}
             >
               ◀ Prev
             </button>
             <button
-              className="btn btn-outline-danger btn-sm"
+              className="px-3 py-1 text-sm border border-red-600 text-red-600 rounded hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
               disabled={currentPage === totalPages}
             >

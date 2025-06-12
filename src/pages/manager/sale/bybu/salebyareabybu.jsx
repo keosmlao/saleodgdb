@@ -49,14 +49,14 @@ export default function SaleByreabyBu({ bu }) {
   }, [bu, filter]);
 
   return (
-    <div className="card shadow-sm border-0 p-2 bg-white rounded-1">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5 className="fw-bold text-danger" style={{ fontSize: '12px' }}>
+    <div className="bg-white shadow-sm border-0 p-2 rounded">
+      <div className="flex justify-between items-center mb-3">
+        <h5 className="font-bold text-black text-[12px] font-['Noto_Sans_Lao']">
           📊 ສົມທຽບການຂາຍແຍກຕາມເຂດ
         </h5>
-        <div className="d-flex gap-2">
+        <div className="flex gap-2">
           <select
-            className="form-select form-select-sm w-auto"
+            className="w-auto border rounded px-2 py-1 text-sm bg-white"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           >
@@ -65,7 +65,7 @@ export default function SaleByreabyBu({ bu }) {
             <option value="year">ປີນີ້</option>
           </select>
           <select
-            className="form-select form-select-sm w-auto"
+            className="w-auto border rounded px-2 py-1 text-sm bg-white"
             value={chartType}
             onChange={(e) => setChartType(e.target.value)}
           >

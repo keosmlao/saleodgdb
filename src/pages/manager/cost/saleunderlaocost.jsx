@@ -134,15 +134,21 @@ export default function SaleUnderLaoCost() {
   return (
     <>
       <Navbar />
-      <div className="container mt-4">
-        <h4 className="mb-3 text-danger fw-bold">ລາຍການຂາຍສິນຄ້າທີ່ມີລາຄາຂາຍຕ່ຳກົ່ວຕົ້ນທຶນ</h4>
+      <div className="container mx-auto mt-4 font-['Noto_Sans_Lao']">
+        <h4 className="mb-3 text-red-600 font-bold">ລາຍການຂາຍສິນຄ້າທີ່ມີລາຄາຂາຍຕ່ຳກົ່ວຕົ້ນທຶນ</h4>
 
         {/* Filters */}
-        <div className="row mb-3">
-          <div className="col-md-3 mb-2">
-            <select className="form-select" value={groupMain} onChange={(e) => {
-              setGroupMain(e.target.value); setGroupSub(''); setGroupSub2('');
-            }}>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-3">
+          <div>
+            <select 
+              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              value={groupMain} 
+              onChange={(e) => {
+                setGroupMain(e.target.value); 
+                setGroupSub(''); 
+                setGroupSub2('');
+              }}
+            >
               <option value="">-- Group Main --</option>
               {groupMainOptions.map((g) => (
                 <option key={g.code} value={g.name_1}>{g.name_1}</option>
@@ -150,10 +156,15 @@ export default function SaleUnderLaoCost() {
             </select>
           </div>
 
-          <div className="col-md-3 mb-2">
-            <select className="form-select" value={groupSub} onChange={(e) => {
-              setGroupSub(e.target.value); setGroupSub2('');
-            }}>
+          <div>
+            <select 
+              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              value={groupSub} 
+              onChange={(e) => {
+                setGroupSub(e.target.value); 
+                setGroupSub2('');
+              }}
+            >
               <option value="">-- Group Sub --</option>
               {groupSubOptions.map((g) => (
                 <option key={g.code} value={g.name_1}>{g.name_1}</option>
@@ -161,8 +172,12 @@ export default function SaleUnderLaoCost() {
             </select>
           </div>
 
-          <div className="col-md-3 mb-2">
-            <select className="form-select" value={groupSub2} onChange={(e) => setGroupSub2(e.target.value)}>
+          <div>
+            <select 
+              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              value={groupSub2} 
+              onChange={(e) => setGroupSub2(e.target.value)}
+            >
               <option value="">-- Group Sub2 --</option>
               {groupSub2Options.map((g) => (
                 <option key={g.code} value={g.name_1}>{g.name_1}</option>
@@ -170,15 +185,21 @@ export default function SaleUnderLaoCost() {
             </select>
           </div>
 
-          <div className="col-md-3 mb-2">
-            <input type="text" className="form-control" placeholder="ຄົ້ນຫາ..." value={search} onChange={(e) => setSearch(e.target.value)} />
+          <div>
+            <input 
+              type="text" 
+              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              placeholder="ຄົ້ນຫາ..." 
+              value={search} 
+              onChange={(e) => setSearch(e.target.value)} 
+            />
           </div>
         </div>
 
         {/* Export Button */}
-        <div className="d-flex justify-content-end mb-3">
+        <div className="flex justify-end mb-3">
           <button
-            className="btn btn-success btn-sm px-3 py-2 d-flex align-items-center gap-2 shadow-sm export-btn"
+            className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 shadow-sm"
             onClick={exportToExcel}
           >
             <i className="bi bi-download"></i> Export All to Excel
@@ -187,44 +208,43 @@ export default function SaleUnderLaoCost() {
 
         {/* Loading Spinner or Table */}
         {loading ? (
-          <div className="text-center my-4">
-            <div className="spinner-border text-success" role="status" />
-            <p className="mt-2">ກຳລັງໂຫຼດຂໍ້ມູນ...</p>
+          <div className="flex flex-col items-center justify-center my-4">
+            <div className="w-8 h-8 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+            <p className="mt-2 text-gray-600">ກຳລັງໂຫຼດຂໍ້ມູນ...</p>
           </div>
         ) : (
           <>
-            <div className="table-responsive">
-              <table className="table table-bordered table-hover table-sm">
-                <thead className="table-dark">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
+                <thead className="bg-gray-800 text-white">
                   <tr>
-                    <th rowSpan="2" className="align-middle text-center">ລະຫັດ</th>
-
-                    <th rowSpan="2" className="align-middle text-center">ຊື່ສິນຄ້າ</th>
-                    <th rowSpan="2" className="align-middle text-center">ຈຳນວນ(ຂາຍ)</th>
-                    <th rowSpan="2" className="align-middle text-center">ຫົວໜ່ວຍ</th>
-                    <th colSpan="2" class="text-center">ຂໍ້ມູນການຂາຍ</th>
-                    <th colSpan="3" class="text-center">ມູນຄ່າ</th>
+                    <th rowSpan="2" className="border border-gray-600 text-center align-middle">ລະຫັດ</th>
+                    <th rowSpan="2" className="border border-gray-600 text-center align-middle">ຊື່ສິນຄ້າ</th>
+                    <th rowSpan="2" className="border border-gray-600 text-center align-middle">ຈຳນວນ(ຂາຍ)</th>
+                    <th rowSpan="2" className="border border-gray-600 text-center align-middle">ຫົວໜ່ວຍ</th>
+                    <th colSpan="2" className="border border-gray-600 text-center">ຂໍ້ມູນການຂາຍ</th>
+                    <th colSpan="3" className="border border-gray-600 text-center">ມູນຄ່າ</th>
                   </tr>
                   <tr>
-                    <th>ຄັ້ງທຳອິດທີ່ຂາຍ</th>
-                    <th>ຂາຍລ້າສຸດ</th>
-                    <th class="text-center">ຂາຍລວມ</th>
-                    <th class="text-center">ຕົ້ນທືນ</th>
-                    <th class="text-center">GM</th>
+                    <th className="border border-gray-600 px-4 py-2">ຄັ້ງທຳອິດທີ່ຂາຍ</th>
+                    <th className="border border-gray-600 px-4 py-2">ຂາຍລ້າສຸດ</th>
+                    <th className="border border-gray-600 px-4 py-2 text-center">ຂາຍລວມ</th>
+                    <th className="border border-gray-600 px-4 py-2 text-center">ຕົ້ນທືນ</th>
+                    <th className="border border-gray-600 px-4 py-2 text-center">GM</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="bg-white divide-y divide-gray-200">
                   {filtered.map((item) => (
-                    <tr key={item.item_code}>
-                      <td style={{ maxWidth: '150px' }}>{item.item_code}</td>
-                      <td className="text-truncate" style={{ maxWidth: '400px' }} >{item.item_name}</td>
-                      <td className='text-end'>{item.qty}</td>
-                      <td>{item.unit_code}</td>
-                      <td>{item.first_sale}</td>
-                      <td>{item.last_sale}</td>
-                      <td className="text-end">{Number(item.sale_amount).toLocaleString()}</td>
-                      <td className="text-end">{Number(item.total_cost).toLocaleString()}</td>
-                      <td className="text-end" style={{ color: item.gm <= 0 ? '#e74c3c' : '#138d75' }}>
+                    <tr key={item.item_code} className="hover:bg-gray-50">
+                      <td className="px-4 py-2 max-w-[150px]">{item.item_code}</td>
+                      <td className="px-4 py-2 truncate max-w-[400px]">{item.item_name}</td>
+                      <td className="px-4 py-2 text-right">{item.qty}</td>
+                      <td className="px-4 py-2">{item.unit_code}</td>
+                      <td className="px-4 py-2">{item.first_sale}</td>
+                      <td className="px-4 py-2">{item.last_sale}</td>
+                      <td className="px-4 py-2 text-right">{Number(item.sale_amount).toLocaleString()}</td>
+                      <td className="px-4 py-2 text-right">{Number(item.total_cost).toLocaleString()}</td>
+                      <td className={`px-4 py-2 text-right ${item.gm <= 0 ? 'text-red-500' : 'text-green-600'}`}>
                         {Number(item.gm).toLocaleString()}
                       </td>
                     </tr>
@@ -237,32 +257,59 @@ export default function SaleUnderLaoCost() {
 
         {/* Pagination */}
         {!loading && (
-          <nav>
-            <ul className="pagination pagination-sm justify-content-center">
-              <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                <button className="page-link" onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}>
+          <nav className="mt-4">
+            <ul className="flex justify-center space-x-1">
+              <li>
+                <button 
+                  className={`px-3 py-1 rounded-md ${
+                    currentPage === 1 
+                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                      : 'bg-white text-gray-700 hover:bg-gray-50'
+                  }`}
+                  onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+                  disabled={currentPage === 1}
+                >
                   Previous
                 </button>
               </li>
 
               {pageRangeStart > 1 && (
-                <li className="page-item">
-                  <button className="page-link" onClick={() => setCurrentPage(pageRangeStart - 1)}>«</button>
+                <li>
+                  <button 
+                    className="px-3 py-1 bg-white text-gray-700 rounded-md hover:bg-gray-50"
+                    onClick={() => setCurrentPage(pageRangeStart - 1)}
+                  >
+                    «
+                  </button>
                 </li>
               )}
 
               {Array.from({ length: pageRangeEnd - pageRangeStart + 1 }, (_, i) => {
                 const pageNumber = pageRangeStart + i;
                 return (
-                  <li key={pageNumber} className={`page-item ${currentPage === pageNumber ? 'active' : ''}`}>
-                    <button className="page-link" onClick={() => setCurrentPage(pageNumber)}>{pageNumber}</button>
+                  <li key={pageNumber}>
+                    <button 
+                      className={`px-3 py-1 rounded-md ${
+                        currentPage === pageNumber
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-white text-gray-700 hover:bg-gray-50'
+                      }`}
+                      onClick={() => setCurrentPage(pageNumber)}
+                    >
+                      {pageNumber}
+                    </button>
                   </li>
                 );
               })}
 
               {pageRangeEnd < totalPages && (
-                <li className="page-item">
-                  <button className="page-link" onClick={() => setCurrentPage(pageRangeEnd + 1)}>»</button>
+                <li>
+                  <button 
+                    className="px-3 py-1 bg-white text-gray-700 rounded-md hover:bg-gray-50"
+                    onClick={() => setCurrentPage(pageRangeEnd + 1)}
+                  >
+                    »
+                  </button>
                 </li>
               )}
 

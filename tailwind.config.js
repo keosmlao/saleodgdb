@@ -4,6 +4,8 @@ export default {
         extend: {
             fontFamily: {
                 'noto-lao': ['Noto Sans Lao', 'sans-serif'],
+                'times': ['"Times New Roman"', 'serif'],
+                'custom-sans': ['ui-sans-serif', 'system-ui', 'sans-serif'],
             },
             colors: {
                 'info-start': '#17a2b8',

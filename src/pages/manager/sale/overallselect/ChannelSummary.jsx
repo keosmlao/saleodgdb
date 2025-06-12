@@ -31,16 +31,16 @@ export default function ChannelSummary() {
     }, [filter]);
 
     return (
-        <div className="card p-3 rounded-4 shadow-sm">
-            <h5 className="fw-bold mb-3 text-primary" style={{ fontSize: '15px' }}>📊 ສະຫຼູບຊອ່ງທາງ</h5>
-            <div className="d-flex gap-2 mb-3">
-                <select className="form-select w-auto" value={filter} onChange={e => setFilter(e.target.value)}>
+        <div className="bg-white p-3 rounded-2xl shadow-sm">
+            <h5 className="font-bold mb-2 text-[15px] font-[Noto_Sans_Lao]">📊 ສະຫຼູບຊອ່ງທາງ</h5>
+            <div className="flex flex-wrap gap-2 mb-3">
+                <select className="text-sm border font-[Noto_Sans_Lao] rounded px-2 py-1 w-auto" value={filter} onChange={e => setFilter(e.target.value)}>
                     <option value="thisMonth">ເດືອນນີ້</option>
                     <option value="lastMonth">ເດືອນຜ່ານມາ</option>
                     <option value="accumulated">ສະສົມ</option>
                     <option value="fullYear">ປີນີ້</option>
                 </select>
-                <select className="form-select w-auto" value={chartType} onChange={e => setChartType(e.target.value)}>
+                <select className="text-sm border rounded px-2 py-1 w-auto" value={chartType} onChange={e => setChartType(e.target.value)}>
                     <option value="table">Table</option>
                     <option value="bar">Bar Chart</option>
                 </select>
@@ -48,11 +48,7 @@ export default function ChannelSummary() {
 
             {chartType === 'bar' && (
                 <ResponsiveContainer width="100%" height={500}>
-                    <BarChart
-                        data={data}
-                        layout="vertical"
-                        barGap={30}
-                    >
+                    <BarChart data={data} layout="vertical" barGap={30}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis type="number" tickFormatter={formatNumber} />
                         <YAxis
@@ -71,12 +67,7 @@ export default function ChannelSummary() {
                                 dataKey="total2025"
                                 position="right"
                                 formatter={formatNumber}
-                                style={{
-                                    fontSize: 10,
-                                    fill: '#000',
-                                    textDecoration: 'none',
-                                    fontFamily: 'Arial, sans-serif'
-                                }}
+                                style={{ fontSize: 10, fill: '#000', textDecoration: 'none', fontFamily: 'Arial, sans-serif' }}
                             />
                         </Bar>
 
@@ -88,12 +79,7 @@ export default function ChannelSummary() {
                                 dataKey="total2024"
                                 position="right"
                                 formatter={formatNumber}
-                                style={{
-                                    fontSize: 10,
-                                    fill: '#000',
-                                    textDecoration: 'none',
-                                    fontFamily: 'Arial, sans-serif'
-                                }}
+                                style={{ fontSize: 10, fill: '#000', textDecoration: 'none', fontFamily: 'Arial, sans-serif' }}
                             />
                         </Bar>
                     </BarChart>
@@ -101,19 +87,27 @@ export default function ChannelSummary() {
             )}
 
             {chartType === 'table' && (
-                <div className="table-responsive">
-                    <table className="table table-bordered text-center">
-                        <thead className="table-light">
-                            <tr><th>Channel</th><th>📆 2025</th><th>📅 2024</th></tr>
+                <div className="overflow-x-auto">
+                    <table className="min-w-[500px] w-full border text-center text-sm">
+                        <thead className="bg-gray-100">
+                        <tr>
+                            <th className="border px-2 py-1">Channel</th>
+                            <th className="border px-2 py-1">📆 2025</th>
+                            <th className="border px-2 py-1">📅 2024</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {data.length === 0 ? (
-                                <tr><td colSpan="3">No Data</td></tr>
-                            ) : (
-                                data.map((row, idx) => (
-                                    <tr key={idx}><td>{row.channel}</td><td>{formatNumber(row.total2025)}</td><td>{formatNumber(row.total2024)}</td></tr>
-                                ))
-                            )}
+                        {data.length === 0 ? (
+                            <tr><td colSpan="3" className="px-2 py-1">No Data</td></tr>
+                        ) : (
+                            data.map((row, idx) => (
+                                <tr key={idx}>
+                                    <td className="border px-2 py-1">{row.channel}</td>
+                                    <td className="border px-2 py-1">{formatNumber(row.total2025)}</td>
+                                    <td className="border px-2 py-1">{formatNumber(row.total2024)}</td>
+                                </tr>
+                            ))
+                        )}
                         </tbody>
                     </table>
                 </div>

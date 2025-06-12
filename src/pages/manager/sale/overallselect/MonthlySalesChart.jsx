@@ -171,27 +171,22 @@ export default function MonthlySalesChart() {
   };
 
   return (
-    <div className="card p-3 mb-2 rounded-1 shadow-sm">
-      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-        <h5 className="text-danger fw-bold mb-0" style={{ fontSize: '15px' }}> 📊 ລາຍງານຍອດຂາຍລາຍເດືອນ</h5>
-        <div className="d-flex align-items-center gap-2 flex-wrap">
-          <label className="fw-bold" style={{ fontSize: '14px' }}>🔍 BU:</label>
-          <select className="form-select form-select-sm" style={{ width: '130px' }} value={selectedBu} onChange={e => setSelectedBu(e.target.value)}>
-            {buList.map(bu => <option key={bu.code} value={bu.code}>{bu.name_1}</option>)}
-          </select>
+      <div className="bg-white p-3 mb-2 rounded-md shadow-sm">
+        <div className="flex justify-between items-center mb-3 flex-wrap">
+          <h5 className="text-red-600 font-bold mb-0 text-[15px] font-[Noto_Sans_Lao]"> 📊 ລາຍງານຍອດຂາຍລາຍເດືອນ</h5>
+          <div className="flex items-center gap-2 flex-wrap">
+            <label className="font-bold text-[14px]">🔍 BU:</label>
+            <select className="text-sm border rounded px-2 py-1 w-[130px]" value={selectedBu} onChange={e => setSelectedBu(e.target.value)}>
+              {buList.map(bu => <option key={bu.code} value={bu.code}>{bu.name_1}</option>)}
+            </select>
 
-          <label className="fw-bold" style={{ fontSize: '14px' }}>📢 ຊອ່ງທາງ:</label>
-          <select className="form-select form-select-sm" style={{ width: '130px' }} value={selectedChannel} onChange={e => setSelectedChannel(e.target.value)}>
-            {channelList.map(ch => <option key={ch.name} value={ch.name}>{ch.display}</option>)}
-          </select>
-          <>
-            <label className="fw-bold" style={{ fontSize: '14px' }}>🌍 ຂອບເຂດ:</label>
-            <select
-              className="form-select form-select-sm"
-              style={{ width: '130px' }}
-              value={selectedZone}
-              onChange={e => setSelectedZone(e.target.value)}
-            >
+            <label className="font-bold text-[14px]">📢 ຊອ່ງທາງ:</label>
+            <select className="text-sm border rounded px-2 py-1 w-[130px]" value={selectedChannel} onChange={e => setSelectedChannel(e.target.value)}>
+              {channelList.map(ch => <option key={ch.name} value={ch.name}>{ch.display}</option>)}
+            </select>
+
+            <label className="font-bold text-[14px]">🌍 ຂອບເຂດ:</label>
+            <select className="text-sm border rounded px-2 py-1 w-[130px]" value={selectedZone} onChange={e => setSelectedZone(e.target.value)}>
               {[
                 { code: 'all', name_1: 'ທຸກ ZONE' },
                 { code: '11', name_1: 'ZONE A' },
@@ -201,91 +196,86 @@ export default function MonthlySalesChart() {
                 { code: '15', name_1: 'ZONE E' },
                 { code: '16', name_1: 'ZONE F' },
               ].map(z => (
-                <option key={z.code} value={z.code}>
-                  {z.name_1}
-                </option>
+                  <option key={z.code} value={z.code}>{z.name_1}</option>
               ))}
             </select>
-          </>
 
-
-          <div className="btn-group ms-2" role="group">
-            <button className={`btn btn-sm ${viewMode === 'all' ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setViewMode('all')}>ທັງໝົດ</button>
-            <button className={`btn btn-sm ${viewMode === 'chart' ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setViewMode('chart')}>Chart</button>
-            <button className={`btn btn-sm ${viewMode === 'table' ? 'btn-primary' : 'btn-outline-primary'}`} onClick={() => setViewMode('table')}>ຕາຕະລາງ</button>
+            <div className="ml-2 inline-flex rounded overflow-hidden border text-sm">
+              <button className={`px-3 py-1 ${viewMode === 'all' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('all')}>ທັງໝົດ</button>
+              <button className={`px-3 py-1 ${viewMode === 'chart' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('chart')}>Chart</button>
+              <button className={`px-3 py-1 ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600'}`} onClick={() => setViewMode('table')}>ຕາຕະລາງ</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div ref={chartRef}>
-        {viewMode === 'chart' ? (
-          <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={processedData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" fontSize={9} />
-              <YAxis tickFormatter={v => Number(v).toLocaleString()} fontSize={9} />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend />
-              <Bar dataKey="target" name="🎯 ເປົ້າໝາຍ" fill="#FFD580" isAnimationActive animationDuration={1500} animationBegin={0} >
-                <LabelList dataKey="target" position="top" formatter={formatCurrencies} style={{ fontSize: 8 }} />
-              </Bar>
-              <Bar dataKey="current" name="📆 ຍອດຂາຍ" fill="#06ab9b" isAnimationActive animationDuration={1500} animationBegin={300}>
-                <LabelList dataKey="percentAchieved" fontSize={8} content={CustomLabel} />
-                <LabelList fill="#000" dataKey="compareLastYear" position="insideTop" content={CustomCompair} fontSize={8} />
-              </Bar>
-              <Bar dataKey="lastYear" name="📅 ປີຜ່ານມາ" fill="#EF5350" isAnimationActive animationDuration={1500} animationBegin={600} />
-            </BarChart>
-          </ResponsiveContainer>
-        ) : (
-          <div className="table-responsive">
-            <table className="table table-bordered table-striped text-center">
-              <thead className="table-light">
-                <tr>
-                  <th>ເດືອນ</th>
-                  <th>🎯 ເປົ້າໝາຍ</th>
-                  <th>📆 ຍອດຂາຍ</th>
-                  <th>% ປຽບທຽບເປົ້າ</th>
-                  <th>📅 ປີຜ່ານມາ</th>
-                  <th>📊 % ປຽບທຽບປີຜ່ານມາ</th>
-                </tr>
-              </thead>
-              <tbody>
-                {processedData.map((row, i) => {
-                  const percent = row.percentAchieved;
-                  const compare = row.compareLastYear;
-
-                  return (
-                    <tr key={i}>
-                      <td>{row.month}</td>
-                      <td>{formatCurrency(row.target)}</td>
-                      <td>{formatCurrency(row.current)}</td>
-                      <td>
-                        {percent > 0 ? (
-                          <>
-                            <span style={{ color: percent >= 100 ? 'green' : 'red' }}>
-                              {percent >= 100 ? '▲' : '🔻'}
-                            </span> {percent}%
-                          </>
-                        ) : '-'}
-                      </td>
-                      <td>{formatCurrency(row.lastYear)}</td>
-                      <td>
-                        {compare > 0 ? (
-                          <>
-                            <span style={{ color: compare >= 100 ? 'green' : 'red' }}>
-                              {compare >= 100 ? '▲' : '🔻'}
-                            </span> {compare}%
-                          </>
-                        ) : '-'}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
+        <div ref={chartRef}>
+          {viewMode === 'chart' ? (
+              <ResponsiveContainer width="100%" height={400}>
+                <BarChart data={processedData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" fontSize={9} />
+                  <YAxis tickFormatter={v => Number(v).toLocaleString()} fontSize={9} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend />
+                  <Bar dataKey="target" name="🎯 ເປົ້າໝາຍ" fill="#FFD580" isAnimationActive animationDuration={1500} animationBegin={0}>
+                    <LabelList dataKey="target" position="top" formatter={formatCurrencies} style={{ fontSize: 8 }} />
+                  </Bar>
+                  <Bar dataKey="current" name="📆 ຍອດຂາຍ" fill="#06ab9b" isAnimationActive animationDuration={1500} animationBegin={300}>
+                    <LabelList dataKey="percentAchieved" fontSize={8} content={CustomLabel} />
+                    <LabelList fill="#000" dataKey="compareLastYear" position="insideTop" content={CustomCompair} fontSize={8} />
+                  </Bar>
+                  <Bar dataKey="lastYear" name="📅 ປີຜ່ານມາ" fill="#EF5350" isAnimationActive animationDuration={1500} animationBegin={600} />
+                </BarChart>
+              </ResponsiveContainer>
+          ) : (
+              <div className="overflow-x-auto">
+                <table className="min-w-full border text-center text-sm">
+                  <thead className="bg-gray-100">
+                  <tr>
+                    <th className="border px-2 py-1">ເດືອນ</th>
+                    <th className="border px-2 py-1">🎯 ເປົ້າໝາຍ</th>
+                    <th className="border px-2 py-1">📆 ຍອດຂາຍ</th>
+                    <th className="border px-2 py-1">% ປຽບທຽບເປົ້າ</th>
+                    <th className="border px-2 py-1">📅 ປີຜ່ານມາ</th>
+                    <th className="border px-2 py-1">📊 % ປຽບທຽບປີຜ່ານມາ</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {processedData.map((row, i) => {
+                    const percent = row.percentAchieved;
+                    const compare = row.compareLastYear;
+                    return (
+                        <tr key={i}>
+                          <td className="border px-2 py-1">{row.month}</td>
+                          <td className="border px-2 py-1">{formatCurrency(row.target)}</td>
+                          <td className="border px-2 py-1">{formatCurrency(row.current)}</td>
+                          <td className="border px-2 py-1">
+                            {percent > 0 ? (
+                                <>
+                        <span className={`font-bold ${percent >= 100 ? 'text-green-600' : 'text-red-600'}`}>
+                          {percent >= 100 ? '▲' : '🔻'}
+                        </span> {percent}%
+                                </>
+                            ) : '-'}
+                          </td>
+                          <td className="border px-2 py-1">{formatCurrency(row.lastYear)}</td>
+                          <td className="border px-2 py-1">
+                            {compare > 0 ? (
+                                <>
+                        <span className={`font-bold ${compare >= 100 ? 'text-green-600' : 'text-red-600'}`}>
+                          {compare >= 100 ? '▲' : '🔻'}
+                        </span> {compare}%
+                                </>
+                            ) : '-'}
+                          </td>
+                        </tr>
+                    );
+                  })}
+                  </tbody>
+                </table>
+              </div>
+          )}
+        </div>
       </div>
-    </div>
   );
 }

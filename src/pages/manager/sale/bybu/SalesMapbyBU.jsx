@@ -68,7 +68,7 @@ export default function SalesMapbyBU({bu}) {
 
   return (
     <div className="card shadow-sm border-0 p-3 rounded-4 bg-white">
-      <h5 className="fw-bold text-primary mb-3" style={{fontSize:'12px'}}>🗺️ ຂໍ້ມູນຍອດຂາຍປະຈຳແຂວງ</h5>
+      <h5 className="font-bold mb-3 font-[Noto_Sans_Lao]" style={{fontSize:'12px'}}>🗺️ ຂໍ້ມູນຍອດຂາຍປະຈຳແຂວງ</h5>
 
       <div className="mb-3">
         <select className="form-select" onChange={handleSelect} value={selected?.name || ''}>

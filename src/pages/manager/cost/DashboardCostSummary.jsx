@@ -27,46 +27,40 @@ export default function DashboardCostSummary() {
   const percentZero = ((zeroCostItems / totalItems) * 100).toFixed(1);
 
   return (
-    <div className="container mt-4">
-      <h4 className="mb-4 text-danger fw-bold">📊 ສະຖິຕິສິນຄ້າທີ່ຂາຍໃນປິ 2025 ບໍ່ມີຕົ້ນທຶນ</h4>
+    <div className="container mx-auto mt-4 font-['Noto_Sans_Lao']">
+      <h4 className="mb-4 text-red-600 font-bold">📊 ສະຖິຕິສິນຄ້າທີ່ຂາຍໃນປິ 2025 ບໍ່ມີຕົ້ນທຶນ</h4>
 
       {/* Summary Cards */}
-      <div className="row mb-4">
-        <div className="col-md-4">
-          <div className="card border-primary shadow">
-            <div className="card-body text-center">
-              <h6 className="fw-bold text-primary">ລວມຈຳນວນສິນຄ້າ</h6>
-              <h3>{totalItems.toLocaleString()}</h3>
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="border border-blue-500 rounded-lg shadow-sm">
+          <div className="p-4 text-center">
+            <h6 className="font-bold text-blue-500">ລວມຈຳນວນສິນຄ້າ</h6>
+            <h3 className="text-xl">{totalItems.toLocaleString()}</h3>
           </div>
         </div>
-        <div className="col-md-4">
-          <div className="card border-danger shadow">
-            <div className="card-body text-center">
-              <h6 className="fw-bold text-danger">ສິນຄ້າທີ່ຕົ້ນທຶນ = 0</h6>
-              <h3>{zeroCostItems.toLocaleString()}</h3>
-            </div>
+        <div className="border border-red-500 rounded-lg shadow-sm">
+          <div className="p-4 text-center">
+            <h6 className="font-bold text-red-500">ສິນຄ້າທີ່ຕົ້ນທຶນ = 0</h6>
+            <h3 className="text-xl">{zeroCostItems.toLocaleString()}</h3>
           </div>
         </div>
-        <div className="col-md-4">
-          <div className="card border-warning shadow">
-            <div className="card-body text-center">
-              <h6 className="fw-bold text-warning">% ບໍ່ມີຕົ້ນທຶນ</h6>
-              <h3>{percentZero}%</h3>
-            </div>
+        <div className="border border-yellow-500 rounded-lg shadow-sm">
+          <div className="p-4 text-center">
+            <h6 className="font-bold text-yellow-500">% ບໍ່ມີຕົ້ນທຶນ</h6>
+            <h3 className="text-xl">{percentZero}%</h3>
           </div>
         </div>
       </div>
 
       {/* Group Table */}
-      <div className="table-responsive">
-        <table className="table table-bordered table-hover align-middle">
-          <thead >
+      <div className="overflow-x-auto">
+        <table className="min-w-full border border-gray-200">
+          <thead>
             <tr>
-              <th style={{ backgroundColor: '#2D70F4', color: 'white' }}>🧾 ກຸ່ມຫຼັກ</th>
-              <th className="text-center" style={{ backgroundColor: '#2D70F4', color: 'white' }}>ລວມສິນຄ້າ</th>
-              <th className="text-center" style={{ backgroundColor: '#2D70F4', color: 'white' }}>ສິນຄ້າຕົ້ນທຶນ = 0</th>
-              <th className="text-center" style={{ backgroundColor: '#2D70F4', color: 'white' }}>%</th>
+              <th className="px-4 py-2 bg-[#2D70F4] text-white">🧾 ກຸ່ມຫຼັກ</th>
+              <th className="px-4 py-2 bg-[#2D70F4] text-white text-center">ລວມສິນຄ້າ</th>
+              <th className="px-4 py-2 bg-[#2D70F4] text-white text-center">ສິນຄ້າຕົ້ນທຶນ = 0</th>
+              <th className="px-4 py-2 bg-[#2D70F4] text-white text-center">%</th>
             </tr>
           </thead>
           <tbody>
@@ -76,15 +70,16 @@ export default function DashboardCostSummary() {
               const percent = ((zero / total) * 100).toFixed(1);
 
               return (
-                <tr key={i}>
-                  <td>{g.itemmaingroup}</td>
-                  <td className="text-end">{total.toLocaleString()}</td>
-                  <td className="text-end">{zero.toLocaleString()}</td>
-                  <td>
-                    <div className="progress" style={{ height: '20px' }}>
+                <tr key={i} className="even:bg-gray-50">
+                  <td className="px-4 py-2 border">{g.itemmaingroup}</td>
+                  <td className="px-4 py-2 border text-right">{total.toLocaleString()}</td>
+                  <td className="px-4 py-2 border text-right">{zero.toLocaleString()}</td>
+                  <td className="px-4 py-2 border">
+                    <div className="w-full bg-gray-200 rounded-full h-5">
                       <div
-                        className={`progress-bar ${percent > 50 ? 'bg-danger' : 'bg-warning'}`}
-                        role="progressbar"
+                        className={`h-5 rounded-full text-white text-sm flex items-center justify-center ${
+                          percent > 50 ? 'bg-red-600' : 'bg-yellow-500'
+                        }`}
                         style={{ width: `${percent}%` }}
                       >
                         {percent}%

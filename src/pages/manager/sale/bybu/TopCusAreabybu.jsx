@@ -53,23 +53,35 @@ export default function TopCusByAreaName({bu}) {
   );
 
   return (
-    <div className="card shadow-sm border-0 p-2 bg-white rounded-1 mb-2">
-      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-        <h5 className="fw-bold text-danger mb-0" style={{ fontSize: '12px' }}>
+    <div className="bg-white shadow-sm border-0 p-2 rounded mb-2">
+      <div className="flex justify-between items-center mb-3 flex-wrap gap-2">
+        <h5 className="font-bold text-red-500 text-[12px] mb-0">
           📊 ລູກຄ້າ Top 10 - {areaList.find(a => a.code === selectedArea)?.name_1 || ''}
         </h5>
-        <div className="d-flex gap-2 flex-wrap">
-          <select className="form-select form-select-sm w-auto" value={selectedArea} onChange={(e) => setSelectedArea(e.target.value)} style={{ fontSize: '10px' }}>
+        <div className="flex gap-2 flex-wrap">
+          <select 
+            className="w-auto text-[10px] border rounded px-2 py-1 bg-white"
+            value={selectedArea} 
+            onChange={(e) => setSelectedArea(e.target.value)}
+          >
             {areaList.filter(a => a.code !== '00').map((a) => (
               <option key={a.code} value={a.code}>{a.name_1}</option>
             ))}
           </select>
-          <select className="form-select form-select-sm w-auto" value={timeFilter} onChange={(e) => setTimeFilter(e.target.value)} style={{ fontSize: '10px' }}>
+          <select 
+            className="w-auto text-[10px] border rounded px-2 py-1 bg-white"
+            value={timeFilter} 
+            onChange={(e) => setTimeFilter(e.target.value)}
+          >
             <option value="this_month">ເດືອນນີ້</option>
             <option value="last_month">ເດືອນກ່ອນ</option>
             <option value="fullyear">ປີນີ້</option>
           </select>
-          <select className="form-select form-select-sm w-auto" value={chartType} onChange={(e) => setChartType(e.target.value)} style={{ fontSize: '10px' }}>
+          <select 
+            className="w-auto text-[10px] border rounded px-2 py-1 bg-white"
+            value={chartType} 
+            onChange={(e) => setChartType(e.target.value)}
+          >
             <option value="bar">Bar</option>
             <option value="pie">Pie</option>
           </select>
@@ -77,7 +89,7 @@ export default function TopCusByAreaName({bu}) {
       </div>
 
       {chartData.length === 0 ? (
-        <div className="text-center text-muted py-4">ບໍ່ມີຂໍ້ມູນ</div>
+        <div className="text-center text-gray-500 py-4">ບໍ່ມີຂໍ້ມູນ</div>
       ) : (
         <>
           {chartType === 'bar' && (
@@ -116,7 +128,7 @@ export default function TopCusByAreaName({bu}) {
             </ResponsiveContainer>
           )}
 
-          <div className="text-end text-muted small mt-2">
+          <div className="text-right text-gray-500 text-sm mt-2">
             ລວມຍອດ: {total.toLocaleString()} ₭
           </div>
         </>

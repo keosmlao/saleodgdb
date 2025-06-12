@@ -16,7 +16,7 @@ export default function Home() {
   }, [user]);
 
   return (
-    <div  className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-900 via-indigo-900 to-cyan-800">
+    <div  className="min-h-screen font-['Noto_Sans_Lao'] relative overflow-hidden bg-gradient-to-br from-blue-900 via-indigo-900 to-cyan-800">
       <Navbar />
       <div >
         <div className="flex items-center justify-content-center  ">

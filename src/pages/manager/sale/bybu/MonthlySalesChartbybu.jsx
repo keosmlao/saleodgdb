@@ -75,14 +75,24 @@ export default function MonthlySalesChartbybu({bu}) {
   };
 
   return (
-    <div className="card p-2 mt-2 mb-2">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5 className="text-danger fw-bold mb-0">📊 ລາຍງານຍອດຂາຍລາຍເດືອນ</h5>
-        <div className="d-flex gap-2">
-          <button onClick={handleExportPDF} className="btn btn-sm btn-outline-danger">📄 Export PDF</button>
-          <button onClick={handleExportExcel} className="btn btn-sm btn-outline-success">📊 Export Excel</button>
+    <div className="bg-white rounded-lg shadow p-4 my-2">
+      <div className="flex justify-between items-center mb-3">
+        <h5 className="text-black font-bold font-[Noto_Sans_Lao]">📊 ລາຍງານຍອດຂາຍລາຍເດືອນ</h5>
+        <div className="flex gap-2">
+          <button 
+            onClick={handleExportPDF} 
+            className="px-3 py-1 text-sm border border-red-500 text-red-500 rounded hover:bg-red-50"
+          >
+            📄 Export PDF
+          </button>
+          <button 
+            onClick={handleExportExcel} 
+            className="px-3 py-1 text-sm border border-green-500 text-green-500 rounded hover:bg-green-50"
+          >
+            📊 Export Excel
+          </button>
           <select
-            className="form-select form-select-sm w-auto"
+            className="text-black text-sm border rounded bg-white"
             value={viewMode}
             onChange={(e) => setViewMode(e.target.value)}
           >
@@ -143,34 +153,39 @@ export default function MonthlySalesChartbybu({bu}) {
             </BarChart>
           </ResponsiveContainer>
         ) : (
-          <div className="table-responsive">
-            <table className="table table-bordered table-striped text-center align-middle mt-3">
-              <thead className="table-light">
+          <div className="overflow-x-auto">
+            <table className="min-w-full border-collapse border border-gray-200 mt-3">
+              <thead className="bg-gray-50 text-black">
                 <tr>
-                  <th>ເດືອນ</th>
-                  <th>🎯 ເປົ້າຂາຍ</th>
-                  <th>📆 ປີນີ້</th>
-                  <th>📅 ປີຜ່ານມາ</th>
-                  <th>% ບັນລຸເປົ້າໝາຍ</th>
+                  <th className="border border-gray-200 p-2 text-center">ເດືອນ</th>
+                  <th className="border border-gray-200 p-2 text-center">🎯 ເປົ້າຂາຍ</th>
+                  <th className="border border-gray-200 p-2 text-center">📆 ປີນີ້</th>
+                  <th className="border border-gray-200 p-2 text-center">📅 ປີຜ່ານມາ</th>
+                  <th className="border border-gray-200 p-2 text-center">% ບັນລຸເປົ້າໝາຍ</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className='text-black'>
                 {processedData.map((row, index) => (
-                  <tr key={index}>
-                    <td className={row.isCurrentMonth ? 'bg-warning fw-bold' : ''}>{row.month}</td>
-                    <td className={row.isCurrentMonth ? 'bg-warning fw-bold' : ''}>{formatCurrency(row.target)}</td>
-                    <td className={row.isCurrentMonth ? 'bg-warning fw-bold' : ''}>{formatCurrency(row.current)}</td>
-                    <td className={row.isCurrentMonth ? 'bg-warning fw-bold' : ''}>{formatCurrency(row.lastYear)}</td>
-                    <td
-                      className={[
-                        row.percentAchieved >= 80
-                          ? 'text-success fw-bold'
-                          : row.percentAchieved >= 50
-                          ? 'text-warning fw-bold'
-                          : 'text-danger fw-bold',
-                        row.isCurrentMonth ? 'bg-warning' : '',
-                      ].join(' ')}
-                    >
+                  <tr key={index} className={row.isCurrentMonth ? 'bg-yellow-100' : ''}>
+                    <td className={`border border-gray-200 p-2 text-center ${row.isCurrentMonth ? 'font-bold' : ''}`}>
+                      {row.month}
+                    </td>
+                    <td className={`border border-gray-200 p-2 text-center ${row.isCurrentMonth ? 'font-bold' : ''}`}>
+                      {formatCurrency(row.target)}
+                    </td>
+                    <td className={`border border-gray-200 p-2 text-center ${row.isCurrentMonth ? 'font-bold' : ''}`}>
+                      {formatCurrency(row.current)}
+                    </td>
+                    <td className={`border border-gray-200 p-2 text-center ${row.isCurrentMonth ? 'font-bold' : ''}`}>
+                      {formatCurrency(row.lastYear)}
+                    </td>
+                    <td className={`border border-gray-200 p-2 text-center font-bold ${
+                      row.percentAchieved >= 80 
+                        ? 'text-green-600' 
+                        : row.percentAchieved >= 50 
+                        ? 'text-yellow-600' 
+                        : 'text-red-600'
+                    } ${row.isCurrentMonth ? 'bg-yellow-100' : ''}`}>
                       {row.percentAchieved}%
                     </td>
                   </tr>

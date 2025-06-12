@@ -16,7 +16,6 @@ export default function TopCustomerListWithChart() {
   const [zone, setZone] = useState('all');
   const [bu, setBu] = useState('all');
   const [buList, setBuList] = useState([{ code: 'all', name_1: 'ທຸກ BU' }]);
-
   useEffect(() => {
     api.get('/all/bu-list')
       .then(res => {
@@ -47,92 +46,96 @@ export default function TopCustomerListWithChart() {
       .catch(err => { console.error('❌ Load API failed:', err); setData([]); });
   }, [filter, zone, bu]);
 
-  console.log("data res", data)
 
   return (
-    <div className="card shadow-sm border-0 p-2 bg-white rounded-1 mb-2">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h5 className="text-danger fw-bold mb-0" style={{ fontSize: '15px', fontFamily: 'Noto Sans Lao' }}>🏆 ຮ້ານຄ້າທີ່ມີຍອດຊື້ສູງສຸດ (Top 10)</h5>
-        <div className="d-flex gap-2">
-          <select className="form-select form-select-sm w-auto" value={zone} onChange={(e) => setZone(e.target.value)}>
-            {[{ code: 'all', name_1: 'ທຸກ ZONE' }, { code: 11, name_1: 'ZONE A' }, { code: 12, name_1: 'ZONE B' }, { code: 13, name_1: 'ZONE C' },
-            { code: 14, name_1: 'ZONE D' }, { code: 15, name_1: 'ZONE E' }, { code: 16, name_1: 'ZONE F' }]
-              .map(z => <option key={z.code} value={z.code}>{z.name_1}</option>)}
-          </select>
-          <select className="form-select form-select-sm w-auto" value={bu} onChange={(e) => setBu(e.target.value)}>
-            {buList.map(b => <option key={b.code} value={b.code}>{b.name_1}</option>)}
-          </select>
-          <select className="form-select form-select-sm w-auto" value={filter} onChange={(e) => setFilter(e.target.value)}>
-            <option value="month">ເດືອນນີ້</option><option value="lastMonth">ເດືອນຜ່ານມາ</option><option value="accumulated">ສະສົມ</option><option value="year">ປີນີ້</option>
-          </select>
-          <select className="form-select form-select-sm w-auto" value={chartType} onChange={(e) => setChartType(e.target.value)}>
-            <option value="bar">BarChart</option><option value="pie">PieChart</option><option value="table">Table</option>
-          </select>
+      <div className="bg-white p-2 mb-2 rounded-sm shadow-sm">
+        <div className="flex justify-between items-center mb-3 flex-wrap">
+          <h5 className="text-red-600 font-bold text-[15px] font-[Noto_Sans_Lao]">🏆 ຮ້ານຄ້າທີ່ມີຍອດຊື້ສູງສຸດ (Top 10)</h5>
+          <div className="flex items-center gap-2 flex-wrap">
+            <select className="text-sm border rounded px-2 py-1 w-[130px]" value={zone} onChange={(e) => setZone(e.target.value)}>
+              {[{ code: 'all', name_1: 'ທຸກ ZONE' }, { code: 11, name_1: 'ZONE A' }, { code: 12, name_1: 'ZONE B' }, { code: 13, name_1: 'ZONE C' },
+                { code: 14, name_1: 'ZONE D' }, { code: 15, name_1: 'ZONE E' }, { code: 16, name_1: 'ZONE F' }]
+                  .map(z => <option key={z.code} value={z.code}>{z.name_1}</option>)}
+            </select>
+            <select className="text-sm border rounded px-2 py-1 w-[130px]" value={bu} onChange={(e) => setBu(e.target.value)}>
+              {buList.map(b => <option key={b.code} value={b.code}>{b.name_1}</option>)}
+            </select>
+            <select className="text-sm border rounded px-2 py-1 w-[130px]" value={filter} onChange={(e) => setFilter(e.target.value)}>
+              <option value="month">ເດືອນນີ້</option>
+              <option value="lastMonth">ເດືອນຜ່ານມາ</option>
+              <option value="accumulated">ສະສົມ</option>
+              <option value="year">ປີນີ້</option>
+            </select>
+            <select className="text-sm border rounded px-2 py-1 w-[130px]" value={chartType} onChange={(e) => setChartType(e.target.value)}>
+              <option value="bar">BarChart</option>
+              <option value="pie">PieChart</option>
+              <option value="table">Table</option>
+            </select>
+          </div>
         </div>
-      </div>
-      {chartType === 'bar' && (
-        <ResponsiveContainer width="100%" height={500}>
-          <BarChart data={data} layout="vertical" barGap={30}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" tickFormatter={formatNumber} />
-            <YAxis type="category" dataKey="name" hide />
-            <Tooltip formatter={(val, name, props) => {
-              const item = data.find(d => d.name === props.payload.name);
-              return [`${format(val)} (Compare: ${formatPercent(item?.percentcompare)})`, name];
-            }} fontSize={9} />
-            <Legend />
-            <Bar dataKey="total" name="📆 ປີນີ້" fill="#06ab9b" barSize={10}>
-              <LabelList dataKey="name" content={<CustomTopLabel />} />
-              <LabelList dataKey="percentcompare" position="right" formatter={formatPercent} style={{ fontSize: 10 }} />
-              <LabelList dataKey="total" position="insideRight" formatter={formatNumber} style={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} />
-            </Bar>
-            <Bar dataKey="total_24" name="📅 ປີຜ່ານມາ" fill="#DE5E57" barSize={10} >
-              <LabelList dataKey="total_24" formatter={formatNumber} style={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} content={<CustomTopLabel />} />
-              <LabelList dataKey="total_24" position="insideRight" formatter={formatNumber} style={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} />
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      )}
-      {chartType === 'pie' && (
-        <ResponsiveContainer width="100%" height={400}>
-          <PieChart>
-            <Pie data={data} dataKey="total" nameKey="name" outerRadius={140} label={({ name, percent }) => `${name}: ${percent}%`}>
-              {data.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
-            </Pie>
-            <Tooltip formatter={(val, name, props) => {
-              const item = data.find(d => d.name === props.payload.name);
-              return [`${format(val)} (Compare: ${formatPercent(item?.percentcompare)})`, name];
-            }} />
-            <Legend layout="vertical" verticalAlign="middle" align="right" />
-          </PieChart>
-        </ResponsiveContainer>
-      )}
-      {chartType === 'table' && (
-        <div className="table-responsive mt-3">
-          <table className="table table-bordered table-striped text-center align-middle">
-            <thead className="table-light">
-              <tr>
-                <th>ຮ້ານຄ້າ</th
-                ><th>📆 ປີນີ້</th>
-                {/* <th>🎯 Target</th> */}
-                <th>📅 ປີກ່ອນ</th>
-                <th>% ຍອດຂາຍ/ທຽບປີກ່ອນ</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((row, index) => (
-                <tr key={index}>
-                  <td className='text-start' style={{ fontFamily: 'Noto Sans Lao' }}>{row.name}</td>
-                  <td>{formatNumber(row.total)}</td>
-                  {/* <td>{formatNumber(row.target)}</td> */}
-                  <td>{formatNumber(row.total_24)}</td>
-                  <td>{formatPercent(row.percentcompare)}</td>
+
+        {chartType === 'bar' && (
+            <ResponsiveContainer width="100%" height={500}>
+              <BarChart data={data} layout="vertical" barGap={30}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" tickFormatter={formatNumber} />
+                <YAxis type="category" dataKey="name" hide />
+                <Tooltip formatter={(val, name, props) => {
+                  const item = data.find(d => d.name === props.payload.name);
+                  return [`${format(val)} (Compare: ${formatPercent(item?.percentcompare)})`, name];
+                }} fontSize={9} />
+                <Legend />
+                <Bar dataKey="total" name="📆 ປີນີ້" fill="#06ab9b" barSize={10}>
+                  <LabelList dataKey="name" content={<CustomTopLabel />} />
+                  <LabelList dataKey="percentcompare" position="right" formatter={formatPercent} style={{ fontSize: 10 }} />
+                  <LabelList dataKey="total" position="insideRight" formatter={formatNumber} style={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} />
+                </Bar>
+                <Bar dataKey="total_24" name="📅 ປີຜ່ານມາ" fill="#DE5E57" barSize={10} >
+                  <LabelList dataKey="total_24" position="insideRight" formatter={formatNumber} style={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+        )}
+
+        {chartType === 'pie' && (
+            <ResponsiveContainer width="100%" height={400}>
+              <PieChart>
+                <Pie data={data} dataKey="total" nameKey="name" outerRadius={140} label={({ name, percent }) => `${name}: ${percent}%`}>
+                  {data.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
+                </Pie>
+                <Tooltip formatter={(val, name, props) => {
+                  const item = data.find(d => d.name === props.payload.name);
+                  return [`${format(val)} (Compare: ${formatPercent(item?.percentcompare)})`, name];
+                }} />
+                <Legend layout="vertical" verticalAlign="middle" align="right" />
+              </PieChart>
+            </ResponsiveContainer>
+        )}
+
+        {chartType === 'table' && (
+            <div className="overflow-x-auto mt-3">
+              <table className="min-w-[700px] w-full border text-center text-sm">
+                <thead className="bg-gray-100">
+                <tr>
+                  <th className="border px-2 py-1">ຮ້ານຄ້າ</th>
+                  <th className="border px-2 py-1">📆 ປີນີ້</th>
+                  <th className="border px-2 py-1">📅 ປີກ່ອນ</th>
+                  <th className="border px-2 py-1">% ຍອດຂາຍ/ທຽບປີກ່ອນ</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
+                </thead>
+                <tbody>
+                {data.map((row, index) => (
+                    <tr key={index}>
+                      <td className="border px-2 py-1 text-left font-[Noto_Sans_Lao]">{row.name}</td>
+                      <td className="border px-2 py-1">{formatNumber(row.total)}</td>
+                      <td className="border px-2 py-1">{formatNumber(row.total_24)}</td>
+                      <td className="border px-2 py-1">{formatPercent(row.percentcompare)}</td>
+                    </tr>
+                ))}
+                </tbody>
+              </table>
+            </div>
+        )}
+      </div>
   );
 }

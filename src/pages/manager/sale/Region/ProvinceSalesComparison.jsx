@@ -45,49 +45,46 @@ export default function ProvinceSalesComparison() {
   if (loading) return <div className="text-center py-5 text-lg">⏳ Loading...</div>;
 
   return (
-    <div className="p-2 bg-white shadow rounded-lg mb-2">
-      <div className="flex flex-col sm:flex-row sm:justify-between items-center gap-3 mb-4">
-        <h2 className=" font-bold text-red-600" style={{ fontSize: '15px' }}>
-          📊 ຍອດຂາຍຕາມແຂວງ ({period === 'thisMonth' ? 'ເດືອນນີ້' : period === 'lastMonth' ? 'ເດືອນກ່ອນ' : 'ທັງປີ'})
-        </h2>
-        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-          {/* 🔥 BU Select with Tailwind style */}
-          <select style={{ fontSize: '10px' }}
-            value={selectedBU}
-            onChange={e => setSelectedBU(e.target.value)}
-            className="w-full sm:w-48 bg-white border border-gray-300 rounded-lg px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
-          >
-            {buList.map(bu => (
-              <option key={bu.code} value={bu.code}>
-                {bu.name_1}
-              </option>
-            ))}
-          </select>
+      <div className="bg-white p-2 shadow rounded-lg mb-2">
+        <div className="flex flex-col sm:flex-row sm:justify-between items-center gap-3 mb-4">
+          <h5 className="font-bold mb-3 text-[15px] font-[Noto_Sans_Lao]">  📊 ຍອດຂາຍຕາມແຂວງ ({period === 'thisMonth' ? 'ເດືອນນີ້' : period === 'lastMonth' ? 'ເດືອນກ່ອນ' : 'ທັງປີ'})</h5>
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <select
+                value={selectedBU}
+                onChange={e => setSelectedBU(e.target.value)}
+                className="text-[10px] w-full sm:w-48 bg-white border border-gray-300 rounded-lg px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+            >
+              {buList.map(bu => (
+                  <option key={bu.code} value={bu.code}>
+                    {bu.name_1}
+                  </option>
+              ))}
+            </select>
 
-          {/* 🔥 Period Selector */}
-          <select style={{ fontSize: '10px' }}
-            value={period}
-            onChange={e => setPeriod(e.target.value)}
-            className="w-full sm:w-40 bg-white border border-gray-300 rounded-lg px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="thisMonth">ເດືອນນີ້</option>
-            <option value="lastMonth">ເດືອນກ່ອນ</option>
-            <option value="fullYear">ທັງປີ</option>
-          </select>
+            <select
+                value={period}
+                onChange={e => setPeriod(e.target.value)}
+                className="text-[10px] w-full sm:w-40 bg-white border border-gray-300 rounded-lg px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="thisMonth">ເດືອນນີ້</option>
+              <option value="lastMonth">ເດືອນກ່ອນ</option>
+              <option value="fullYear">ທັງປີ</option>
+            </select>
+          </div>
         </div>
+
+        <ResponsiveContainer width="100%" height={800}>
+          <BarChart data={dataByPeriod[period]} layout="vertical">
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis type="number" tickFormatter={v => v.toLocaleString()} tick={{ fontSize: 10 }} />
+            <YAxis type="category" dataKey="province" width={120} tick={{ fontSize: 10 }} />
+            <Tooltip formatter={v => parseFloat(v).toLocaleString() + ' ฿'} wrapperStyle={{ fontSize: '10px' }} />
+            <Legend wrapperStyle={{ fontSize: '10px' }} />
+            <Bar dataKey="sales" fill="#06ab9b" name="💰 ຍອດຂາຍ" />
+            <Bar dataKey="lastYear" fill="#dc3545" name="📆 ປີຜ່ານມາ" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
 
-      <ResponsiveContainer width="100%" height={800}>
-        <BarChart data={dataByPeriod[period]} layout="vertical" >
-          <CartesianGrid strokeDasharray="3 3" fontSize={10}/>
-          <XAxis type="number" tickFormatter={v => v.toLocaleString()} fontSize={10}/>
-          <YAxis type="category" dataKey="province" width={120} fontSize={10} />
-          <Tooltip formatter={v => parseFloat(v).toLocaleString() + ' ฿'} fontSize={10}/>
-          <Legend fontSize={10} />
-          <Bar dataKey="sales" fill="#06ab9b" name="💰 ຍອດຂາຍ" fontSize={10} />
-          <Bar dataKey="lastYear" fill="#dc3545" name="📆 ປີຜ່ານມາ" fontSize={10} />
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
   );
 }

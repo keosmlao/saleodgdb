@@ -21,30 +21,37 @@ export default function SaleByBu({ bu }) {
         <>
             {/* <div className="card-body">
                 <div className="card"> */}
-                    <div className="card-header bg-primary text-white">
-                        <h5 className="m-0" style={{ fontSize: '14px' }}>📦 ລາຍງານຍອດຂາຍຕາມ BU: {buCode}</h5>
-                    </div>
-                    <div className="card-body bg-success text-white">
-                        <SalesComparisonProgressyearbybu bu={buCode} />
-                        <hr className="border-light" />
-                        <div className="mt-3 p-3 bg-light rounded shadow-sm">
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <TopCustomerListWithChartbybu bu={buCode} />
-                                    <TopSellingProductsbybu bu={buCode} />
-                                    <TopCusAreabybu bu={buCode} />
-                                </div>
-                                <div className="col-md-6">
-                                    <QuarterlyBarChartBU bu={buCode} />
-                                    <MonthlySalesChartbybu bu={buCode} />
-                                    <SaleByreabyBu bu={buCode} />
-                                    <TopProductByBu bu={bu} />
-                                </div>
+            <div className="rounded-2xl overflow-hidden shadow-lg  border border-gray-200">
+                <div className="bg-gradient-to-r from-indigo-600 to-blue-500 text-white px-6 py-4">
+                    <h5 className="text-base font-bold tracking-wide font-[Noto_Sans_Lao]">📦 ລາຍງານຍອດຂາຍຕາມ BU: {buCode}</h5>
+                </div>
+
+                <div className="bg-gradient-to-r from-indigo-600 to-blue-500  text-white px-4 py-4">
+                    <SalesComparisonProgressyearbybu bu={buCode} />
+                    <hr className="my-6 border-white/20" />
+
+                    <div className="bg-white rounded-2xl shadow-md p-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="space-y-6">
+                                <TopCustomerListWithChartbybu bu={buCode} />
+                                <TopSellingProductsbybu bu={buCode} />
+                                <TopCusAreabybu bu={buCode} />
                             </div>
+                            <div className="space-y-6">
+                                <QuarterlyBarChartBU bu={buCode} />
+                                <MonthlySalesChartbybu bu={buCode} />
+                                <SaleByreabyBu bu={buCode} />
+                                <TopProductByBu bu={bu} />
+                            </div>
+                        </div>
+
+                        <div className="mt-10 space-y-8">
                             <ProvinceSalesBybu bu={buCode} />
                             <SalesMapbyBU bu={buCode} />
                         </div>
                     </div>
+                </div>
+            </div>
                 {/* </div>
             </div> */}
         </>

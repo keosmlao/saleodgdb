@@ -21,12 +21,6 @@ export default function Saloverall() {
         <>
             <Navbar />
             <div className="card">
-                <div className="card-header">
-                    <center>
-                        <h4 className=" fw-bold text-dark text-center" style={{ fontSize: '16px' }}>ພາບລວມບໍລິສັດ</h4>
-                    </center>
-
-                </div>
                 <div className="card-body  bg-info-gradient">
                     <SalesProgressyear />
                     <hr />
