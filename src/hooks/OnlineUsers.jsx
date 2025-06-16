@@ -40,7 +40,7 @@ export default function OnlineUsers({ user_id, username }) {
 
   return (
     <div className="py-4">
-      <h4 className="font-bold text-primary">📡 User Status with Last Login</h4>
+      <h4 className="font-bold text-white">📡 User Status with Last Login</h4>
       <div className="overflow-x-auto border rounded-2xl mt-2">
         {usersStatus.length > 0 ? (
           <table className="min-w-full table-auto text-sm text-left">
@@ -48,33 +48,41 @@ export default function OnlineUsers({ user_id, username }) {
               <tr>
                 <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3">Username</th>
-                <th className="px-4 py-3">Online</th>
                 <th className="px-4 py-3">Last Login</th>
+                <th className="px-4 py-3">Online</th>
               </tr>
             </thead>
-            <tbody className="text-gray-700">
+            <tbody>
               {usersStatus.map((user) => (
-                <tr key={user.user_id || user.id} className="border-b hover:bg-gray-50">
+                <tr
+                  key={user.user_id || user.id}
+                  className="border-b text-black group"
+                >
                   <td className="px-4 py-3">
                     <span
-                      className={`inline-block w-3 h-3 rounded-full ${user.status === 'online' ? 'bg-green-400 animate-pulse' : 'bg-red-500'
+                      className={`inline-block w-3 h-3 rounded-full ${user.status === 'online'
+                        ? 'bg-green-400 animate-pulse'
+                        : 'bg-red-500'
                         }`}
                     ></span>
                   </td>
-                  <td className="px-4 py-3 text-white font-semibold">
+                  <td className="px-4 py-3 font-semibold text-white group-hover:text-black">
                     👤 {user.username || 'Unknown'} ({user.status || 'offline'})
+                  </td>
+                  <td className="px-4 py-3 text-xs text-white group-hover:text-black">
+                    {user.last_login ? formatDateTime(user.last_login) : 'N/A'}
                   </td>
                   <td className="px-4 py-3">
                     <span
-                      className={`text-xs font-semibold px-2 py-1 rounded-full ${user.status === 'online' ? 'bg-green-200 text-green-700' : 'bg-gray-200 text-gray-600'
+                      className={`text-xs font-semibold px-2 py-1 rounded-full ${user.status === 'online'
+                        ? 'bg-green-200 text-green-700'
+                        : 'bg-gray-200 text-gray-600'
                         }`}
                     >
                       {(user.status || 'OFFLINE').toUpperCase()}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-xs text-white">
-                    {user.last_login ? formatDateTime(user.last_login) : 'N/A'}
-                  </td>
+
                 </tr>
               ))}
             </tbody>

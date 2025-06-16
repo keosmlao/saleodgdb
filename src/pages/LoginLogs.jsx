@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import api from '../services/api';
+import React, { useEffect, useState, useMemo } from 'react';
+import { Table, Button, Spin, Alert, Typography, Space, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { Spinner, Table, Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import api from '../services/api';
+
+const { Title } = Typography;
+const { Search } = Input;
 
 export default function LoginLogs() {
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [userFilter, setUserFilter] = useState('');
+  const itemsPerPage = 10;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,54 +26,105 @@ export default function LoginLogs() {
       .finally(() => setLoading(false));
   }, []);
 
+  // Filter logs by username
+  const filteredLogs = useMemo(() => {
+    return logs.filter(log =>
+      log.username.toLowerCase().includes(userFilter.toLowerCase())
+    );
+  }, [logs, userFilter]);
+
+  const columns = [
+    {
+      title: '#',
+      dataIndex: 'index',
+      key: 'index',
+      align: 'center',
+      render: (_text, _record, index) => (currentPage - 1) * itemsPerPage + index + 1,
+    },
+    {
+      title: '👤 Username',
+      dataIndex: 'username',
+      key: 'username',
+    },
+    {
+      title: '🕒 Login Time',
+      dataIndex: 'login_time',
+      key: 'login_time',
+      render: (text) => new Date(text).toLocaleString(),
+    },
+    {
+      title: '📱 Device ID',
+      dataIndex: 'device_id',
+      key: 'device_id',
+      render: (text) => text || 'N/A',
+    },
+    {
+      title: '🌐 IP Address',
+      dataIndex: 'ip_address',
+      key: 'ip_address',
+      render: (text) => text || 'N/A',
+    },
+  ];
+
+  // Reset to first page when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [userFilter]);
+
   return (
-    <Container className="py-4">
-      <Row className="align-items-center mb-3">
-        <Col>
-          <h3 className="text-danger fw-bold">📜 ປະຫວັດການເຂົ້າລະບົບ</h3>
-        </Col>
-        <Col className="text-end">
-          <Button variant="outline-secondary" size="sm" onClick={() => navigate(-1)}>
+    <div className="w-full min-h-screen bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 text-white">
+      <div className="backdrop-blur-lg w-full rounded-2xl p-6 shadow-xl mx-auto">
+        <Space
+          className="w-full justify-between items-center mb-6"
+          style={{ display: 'flex', justifyContent: 'space-between' }}
+        >
+          <Title level={3} className="!text-white !mb-0">
+            📜 ປະຫວັດການເຂົ້າລະບົບ
+          </Title>
+          <Button onClick={() => navigate(-1)} type="default">
             ⬅️ ກັບຄືນ
           </Button>
-        </Col>
-      </Row>
+        </Space>
 
-      {loading ? (
-        <div className="text-center">
-          <Spinner animation="border" variant="danger" />
-          <div className="text-secondary mt-2">ກຳລັງໂຫຼດ...</div>
-        </div>
-      ) : logs.length > 0 ? (
-        <div className="table-responsive shadow rounded border border-danger">
-          <Table striped bordered hover responsive className="mb-0">
-            <thead className="table-danger text-center">
-              <tr>
-                <th>#</th>
-                <th>👤 Username</th>
-                <th>🕒 Login Time</th>
-                <th>📱 Device ID</th>
-                <th>🌐 IP Address</th>
-              </tr>
-            </thead>
-            <tbody>
-              {logs.map((log, index) => (
-                <tr key={log.id}>
-                  <td className="text-center">{index + 1}</td>
-                  <td>{log.username}</td>
-                  <td>{new Date(log.login_time).toLocaleString()}</td>
-                  <td>{log.device_id || 'N/A'}</td>
-                  <td>{log.ip_address || 'N/A'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
-      ) : (
-        <Alert variant="danger" className="text-center">
-          ບໍ່ມີຂໍ້ມູນປະຫວັດການເຂົ້າລະບົບ.
-        </Alert>
-      )}
-    </Container>
+        <Search
+          placeholder="ຄົ້ນຫາຜູ້ໃຊ້..."
+          allowClear
+          enterButton="Search"
+          size="middle"
+          className="mb-4 max-w-xs"
+          onSearch={value => setUserFilter(value)}
+          onChange={e => setUserFilter(e.target.value)}
+          value={userFilter}
+        />
+
+        {loading ? (
+          <div className="text-center py-10">
+            <Spin size="large" tip="ກຳລັງໂຫຼດ..." />
+          </div>
+        ) : filteredLogs.length > 0 ? (
+          <div className="bg-white rounded-lg overflow-hidde">
+            <Table
+              columns={columns}
+              dataSource={filteredLogs}
+              rowKey="id"
+              pagination={{
+                current: currentPage,
+                pageSize: itemsPerPage,
+                total: filteredLogs.length,
+                onChange: (page) => setCurrentPage(page),
+                showSizeChanger: false,
+              }}
+              className="rounded-lg"
+            />
+          </div>
+        ) : (
+          <Alert
+            type="error"
+            message="ບໍ່ພົບຜູ້ໃຊ້ຕາມການຄົ້ນຫາ."
+            className="text-center"
+          />
+        )}
+      </div>
+    </div>
   );
 }
