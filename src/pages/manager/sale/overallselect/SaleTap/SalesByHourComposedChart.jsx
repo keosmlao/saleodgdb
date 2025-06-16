@@ -65,7 +65,7 @@ const HourlySalesChart = () => {
     );
 
     return (
-        <div className="w-full h-[645px]    ">
+        <div className="w-full h-[550px]    ">
             <div className="bg-white rounded-lg shadow-sm mb-2">
                 <div className="p-4">
                     {loading ? (

@@ -111,7 +111,7 @@ export default function ProvinceSalesMap() {
         </div>
 
 
-      <div className="flex-1 h-[calc(100vh-250px)]">
+      <div className="flex-1 h-[800px]">
         <MapContainer center={[18.5, 104]} zoom={6.5} className="h-full w-full">
           <TileLayer
             attribution='&copy; OpenStreetMap contributors'

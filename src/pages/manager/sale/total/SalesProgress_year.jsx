@@ -53,7 +53,7 @@ const ComparisonCard = ({ title, data, icon, color, barColor }) => {
         </div>
         <div className="w-full h-2 bg-gray-200" >
           <div
-              className="h-full bg-blue-600"
+              className="h-full bg-green-600"
               style={{ width: `${percentLastYear}%` }}
           ></div>
         </div>
