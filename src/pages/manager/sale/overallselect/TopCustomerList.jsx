@@ -41,8 +41,8 @@ export default function TopCustomerListWithChart() {
         textAnchor="end"
         dominantBaseline="middle"
         style={{
-          fontSize: '10px',
-          fill: '#000',
+          fontSize: '8px',
+          fill: '#fff',
           fontFamily: 'system-ui, -apple-system, sans-serif',
           fontWeight: '600',
         }}
@@ -76,29 +76,57 @@ export default function TopCustomerListWithChart() {
 
   return (
     <div className="bg-white p-2 mb-2 rounded-sm shadow-sm">
-      <div className="flex justify-between items-center mb-3 flex-wrap">
-        <h5 className="text-red-600 font-bold text-[15px] font-[Noto_Sans_Lao]">🏆 ຮ້ານຄ້າທີ່ມີຍອດຊື້ສູງສຸດ (Top 10)</h5>
+      <div className="flex justify-between items-center mb-3 flex-wrap text-[12px]">
+        <h5 className="text-red-600 font-bold font-[Noto_Sans_Lao] text-[12px]">
+          🏆 ຮ້ານຄ້າທີ່ມີຍອດຊື້ສູງສຸດ (Top 10)
+        </h5>
         <div className="flex items-center gap-2 flex-wrap">
 
           <div className="flex items-center gap-1">
-            <label className="font-bold text-[14px]">🔍 BU:</label>
-            <select className="text-sm border rounded px-2 py-1 w-[130px]" value={bu} onChange={(e) => setBu(e.target.value)}>
-              {buList.map(b => <option key={b.code} value={b.code}>{b.name_1}</option>)}
+            <label className="font-bold">🔍 BU:</label>
+            <select
+              className="text-sm border rounded px-2 py-1 w-[130px]"
+              value={bu}
+              onChange={(e) => setBu(e.target.value)}
+            >
+              {buList.map((b) => (
+                <option key={b.code} value={b.code}>
+                  {b.name_1}
+                </option>
+              ))}
             </select>
           </div>
 
           <div className="flex items-center gap-1">
-            <label className="font-bold text-[14px]">🌍 ຂອບເຂດ:</label>
-            <select className="text-sm border rounded px-2 py-1 w-[130px]" value={zone} onChange={(e) => setZone(e.target.value)}>
-              {[{ code: 'all', name_1: 'ທຸກ ZONE' }, { code: 11, name_1: 'ZONE A' }, { code: 12, name_1: 'ZONE B' }, { code: 13, name_1: 'ZONE C' },
-              { code: 14, name_1: 'ZONE D' }, { code: 15, name_1: 'ZONE E' }, { code: 16, name_1: 'ZONE F' }]
-                .map(z => <option key={z.code} value={z.code}>{z.name_1}</option>)}
+            <label className="font-bold">🌍 ຂອບເຂດ:</label>
+            <select
+              className="text-sm border rounded px-2 py-1 w-[130px]"
+              value={zone}
+              onChange={(e) => setZone(e.target.value)}
+            >
+              {[
+                { code: 'all', name_1: 'ທຸກ ZONE' },
+                { code: 11, name_1: 'ZONE A' },
+                { code: 12, name_1: 'ZONE B' },
+                { code: 13, name_1: 'ZONE C' },
+                { code: 14, name_1: 'ZONE D' },
+                { code: 15, name_1: 'ZONE E' },
+                { code: 16, name_1: 'ZONE F' },
+              ].map((z) => (
+                <option key={z.code} value={z.code}>
+                  {z.name_1}
+                </option>
+              ))}
             </select>
           </div>
 
           <div className="flex items-center gap-1">
-            <label className="font-bold text-[14px]">📅 ໄລຍະເວລາ:</label>
-            <select className="text-sm border rounded px-2 py-1 w-[130px]" value={filter} onChange={(e) => setFilter(e.target.value)}>
+            <label className="font-bold">📅 ໄລຍະເວລາ:</label>
+            <select
+              className="text-sm border rounded px-2 py-1 w-[130px]"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            >
               <option value="month">ເດືອນນີ້</option>
               <option value="lastMonth">ເດືອນຜ່ານມາ</option>
               <option value="accumulated">ສະສົມ</option>
@@ -107,16 +135,41 @@ export default function TopCustomerListWithChart() {
           </div>
 
           <div className="flex items-center gap-1">
-            <label className="font-bold text-[14px]">📊 ຮູບແບບ:</label>
-            <div className="ml-2 inline-flex rounded overflow-hidden border text-sm">
-              <button className={`px-3 py-1 ${viewMode === 'all' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('all')}>ທັງໝົດ</button>
-              <button className={`px-3 py-1 ${viewMode === 'chart' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('chart')}>Chart</button>
-              <button className={`px-3 py-1 ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600'}`} onClick={() => setViewMode('table')}>ຕາຕະລາງ</button>
+            <label className="font-bold">📊 ຮູບແບບ:</label>
+            <div className="ml-2 inline-flex rounded overflow-hidden border text-[12px]">
+              <button
+                className={`px-3 py-1 ${viewMode === 'all'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-white text-blue-600 border-r'
+                  }`}
+                onClick={() => setViewMode('all')}
+              >
+                ທັງໝົດ
+              </button>
+              <button
+                className={`px-3 py-1 ${viewMode === 'chart'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-white text-blue-600 border-r'
+                  }`}
+                onClick={() => setViewMode('chart')}
+              >
+                Chart
+              </button>
+              <button
+                className={`px-3 py-1 ${viewMode === 'table'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-white text-blue-600'
+                  }`}
+                onClick={() => setViewMode('table')}
+              >
+                ຕາຕະລາງ
+              </button>
             </div>
           </div>
 
         </div>
       </div>
+
 
       {(viewMode === 'chart' || viewMode === 'all') && (
         <ResponsiveContainer width="100%" height={500}>

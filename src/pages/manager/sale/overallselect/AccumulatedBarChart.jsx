@@ -55,6 +55,28 @@ const AccumulatedBarChart = () => {
             {value}
         </text>
     );
+    const CustomInsideLabel = (props) => {
+        const { x, y, width, height, value } = props;
+
+        if (width < 80) return null;
+
+        return (
+            <text
+                x={x + width / 2}
+                y={y + height / 2}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                style={{
+                    fontSize: '8px',
+                    fill: '#fff',
+                    fontFamily: 'system-ui, -apple-system, sans-serif',
+                    fontWeight: '600',
+                }}
+            >
+                {formatNumber(value)}
+            </text>
+        );
+    };
 
     // const formatNumber = (num) => Number(num || 0).toLocaleString();
     const formatNumber = v => { const num = Math.round(Number(v)); return num.toLocaleString('en-US', { maximumFractionDigits: 0, minimumFractionDigits: 0 }) + ' ฿'; };
@@ -70,6 +92,8 @@ const AccumulatedBarChart = () => {
         }
     };
     console.log("yrt da som ", data)
+
+    const formatPercent = (num) => num ? `${parseFloat(num).toFixed(1)}%` : '0%';
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             const data = payload[0].payload;
@@ -100,19 +124,34 @@ const AccumulatedBarChart = () => {
         return null;
     };
 
+
     return (
         <div className="bg-white p-3 mb-2 rounded-md shadow-sm">
-            <div className="flex justify-between items-center mb-3 flex-wrap">
-                <h5 className="text-red-600 font-bold mb-0 text-[15px] font-[Noto_Sans_Lao]">📊 ຍອດສະສົມ (Accumulated Bar Chart)</h5>
-                <div className="flex items-center gap-2 flex-wrap">
-                    <select className="text-sm border rounded px-2 py-1 w-[130px]" value={bu} onChange={(e) => setBu(e.target.value)}>
+            <div className="flex justify-between items-center mb-3 flex-wrap text-[12px]">
+                <h5 className="text-red-600 font-bold mb-0 font-[Noto_Sans_Lao]">
+                    📊 ຍອດສະສົມ (Accumulated Bar Chart)
+                </h5>
+                <div className="flex items-center gap-2 flex-wrap py-2 font-[Noto_Sans_Lao]">
+                    <label className="font-bold">🔍 BU:</label>
+                    <select
+                        className="text-sm border rounded px-2 py-1 w-[130px]"
+                        value={bu}
+                        onChange={(e) => setBu(e.target.value)}
+                    >
                         <option value="ALL">📦 ທຸກ BU</option>
                         {buList.map((b, i) => (
-                            <option key={i} value={b.code}>{b.name_1}</option>
+                            <option key={i} value={b.code}>
+                                {b.name_1}
+                            </option>
                         ))}
                     </select>
 
-                    <select className="text-sm border rounded px-2 py-1 w-[130px]" value={bu} onChange={(e) => setBu(e.target.value)}>
+                    <label className="font-bold">🌍 ຂອບເຂດ:</label>
+                    <select
+                        className="text-sm border rounded px-2 py-1 w-[130px]"
+                        value={bu}
+                        onChange={(e) => setBu(e.target.value)}
+                    >
                         {[
                             { code: 'all', name_1: '🌍 ໂຊນທັງໝົດ' },
                             { code: '11', name_1: 'ZONE A' },
@@ -121,15 +160,41 @@ const AccumulatedBarChart = () => {
                             { code: '14', name_1: 'ZONE D' },
                             { code: '15', name_1: 'ZONE E' },
                             { code: '16', name_1: 'ZONE F' },
-                        ].map(z => (
-                            <option key={z.code} value={z.code}>{z.name_1}</option>
+                        ].map((z) => (
+                            <option key={z.code} value={z.code}>
+                                {z.name_1}
+                            </option>
                         ))}
                     </select>
 
-                    <div className="ml-2 inline-flex rounded overflow-hidden border text-sm">
-                        <button className={`px-3 py-1 ${viewMode === 'all' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('all')}>ທັງໝົດ</button>
-                        <button className={`px-3 py-1 ${viewMode === 'chart' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('chart')}>Chart</button>
-                        <button className={`px-3 py-1 ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600'}`} onClick={() => setViewMode('table')}>ຕາຕະລາງ</button>
+                    <div className="ml-2 inline-flex rounded overflow-hidden border text-[12px]">
+                        <button
+                            className={`px-3 py-1 ${viewMode === 'all'
+                                ? 'bg-blue-600 text-white'
+                                : 'bg-white text-blue-600 border-r'
+                                }`}
+                            onClick={() => setViewMode('all')}
+                        >
+                            ທັງໝົດ
+                        </button>
+                        <button
+                            className={`px-3 py-1 ${viewMode === 'chart'
+                                ? 'bg-blue-600 text-white'
+                                : 'bg-white text-blue-600 border-r'
+                                }`}
+                            onClick={() => setViewMode('chart')}
+                        >
+                            Chart
+                        </button>
+                        <button
+                            className={`px-3 py-1 ${viewMode === 'table'
+                                ? 'bg-blue-600 text-white'
+                                : 'bg-white text-blue-600'
+                                }`}
+                            onClick={() => setViewMode('table')}
+                        >
+                            ຕາຕະລາງ
+                        </button>
                     </div>
                 </div>
             </div>
@@ -144,20 +209,24 @@ const AccumulatedBarChart = () => {
                         <Legend />
                         <Bar dataKey="accumulated_target" fill="#FFD580" name="🎯 ເປົ້າໝາຍ" fontSize={9}>
                             <LabelList dataKey="monthLabel" content={<CustomTopLabel />} fontSize={9} />
-                            <LabelList dataKey="accumulated_target" position="insideRight" fontSize={9} className='text-black font-bold' style={{ fill: '#000', fontSize: 9, fontWeight: 'bold' }} formatter={formatCurrencies} />
+                            <LabelList dataKey="accumulated_target" content={CustomInsideLabel} fontSize={9} className='text-white font-bold' formatter={formatCurrencies} />
+
                         </Bar>
                         <Bar dataKey="accumulated_revenue" fill="#06ab9b" name="📆 ຍອດຂາຍ" fontSize={9}>
-                            <LabelList dataKey="accumulated_revenue" position="insideRight" fontSize={9} className='text-black font-bold' style={{ fill: '#000', fontSize: 9, fontWeight: 'bold' }} formatter={formatCurrencies} />
+                            <LabelList dataKey="accumulated_revenue" content={CustomInsideLabel} fontSize={9} className='text-white font-bold' formatter={formatCurrencies} />
+                            <LabelList dataKey="percent_vs_target" position={"right"} formatter={formatPercent} fontSize={9} className='text-white font-bold' />
+
                         </Bar>
                         <Bar dataKey="accumulated_last_year" fill="#EF5350" name="📅 ປີຜ່ານມາ" fontSize={9}>
-                            <LabelList dataKey="accumulated_last_year" position="insideRight" fontSize={9} className='text-black font-bold' style={{ fill: '#000', fontSize: 9, fontWeight: 'bold' }} formatter={formatCurrencies} />
+                            <LabelList dataKey="accumulated_last_year" content={CustomInsideLabel} fontSize={9} className='text-white font-bold' formatter={formatCurrencies} />
+                            <LabelList dataKey="percent_vs_last_year" position={"right"} formatter={formatPercent} fontSize={9} className='text-white font-bold' />
                         </Bar>
                     </BarChart>
                 </ResponsiveContainer>
             )}
 
             {(viewMode === 'table' || viewMode === 'all') && (
-                <div className="overflow-x-auto mt-2">
+                <div className="overflow-x-auto mt-2 ">
                     <table className="min-w-full border text-center text-sm">
                         <thead className="bg-gray-100">
                             <tr>

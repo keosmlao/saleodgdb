@@ -50,32 +50,32 @@ export default function ProvinceSalesComparison() {
 
   return (
     <div className="bg-white p-2 shadow rounded-lg mb-2">
-      <div className="flex flex-col sm:flex-row sm:justify-between items-center gap-3 mb-4">
-        <h5 className="font-bold mb-3 text-[15px] font-[Noto_Sans_Lao]">  📊 ຍອດຂາຍຕາມແຂວງ ({period === 'thisMonth' ? 'ເດືອນນີ້' : period === 'lastMonth' ? 'ເດືອນກ່ອນ' : 'ທັງປີ'})</h5>
-        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-          <select
-            value={selectedBU}
-            onChange={e => setSelectedBU(e.target.value)}
-            className="text-[10px] w-full sm:w-48 bg-white border border-gray-300 rounded-lg px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
-          >
-            {buList.map(bu => (
-              <option key={bu.code} value={bu.code}>
-                {bu.name_1}
-              </option>
-            ))}
-          </select>
-
-          <select
-            value={period}
-            onChange={e => setPeriod(e.target.value)}
-            className="text-[10px] w-full sm:w-40 bg-white border border-gray-300 rounded-lg px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="thisMonth">ເດືອນນີ້</option>
-            <option value="lastMonth">ເດືອນກ່ອນ</option>
-            <option value="fullYear">ທັງປີ</option>
-          </select>
-        </div>
+      <h5 className="font-bold mb-3 text-[15px] font-[Noto_Sans_Lao]">  📊 ຍອດຂາຍຕາມແຂວງ ({period === 'thisMonth' ? 'ເດືອນນີ້' : period === 'lastMonth' ? 'ເດືອນກ່ອນ' : 'ທັງປີ'})</h5>
+      <div className="flex flex-wrap gap-2 mb-3 items-center text-[12px] font-[Noto_Sans_Lao]">
+        <label className="font-bold text-[14px]">🔍 BU:</label>
+        <select
+          value={selectedBU}
+          onChange={e => setSelectedBU(e.target.value)}
+          className="text-sm border rounded px-2 py-1 w-[130px]"
+        >
+          {buList.map(bu => (
+            <option key={bu.code} value={bu.code}>
+              {bu.name_1}
+            </option>
+          ))}
+        </select>
+        <label className="font-bold ">📅 ໄລຍະເວລາ:</label>
+        <select
+          value={period}
+          onChange={e => setPeriod(e.target.value)}
+          className="text-sm border rounded px-2 py-1 w-[130px]"
+        >
+          <option value="thisMonth">ເດືອນນີ້</option>
+          <option value="lastMonth">ເດືອນກ່ອນ</option>
+          <option value="fullYear">ທັງປີ</option>
+        </select>
       </div>
+
 
       <ResponsiveContainer width="100%" height={800}>
         <BarChart data={dataByPeriod[period]} layout="vertical">

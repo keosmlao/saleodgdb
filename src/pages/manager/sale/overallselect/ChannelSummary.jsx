@@ -22,8 +22,8 @@ const CustomInsideLabel = (props) => {
             textAnchor="middle"
             dominantBaseline="middle"
             style={{
-                fontSize: '11px',
-                fill: '#000',
+                fontSize: '8px',
+                fill: '#fff',
                 fontFamily: 'system-ui, -apple-system, sans-serif',
                 fontWeight: '600',
             }}
@@ -55,9 +55,9 @@ export default function ChannelSummary() {
     return (
         <div className="bg-white p-3 rounded-2xl shadow-sm">
             <h5 className="font-bold mb-2 text-[15px] font-[Noto_Sans_Lao]">📊 ສະຫຼູບຊອ່ງທາງ</h5>
-            <div className="flex flex-wrap gap-2 mb-3">
-                <div className="flex items-center gap-1">
-                    <label className="font-bold text-[14px]">📅 ໄລຍະເວລາ:</label>
+            <div className="flex flex-wrap gap-2 mb-3 text-[12px]">
+                <div className="flex items-center gap-1 font-[Noto_Sans_Lao]">
+                    <label className="font-bold ">📅 ໄລຍະເວລາ:</label>
                     <select className="text-sm border font-[Noto_Sans_Lao] rounded px-2 py-1 w-auto" value={filter} onChange={e => setFilter(e.target.value)}>
                         <option value="thisMonth">ເດືອນນີ້</option>
                         <option value="lastMonth">ເດືອນຜ່ານມາ</option>
@@ -66,9 +66,9 @@ export default function ChannelSummary() {
                     </select>
                 </div>
 
-                <div className="flex items-center gap-1">
-                    <label className="font-bold text-[14px]">📊 ຮູບແບບ:</label>
-                    <div className="ml-2 inline-flex rounded overflow-hidden border text-sm">
+                <div className="flex items-center gap-1 font-[Noto_Sans_Lao]">
+                    <label className="font-bold ">📊 ຮູບແບບ:</label>
+                    <div className="ml-2 inline-flex rounded overflow-hidden border ">
                         <button className={`px-3 py-1 ${viewMode === 'all' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('all')}>ທັງໝົດ</button>
                         <button className={`px-3 py-1 ${viewMode === 'chart' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('chart')}>Chart</button>
                         <button className={`px-3 py-1 ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600'}`} onClick={() => setViewMode('table')}>ຕາຕະລາງ</button>

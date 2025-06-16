@@ -133,25 +133,25 @@ export default function QuarterlyBarChart() {
         <h5 className="text-red-600 font-bold mb-2 text-[15px] font-[Noto_Sans_Lao]">
           📊 ສະຫຼຸບຍອດຂາຍລາຍໄຕມາດ
         </h5>
-        <div className="flex items-center gap-2 flex-wrap justify-between">
-          <label className="font-bold text-[14px]">🔍 BU:</label>
+        <div className="flex items-center gap-2 flex-wrap justify-between text-[12px] font-[Noto_Sans_Lao]">
+          <label className="font-bold ">🔍 BU:</label>
           <select className="text-sm border rounded px-2 py-1 w-[130px]" value={selectedBU} onChange={e => setSelectedBU(e.target.value)}>
             {buList.map(bu => <option key={bu.code} value={bu.code}>{bu.name_1}</option>)}
           </select>
 
-          <label className="font-bold text-[14px]">📢 ຊອ່ງທາງ:</label>
+          <label className="font-bold ">📢 ຊອ່ງທາງ:</label>
           <select className="text-sm border rounded px-2 py-1 w-[130px]" value={selectedChannel} onChange={e => setSelectedChannel(e.target.value)}>
             {channelList.map(ch => <option key={ch.name} value={ch.name}>{ch.display}</option>)}
           </select>
 
-          <label className="font-bold text-[14px]">🌍 ຂອບເຂດ:</label>
+          <label className="font-bold ">🌍 ຂອບເຂດ:</label>
           <select className="text-sm border rounded px-2 py-1 w-[130px]" value={selectedZone} onChange={e => setSelectedZone(e.target.value)}>
             {[{ code: 'all', name_1: 'ທຸກ ZONE' }, { code: '11', name_1: 'ZONE A' }, { code: '12', name_1: 'ZONE B' }, { code: '13', name_1: 'ZONE C' }, { code: '14', name_1: 'ZONE D' }, { code: '15', name_1: 'ZONE E' }, { code: '16', name_1: 'ZONE F' }].map(z => (
               <option key={z.code} value={z.code}>{z.name_1}</option>
             ))}
           </select>
 
-          <div className="ml-2 inline-flex rounded overflow-hidden border text-sm">
+          <div className="ml-2 inline-flex rounded overflow-hidden border ">
               <button className={`px-3 py-1 ${viewMode === 'all' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('all')}>ທັງໝົດ</button>
               <button className={`px-3 py-1 ${viewMode === 'chart' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('chart')}>Chart</button>
               <button className={`px-3 py-1 ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600'}`} onClick={() => setViewMode('table')}>ຕາຕະລາງ</button>

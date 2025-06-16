@@ -174,18 +174,18 @@ export default function MonthlySalesChart() {
       <div className="bg-white p-3 mb-2 rounded-md shadow-sm">
         <div className="flex justify-between items-center mb-3 flex-wrap">
           <h5 className="text-red-600 font-bold mb-0 text-[15px] font-[Noto_Sans_Lao]"> 📊 ລາຍງານຍອດຂາຍລາຍເດືອນ</h5>
-          <div className="flex items-center gap-2 flex-wrap">
-            <label className="font-bold text-[14px]">🔍 BU:</label>
+          <div className="flex items-center gap-2 flex-wrap text-[12px] font-[Noto_Sans_Lao]">
+            <label className="font-bold ">🔍 BU:</label>
             <select className="text-sm border rounded px-2 py-1 w-[130px]" value={selectedBu} onChange={e => setSelectedBu(e.target.value)}>
               {buList.map(bu => <option key={bu.code} value={bu.code}>{bu.name_1}</option>)}
             </select>
 
-            <label className="font-bold text-[14px]">📢 ຊອ່ງທາງ:</label>
+            <label className="font-bold ">📢 ຊອ່ງທາງ:</label>
             <select className="text-sm border rounded px-2 py-1 w-[130px]" value={selectedChannel} onChange={e => setSelectedChannel(e.target.value)}>
               {channelList.map(ch => <option key={ch.name} value={ch.name}>{ch.display}</option>)}
             </select>
 
-            <label className="font-bold text-[14px]">🌍 ຂອບເຂດ:</label>
+            <label className="font-bold ">🌍 ຂອບເຂດ:</label>
             <select className="text-sm border rounded px-2 py-1 w-[130px]" value={selectedZone} onChange={e => setSelectedZone(e.target.value)}>
               {[
                 { code: 'all', name_1: 'ທຸກ ZONE' },

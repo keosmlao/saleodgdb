@@ -122,28 +122,25 @@ export default function SalesComparisonProgressAll() {
     {
       title: '📅 ເດືອນນີ້',
       data: data.total_month,
-      icon: <CalendarOutlined />,
       color: '#52c41a'
     },
     {
       title: '📦 ເດືອນກ່ອນ',
       data: data.lastMonth,
-      icon: <InboxOutlined />,
       color: '#fa8c16'
     },
     {
       title: '📚 ສະສົມ',
       data: data.total_avg,
-      icon: <LayersOutlined />,
       color: '#722ed1'
     },
     {
       title: '📈 ທັງປີ',
       data: data.total_year,
-      icon: <LineChartOutlined />,
       color: '#f5222d'
     }
   ];
+  
 
   return (
       <div className="p-6 bg-gray-100 w-full font-[ui-sans-serif]">
