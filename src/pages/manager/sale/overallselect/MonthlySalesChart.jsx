@@ -224,7 +224,9 @@ export default function MonthlySalesChart() {
                   <LabelList dataKey="percentAchieved" fontSize={8} content={CustomLabel} />
                   <LabelList fill="#000" dataKey="compareLastYear" position="insideTop" content={CustomCompair} fontSize={8} />
                 </Bar>
-                <Bar dataKey="lastYear" name="📅 ປີຜ່ານມາ" fill="#EF5350" isAnimationActive animationDuration={1500} animationBegin={600} />
+                <Bar dataKey="lastYear" name="📅 ປີຜ່ານມາ" fill="#EF5350" isAnimationActive animationDuration={1500} animationBegin={600} >
+                  <LabelList dataKey="lastYear" position="top" formatter={formatCurrencies} style={{ fontSize: 8 }} />
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           )}

@@ -25,18 +25,21 @@ export default function WeeklySalesChart() {
 
 
   return (
-    <div style={{ width: '100%', height: 400 }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 20 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="week" tick={{ fontSize: 10 }} />
-          <YAxis tick={{ fontSize: 10 }} tickFormatter={(value) => new Intl.NumberFormat().format(value)} />
-          <Tooltip formatter={formatCurrency} fontSize={10} />
-          <Bar dataKey="total" fill="#4CAF50" barSize={30} fontSize={10}>
-            <LabelList dataKey="total" position="top" formatter={formatCurrency} fontSize={10} />
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="card shadow-sm mb-2">
+      <div className="card-body">
+        <h5 className="font-bold mb-3 text-[15px] font-[Noto_Sans_Lao]">📊 ຍອດຂາຍຕາມອາທິດ</h5>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data} margin={{ top: 20 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="week" tick={{ fontSize: 10 }} />
+            <YAxis tick={{ fontSize: 10 }} tickFormatter={(value) => new Intl.NumberFormat().format(value)} />
+            <Tooltip formatter={formatCurrency} fontSize={10} />
+            <Bar dataKey="total" fill="#4CAF50" barSize={30} fontSize={10}>
+              <LabelList dataKey="total" position="top" formatter={formatCurrency} fontSize={10} />
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }

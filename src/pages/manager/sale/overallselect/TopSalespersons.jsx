@@ -22,6 +22,25 @@ export default function TopSalespersons() {
     { name: 'ບໍລິການ', display: 'ບໍລິການ' },
     { name: 'ອື່ນໆ', display: 'ອື່ນໆ' },
   ];
+  const CustomTopLabel = ({ x, y, value }) => (
+    <text
+      x={x}
+      y={y - 2}
+      textAnchor="start"
+      fill="#000"
+      fontSize={10}
+      style={{
+        fontFamily: 'Noto Sans Lao',
+        fontWeight: 'bold'
+      }}
+    >
+      {value}
+    </text>
+  );
+  const formatNumber = v => {
+    const num = parseInt(Number(v).toFixed(0), 10);
+    return num.toLocaleString('en-US') + ' ฿';
+  };
 
   useEffect(() => {
     api.get('/all/bu-list')
@@ -86,24 +105,27 @@ export default function TopSalespersons() {
         </div>
       </div>
       {(viewMode === 'chart' || viewMode === 'all') && (
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={data} layout="vertical" barGap={10}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" tickFormatter={formatNumber} />
-            <YAxis type="category" dataKey="salename" tick={{ fontSize: 12 }} />
-            <Tooltip formatter={format} />
-            <Legend />
-            <Bar dataKey="total2025" name="📆 2025" barSize={20}>
-              {data.map((entry, index) => (
-                <Cell key={`cell-2025-${index}`} fill={entry.color} />
-              ))}
-              <LabelList dataKey="total2025" position="insideRight" formatter={formatNumber} style={{ fontSize: 10, fontWeight: 'bold' }} />
-            </Bar>
-            <Bar dataKey="total2024" name="📅 2024" fill="#FF9933" barSize={20}>
-              <LabelList dataKey="total2024" position="insideRight" formatter={formatNumber} style={{ fontSize: 10, fontWeight: 'bold' }} />
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        <div className="mb-4">
+          <ResponsiveContainer width="100%" height={500}>
+            <BarChart data={data} layout="vertical" barGap={30}>
+              <CartesianGrid strokeDasharray="3 3" fontSize={9} />
+              <XAxis type="number" tickFormatter={formatNumber} fontSize={9} />
+              <YAxis type="category" dataKey="salename" hide />
+              <Tooltip formatter={format} fontSize={9} />
+              <Legend fontSize={9} />
+              <Bar dataKey="total2025" name="📆 2025" barSize={10} fontSize={9}>
+                {data.map((entry, index) => (
+                  <Cell key={`cell-2025-${index}`} fill={entry.color} />
+                ))}
+                <LabelList dataKey="salename" content={<CustomTopLabel />} />
+                <LabelList dataKey="total2025" position="insideRight" formatter={formatNumber} style={{ fill: '#000', fontSize: 8, fontWeight: 'bold' }} />
+              </Bar>
+              <Bar dataKey="total2024" name="📅 2024" fill="#FF9933" barSize={10} fontSize={9}>
+                <LabelList dataKey="total2024" position="insideRight" formatter={formatNumber} style={{ fill: '#000', fontSize: 8, fontWeight: 'bold' }} />
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       )}
 
       {(viewMode === 'table' || viewMode === 'all') && (
@@ -134,7 +156,7 @@ export default function TopSalespersons() {
           </table>
         </div>
       )}
-  
+
     </div>
 
   );

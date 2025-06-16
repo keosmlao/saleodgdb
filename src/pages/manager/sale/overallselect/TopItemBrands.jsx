@@ -4,7 +4,10 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 
 const COLORS = ['#007bff', '#6610f2', '#6f42c1', '#fd7e14', '#28a745', '#20c997', '#17a2b8', '#dc3545', '#ffc107', '#6c757d'];
 const format = (val) => Number(val).toLocaleString('en-US') + ' ฿';
-const formatNumber = (num) => Number(num || 0).toLocaleString();
+const formatNumber = v => {
+  const num = parseInt(Number(v).toFixed(0), 10);
+  return num.toLocaleString('en-US') + ' ฿';
+};
 
 export default function TopItemBrands() {
   const [filter, setFilter] = useState('thisMonth');
@@ -48,6 +51,21 @@ export default function TopItemBrands() {
       .catch(err => { console.error('❌ Load API failed:', err); setData([]); });
   }, [filter, bu, channel]);
 
+  const CustomTopLabel = ({ x, y, value }) => (
+    <text
+      x={x}
+      y={y - 2}
+      textAnchor="start"
+      fill="#000"
+      fontSize={10}
+      style={{
+        fontFamily: 'Noto Sans Lao',
+      }}
+    >
+      {value}
+    </text>
+  );
+
   return (
     <div className="bg-white p-3 rounded-2xl shadow-sm">
       <h5 className="font-bold mb-2 text-[15px] font-[Noto_Sans_Lao]">🏆 10 ອັນດັບແບຮນສີນຄ້າຍອດນິຍົມ</h5>
@@ -87,21 +105,22 @@ export default function TopItemBrands() {
         </div>
       </div>
       {(viewMode === 'chart' || viewMode === 'all') && (
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height={600}>
           <BarChart data={data} layout="vertical" barGap={30}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="number" tickFormatter={formatNumber} />
-            <YAxis type="category" dataKey="brand" fontSize={10} />
+            <YAxis type="category" dataKey="brand" fontSize={10} hide />
             <Tooltip formatter={format} />
             <Legend />
             <Bar dataKey="total2025" name="📆 2025" barSize={20}>
               {data.map((entry, index) => (
                 <Cell key={`cell-2025-${index}`} fill={entry.color} />
               ))}
-              <LabelList dataKey="total2025" position="right" formatter={formatNumber} style={{ fontSize: 10, fontWeight: 'bold' }} />
+              <LabelList dataKey="brand" content={<CustomTopLabel />} />
+              <LabelList dataKey="total2025" position="insideRight" formatter={formatNumber} style={{ fill: '#000', fontSize: 10, fontWeight: 'bold' }} />
             </Bar>
             <Bar dataKey="total2024" name="📅 2024" fill="#FF9933" barSize={20}>
-              <LabelList dataKey="total2024" position="right" formatter={formatNumber} style={{ fontSize: 10, fontWeight: 'bold' }} />
+              <LabelList dataKey="total2024" position="insideRight" formatter={formatNumber} style={{ fill: '#000', fontSize: 10, fontWeight: 'bold' }} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>

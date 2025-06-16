@@ -28,36 +28,33 @@ const TopMonthSaleChart = () => {
   }, []);
 
   const formatCurrency = v => {
-    const num = parseInt(Number(v).toFixed(0), 10);
-    return num.toLocaleString('en-US') + ' ກີບ';
+    const num = Math.round(Number(v));
+    return num.toLocaleString('en-US', { maximumFractionDigits: 0, minimumFractionDigits: 0 }) + ' ฿';
   };
 
   return (
-    <div style={{ width: '100%', height: 400 }}>
-      <div className="card shadow-sm">
-        <div className="card-body">
-
-          {loading ? (
-            <p className="text-center text-secondary">⏳ ກຳລັງໂຫຼດຂໍ້ມູນ...</p>
-          ) : error ? (
-            <p className="text-center text-danger">{error}</p>
-          ) : (
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart
-                data={chartData}
-              // margin={{ top: 20, right: 30, left: 30, bottom: 10 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" fontSize={9} />
-                <XAxis dataKey="month" fontSize={9} />
-                <YAxis tickFormatter={formatCurrency} fontSize={9} />
-                <Tooltip formatter={(value) => [formatCurrency(value), 'ຍອດຂາຍ']} fontSize={9} />
-                <Bar dataKey="total" fill="#4CAF50" fontSize={9}>
-                  <LabelList dataKey="total" position="top" formatter={(value) => `${value.toLocaleString()}`} fontSize={9} />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          )}
-        </div>
+    <div className="card shadow-sm mb-2">
+      <div className="card-body">
+        <h5 className="font-bold mb-3 text-[15px] font-[Noto_Sans_Lao]">📊 ຍອດຂາຍຕາມເດືອນ</h5>
+        {loading ? (
+          <p className="text-center text-secondary">⏳ ກຳລັງໂຫຼດຂໍ້ມູນ...</p>
+        ) : error ? (
+          <p className="text-center text-danger">{error}</p>
+        ) : (
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart
+              data={chartData}
+            >
+              <CartesianGrid strokeDasharray="3 3" fontSize={9} />
+              <XAxis dataKey="month" fontSize={9} />
+              <YAxis tickFormatter={formatCurrency} fontSize={9} />
+              <Tooltip formatter={(value) => [formatCurrency(value), 'ຍອດຂາຍ']} fontSize={9} />
+              <Bar dataKey="total" fill="#4CAF50" fontSize={9}>
+                <LabelList dataKey="total" position="top" formatter={formatCurrency} fontSize={9} />
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        )}
       </div>
     </div>
   );

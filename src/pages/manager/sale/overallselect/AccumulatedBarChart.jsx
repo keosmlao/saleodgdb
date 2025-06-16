@@ -40,6 +40,22 @@ const AccumulatedBarChart = () => {
             });
     }, [bu]);
 
+    const CustomTopLabel = ({ x, y, value }) => (
+        <text
+            x={x}
+            y={y - 2}
+            textAnchor="start"
+            fill="#000"
+            fontSize={10}
+            style={{
+                fontFamily: 'Noto Sans Lao',
+                fontWeight: 'bold'
+            }}
+        >
+            {value}
+        </text>
+    );
+
     // const formatNumber = (num) => Number(num || 0).toLocaleString();
     const formatNumber = v => { const num = Math.round(Number(v)); return num.toLocaleString('en-US', { maximumFractionDigits: 0, minimumFractionDigits: 0 }) + ' ฿'; };
     const formatCurrencies = (v) => {
@@ -120,20 +136,21 @@ const AccumulatedBarChart = () => {
 
             {(viewMode === 'chart' || viewMode === 'all') && (
                 <ResponsiveContainer width="100%" height={600}>
-                    <BarChart key={data.length} data={data} layout="vertical" barGap={30}>
-                        <CartesianGrid strokeDasharray="3 3" />
+                    <BarChart data={data} layout="vertical" barGap={30}>
+                        <CartesianGrid strokeDasharray="3 3" fontSize={9} />
                         <XAxis type="number" fontSize={9} tickFormatter={(value) => new Intl.NumberFormat().format(value)} />
-                        <YAxis type="category" dataKey="monthLabel" fontSize={9} width={50} />
+                        <YAxis type="category" dataKey="monthLabel" fontSize={9} width={50} hide />
                         <Tooltip content={<CustomTooltip />} />
                         <Legend />
                         <Bar dataKey="accumulated_target" fill="#FFD580" name="🎯 ເປົ້າໝາຍ" fontSize={9}>
-                            <LabelList dataKey="accumulated_target" position="right" fontSize={9} formatter={formatCurrencies} />
+                            <LabelList dataKey="monthLabel" content={<CustomTopLabel />} fontSize={9} />
+                            <LabelList dataKey="accumulated_target" position="insideRight" fontSize={9} className='text-black font-bold' style={{ fill: '#000', fontSize: 9, fontWeight: 'bold' }} formatter={formatCurrencies} />
                         </Bar>
                         <Bar dataKey="accumulated_revenue" fill="#06ab9b" name="📆 ຍອດຂາຍ" fontSize={9}>
-                            <LabelList dataKey="accumulated_revenue" position="right" fontSize={9} formatter={formatCurrencies} />
+                            <LabelList dataKey="accumulated_revenue" position="insideRight" fontSize={9} className='text-black font-bold' style={{ fill: '#000', fontSize: 9, fontWeight: 'bold' }} formatter={formatCurrencies} />
                         </Bar>
                         <Bar dataKey="accumulated_last_year" fill="#EF5350" name="📅 ປີຜ່ານມາ" fontSize={9}>
-                            <LabelList dataKey="accumulated_last_year" position="right" fontSize={9} formatter={formatCurrencies} />
+                            <LabelList dataKey="accumulated_last_year" position="insideRight" fontSize={9} className='text-black font-bold' style={{ fill: '#000', fontSize: 9, fontWeight: 'bold' }} formatter={formatCurrencies} />
                         </Bar>
                     </BarChart>
                 </ResponsiveContainer>

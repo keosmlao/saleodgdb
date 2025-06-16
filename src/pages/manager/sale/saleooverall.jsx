@@ -20,34 +20,39 @@ export default function Saloverall() {
     return (
         <>
             <Navbar />
-            <div className="card">
-                <div className="card-body  bg-info-gradient">
+            <div className="bg-white rounded-lg shadow">
+                <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4">
                     <SalesProgressyear />
-                    <hr />
-                    <div className="mt-3 p-2 rounded shadow-sm">
+                    <hr className="border-gray-200 my-4" />
+                    <div className="mt-3 p-2 rounded-lg shadow-sm bg-white">
                         {/* 👇 Your detail content here */}
-                        <div className="row equal-height-row">
-                            <div className="col-sm-6">
-                                <div className="dashboard-card"><QuarterlyBarChart /></div>
-                                <div className="dashboard-card"><AccumulatedBarChart /></div>
-                                <div className="dashboard-card"><TopCustomerList /></div>
-                                <div className="dashboard-card"><ChannelSummary /></div>
-                                <div className="dashboard-card"><TopSalespersons /></div>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div className="space-y-4">
+                                <div className="bg-white rounded-lg shadow-sm p-4"><QuarterlyBarChart /></div>
+                                <div className="bg-white rounded-lg shadow-sm p-4"><AccumulatedBarChart /></div>
+                                <div className="bg-white rounded-lg shadow-sm p-4"><TopCustomerList /></div>
+                                <div className="bg-white rounded-lg shadow-sm p-4"><ChannelSummary /></div>
+                                <div className="bg-white rounded-lg shadow-sm p-4"><TopSalespersons /></div>
                             </div>
-                            <div className="col-sm-6">
-                                <div className="dashboard-card"><MonthlySalesChart /></div>
-                                <div className="dashboard-card"><TopSellingProducts /></div>
-                                <div className="dashboard-card"><ChartTab /></div>
-                                <div className="dashboard-card"><TopItemBrands /></div>
+                            <div className="space-y-4">
+                                <div className="bg-white rounded-lg shadow-sm p-4"><MonthlySalesChart /></div>
+                                <div className="bg-white rounded-lg shadow-sm p-4"><TopSellingProducts /></div>
+                                <div className="bg-white rounded-lg shadow-sm p-4"><ChartTab /></div>
+                                <div className="bg-white rounded-lg shadow-sm p-4"><TopItemBrands /></div>
                             </div>
                         </div>
 
-                        <ProvinceSalesComparison />
-                        <SalesMap />
+                        <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div className="bg-white rounded-lg shadow-sm p-4">
+                                <ProvinceSalesComparison />
+                            </div>
+                            <div className="bg-white rounded-lg shadow-sm p-4">
+                                <SalesMap />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </>
     )
-
 }

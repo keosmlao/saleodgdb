@@ -5,7 +5,10 @@ import api from '../../../../services/api';
 
 const COLORS = ['#007bff', '#6610f2', '#6f42c1', '#fd7e14', '#28a745', '#20c997', '#17a2b8', '#dc3545', '#ffc107', '#6c757d'];
 const format = (val) => Number(val).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' ฿';
-const formatNumber = (num) => Number(num || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+const formatNumber = v => {
+  const num = parseInt(Number(v).toFixed(0), 10);
+  return num.toLocaleString('en-US') + ' ฿';
+};
 const formatPercent = (num) => num ? `${parseFloat(num).toFixed(1)}%` : '0%';
 const CustomTopLabel = ({ x, y, value }) => <text x={x} y={y - 2} textAnchor="start" fill="#000" fontSize={10} style={{ fontFamily: 'Noto Sans Lao' }}>{value}</text>;
 
@@ -24,6 +27,30 @@ export default function TopCustomerListWithChart() {
       })
       .catch(err => console.error('❌ Load BU list failed:', err));
   }, []);
+
+  const SmartInsideLabel = ({ barKey }) => (props) => {
+    const { x, y, width, height, value } = props;
+
+    // Only show if bar is wide enough
+    if (width < 60) return null;
+
+    return (
+      <text
+        x={x + width - 8}
+        y={y + height / 2}
+        textAnchor="end"
+        dominantBaseline="middle"
+        style={{
+          fontSize: '10px',
+          fill: '#000',
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+          fontWeight: '600',
+        }}
+      >
+        {formatNumber(value)}
+      </text>
+    );
+  };
 
   useEffect(() => {
     api.get(`/all/top-customers?filter=${filter}&area=${zone}&bu=${bu}`)
@@ -105,10 +132,10 @@ export default function TopCustomerListWithChart() {
             <Bar dataKey="total" name="📆 ປີນີ້" fill="#06ab9b" barSize={10}>
               <LabelList dataKey="name" content={<CustomTopLabel />} />
               <LabelList dataKey="percentcompare" position="right" formatter={formatPercent} style={{ fontSize: 10 }} />
-              <LabelList dataKey="total" position="insideRight" formatter={formatNumber} style={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} />
+              <LabelList dataKey="total" content={SmartInsideLabel({ barKey: 'total' })} position="insideRight" formatter={formatNumber} style={{ fill: '#000', fontSize: 10, fontWeight: 'bold' }} />
             </Bar>
             <Bar dataKey="total_24" name="📅 ປີຜ່ານມາ" fill="#DE5E57" barSize={10} >
-              <LabelList dataKey="total_24" position="insideRight" formatter={formatNumber} style={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} />
+              <LabelList dataKey="total_24" position="insideRight" content={SmartInsideLabel({ barKey: 'total' })} formatter={formatNumber} style={{ fill: '#000', fontSize: 10, fontWeight: 'bold' }} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>

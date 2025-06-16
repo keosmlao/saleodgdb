@@ -162,10 +162,10 @@ export default function TopCustomerListWithChart() {
             <Bar dataKey="target" name="🎯 ເປົ້າໝາຍ" fill="#f1c40f" barSize={10} fontSize={9} />
             <Bar dataKey="total" name="📆 ປີນີ້" fill="#06ab9b" barSize={10} fontSize={9}>
               <LabelList dataKey="name" content={<CustomTopLabel />} fontSize={9} />
-              <LabelList dataKey="total" position="insideRight" formatter={formatNumber} style={{ fill: '#fff', fontSize: 9, fontWeight: 'bold' }} />
+              <LabelList dataKey="total" position="insideRight" formatter={formatNumber} style={{ fill: '#000', fontSize: 9, fontWeight: 'bold' }} />
             </Bar>
             <Bar dataKey="total_24" name="📅 ປີກ່ອນ" fill="#DE5E57" barSize={10} fontSize={9}>
-              <LabelList dataKey="total_24" position="insideRight" formatter={formatNumber} style={{ fill: '#fff', fontSize: 9, fontWeight: 'bold' }} />
+              <LabelList dataKey="total_24" position="insideRight" formatter={formatNumber} style={{ fill: '#000', fontSize: 9, fontWeight: 'bold' }} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>

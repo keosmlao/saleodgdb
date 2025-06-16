@@ -4,12 +4,34 @@ import api from '../../../../services/api';
 
 const COLORS = ['#007bff', '#6610f2', '#6f42c1', '#fd7e14', '#28a745', '#20c997', '#17a2b8', '#dc3545', '#ffc107', '#6c757d'];
 const format = (val) => Number(val).toLocaleString('en-US') + ' ฿';
-// const formatNumber = (num) => Number(num || 0).toLocaleString();
 const formatNumber = v => {
     const num = parseInt(Number(v).toFixed(0), 10);
     return num.toLocaleString('en-US') + ' ฿';
 };
 const CustomTopLabel = ({ x, y, value }) => <text x={x} y={y - 2} textAnchor="start" fill="#000" fontSize={10} style={{ fontFamily: 'Noto Sans Lao' }}>{value}</text>;
+
+const CustomInsideLabel = (props) => {
+    const { x, y, width, height, value } = props;
+
+    if (width < 80) return null;
+
+    return (
+        <text
+            x={x + width / 2}
+            y={y + height / 2}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            style={{
+                fontSize: '11px',
+                fill: '#000',
+                fontFamily: 'system-ui, -apple-system, sans-serif',
+                fontWeight: '600',
+            }}
+        >
+            {formatNumber(value)}
+        </text>
+    );
+};
 
 export default function ChannelSummary() {
     const [filter, setFilter] = useState('thisMonth');
@@ -59,11 +81,7 @@ export default function ChannelSummary() {
                     <BarChart data={data} layout="vertical" barGap={30}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis type="number" tickFormatter={formatNumber} />
-                        <YAxis
-                            type="category"
-                            dataKey="channel"
-                            tick={{ fontSize: 12, fill: '#333', fontFamily: 'Noto Sans Lao' }}
-                        />
+                        <YAxis type="category" dataKey="channel" hide />
                         <Tooltip formatter={formatNumber} />
                         <Legend />
 
@@ -71,11 +89,13 @@ export default function ChannelSummary() {
                             {data.map((entry, index) => (
                                 <Cell key={`cell-2025-${index}`} fill={'#FF6B6B'} />
                             ))}
+                            <LabelList dataKey="channel" content={<CustomTopLabel />} />
                             <LabelList
                                 dataKey="total2025"
                                 position="right"
                                 formatter={formatNumber}
-                                style={{ fontSize: 10, fill: '#000', textDecoration: 'none', fontFamily: 'Arial, sans-serif' }}
+                                content={CustomInsideLabel}
+                                style={{ fontSize: 10, fill: '#000', textDecoration: 'none', fontFamily: 'Noto Sans Lao' }}
                             />
                         </Bar>
 
@@ -87,7 +107,8 @@ export default function ChannelSummary() {
                                 dataKey="total2024"
                                 position="right"
                                 formatter={formatNumber}
-                                style={{ fontSize: 10, fill: '#000', textDecoration: 'none', fontFamily: 'Arial, sans-serif' }}
+                                content={CustomInsideLabel}
+                                style={{ fontSize: 10, fill: '#000', textDecoration: 'none', fontFamily: 'Noto Sans Lao' }}
                             />
                         </Bar>
                     </BarChart>
