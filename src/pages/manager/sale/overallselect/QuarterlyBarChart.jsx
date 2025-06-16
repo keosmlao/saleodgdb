@@ -128,7 +128,7 @@ export default function QuarterlyBarChart() {
   };
 
   return (
-    <div className="bg-white p-3 mb-2 rounded-sm shadow-sm" style={{height:"600px"}}>
+    <div className="bg-white p-3 mb-2 rounded-sm shadow-sm font-[Noto_Sans_Lao]" style={{height:"600px"}}>
       <div className="flex justify-between items-center mb-3 flex-wrap">
         <h5 className="text-red-600 font-bold mb-2 text-[15px] font-[Noto_Sans_Lao]">
           📊 ສະຫຼຸບຍອດຂາຍລາຍໄຕມາດ
@@ -167,7 +167,7 @@ export default function QuarterlyBarChart() {
             <XAxis dataKey="quarter" fontSize={10} />
             <YAxis tickFormatter={v => v.toLocaleString('en-US')} fontSize={10} />
             <Tooltip content={<CustomTooltip />} />
-            <Legend wrapperStyle={{ fontSize: '12px' }} payload={[
+            <Legend payload={[
               { value: '🎯 ເປົ້າໝາຍ', type: 'square', color: '#FFD580' },
               { value: '📆 ຍອດຂາຍ', type: 'square', color: '#06ab9b' },
               { value: '📅 ປີຜ່ານມາ', type: 'square', color: '#EF5350' },

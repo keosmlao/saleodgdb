@@ -94,7 +94,7 @@ export default function TopItemBrands() {
 
 
   return (
-    <div className="bg-white p-3 rounded-2xl shadow-sm h-[700px]">
+    <div className="bg-white p-3 rounded-2xl shadow-sm h-[700px] font-[Noto_Sans_Lao]">
       <h5 className="font-bold mb-2 text-[15px] font-[Noto_Sans_Lao]">🏆 10 ອັນດັບແບຮນສີນຄ້າຍອດນິຍົມ</h5>
       <div className="flex flex-wrap gap-2 mb-3 text-[12px] font-[Noto_Sans_Lao]">
         <div className="flex items-center gap-1">
@@ -112,9 +112,6 @@ export default function TopItemBrands() {
             <option value="fullYear">ປີນີ້</option>
           </select>
         </div>
-
-
-
         <div className="flex items-center gap-1">
           <label className="font-bold ">🏪 ຊ່ອງທາງ:</label>
           <select className="text-sm border rounded px-2 py-1 w-[130px]" value={channel} onChange={e => setChannel(e.target.value)}>
@@ -139,15 +136,15 @@ export default function TopItemBrands() {
             <YAxis type="category" dataKey="brand" fontSize={10} hide />
             <Tooltip formatter={format} />
             <Legend />
-            <Bar dataKey="total2025" name="📆 2025" barSize={20}>
+            <Bar dataKey="total2025" fill="#06ab9b" name="📆 ຍອດຂາຍ" barSize={20}>
               {data.map((entry, index) => (
-                <Cell key={`cell-2025-${index}`} fill={entry.color} />
+                <Cell key={`cell-2025-${index}`} fill="#06ab9b" />
               ))}
               <LabelList dataKey="brand" content={<CustomTopLabel />} />
               <LabelList dataKey="total2025" content={CustomInsideLabel} formatter={formatNumber} style={{ fill: '#000', fontSize: 10, fontWeight: 'bold' }} />
               <LabelList dataKey="percent" position={"right"} formatter={formatPercent} style={{ fill: '#000', fontSize: 10, fontWeight: 'bold' }} />
             </Bar>
-            <Bar dataKey="total2024" name="📅 2024" fill="#FF9933" barSize={20}>
+            <Bar dataKey="total2024" name="📅 ປີຜ່ານມາ" fill="#DE5E57" barSize={20}>
               <LabelList dataKey="total2024" content={CustomInsideLabel} formatter={formatNumber} style={{ fill: '#000', fontSize: 10, fontWeight: 'bold' }} />
             </Bar>
           </BarChart>

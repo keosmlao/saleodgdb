@@ -37,6 +37,16 @@ export default function ChannelSummary() {
     const [filter, setFilter] = useState('thisMonth');
     const [viewMode, setViewMode] = useState('chart');
     const [data, setData] = useState([]);
+    const [buList, setBuList] = useState([{ code: 'all', name_1: '📦 ທຸກ BU' }]);
+    const [bu, setBu] = useState('all');
+    useEffect(() => {
+        api.get('/all/bu-list')
+            .then(res => {
+                const list = res.data || [];
+                setBuList([{ code: 'all', name_1: '📦 ທຸກ BU' }, ...list]);
+            })
+            .catch(err => console.error('❌ Load BU list failed:', err));
+    }, []);
 
     useEffect(() => {
         api.get(`/all/channel-summary?filter=${filter}`)
@@ -53,9 +63,15 @@ export default function ChannelSummary() {
     }, [filter]);
 
     return (
-        <div className="bg-white p-3 rounded-2xl shadow-sm h-[700px]">
+        <div className="bg-white p-3 rounded-2xl shadow-sm h-[700px] font-[Noto_Sans_Lao]">
             <h5 className="font-bold mb-2 text-[15px] font-[Noto_Sans_Lao]">📊 ສະຫຼູບຊອ່ງທາງ</h5>
             <div className="flex flex-wrap gap-2 mb-3 text-[12px]">
+                <div className="flex items-center gap-1">
+                    <label className="font-bold">🔍 BU:</label>
+                    <select className="text-sm border rounded px-2 py-1 w-[130px]" value={bu} onChange={e => setBu(e.target.value)}>
+                        {buList.map(b => <option key={b.code} value={b.code}>{b.name_1}</option>)}
+                    </select>
+                </div>
                 <div className="flex items-center gap-1 font-[Noto_Sans_Lao]">
                     <label className="font-bold ">📅 ໄລຍະເວລາ:</label>
                     <select className="text-sm border font-[Noto_Sans_Lao] rounded px-2 py-1 w-auto" value={filter} onChange={e => setFilter(e.target.value)}>
@@ -84,10 +100,9 @@ export default function ChannelSummary() {
                         <YAxis type="category" dataKey="channel" hide />
                         <Tooltip formatter={formatNumber} />
                         <Legend />
-
-                        <Bar dataKey="total2025" name="📆 2025" barSize={30}>
+                        <Bar dataKey="total2025" fill='#06ab9b' name="📆 ຍອດຂາຍ" barSize={30}>
                             {data.map((entry, index) => (
-                                <Cell key={`cell-2025-${index}`} fill={'#FF6B6B'} />
+                                <Cell key={`cell-2025-${index}`} fill="#06ab9b" />
                             ))}
                             <LabelList dataKey="channel" content={<CustomTopLabel />} />
                             <LabelList
@@ -95,24 +110,34 @@ export default function ChannelSummary() {
                                 position="right"
                                 formatter={formatNumber}
                                 content={CustomInsideLabel}
-                                style={{ fontSize: 10, fill: '#000', textDecoration: 'none', fontFamily: 'Noto Sans Lao' }}
+                                style={{
+                                    fontSize: 10,
+                                    fill: '#000',
+                                    fontFamily: 'Noto Sans Lao',
+                                    textDecoration: 'none',
+                                }}
                             />
                         </Bar>
-
-                        <Bar dataKey="total2024" name="📅 2024" barSize={30}>
+                        <Bar dataKey="total2024" fill="#DE5E57" name="📅 ປີຜ່ານມາ" barSize={30}>
                             {data.map((entry, index) => (
-                                <Cell key={`cell-2024-${index}`} fill={'#FFA726'} />
+                                <Cell key={`cell-2024-${index}`} fill="#DE5E57" />
                             ))}
                             <LabelList
                                 dataKey="total2024"
                                 position="right"
                                 formatter={formatNumber}
                                 content={CustomInsideLabel}
-                                style={{ fontSize: 10, fill: '#000', textDecoration: 'none', fontFamily: 'Noto Sans Lao' }}
+                                style={{
+                                    fontSize: 10,
+                                    fill: '#000',
+                                    fontFamily: 'Noto Sans Lao',
+                                    textDecoration: 'none',
+                                }}
                             />
                         </Bar>
                     </BarChart>
                 </ResponsiveContainer>
+
             )}
 
             {(viewMode === 'table' || viewMode === 'all') && (

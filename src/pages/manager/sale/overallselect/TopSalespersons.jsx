@@ -92,7 +92,7 @@ export default function TopSalespersons() {
 
 
   return (
-    <div className="bg-white p-3 rounded-2xl shadow-sm">
+    <div className="bg-white p-3 rounded-2xl shadow-sm font-[Noto_Sans_Lao]">
       <h5 className="font-bold mb-3 text-[15px] font-[Noto_Sans_Lao]">🏆10 ອັນດັບພະນັກງານຂາຍຍອດນິຍົມ</h5>
       <div className="flex flex-wrap gap-2 mb-3 text-[12px] font-[Noto_Sans_Lao]">
         <div className="flex items-center gap-1">
@@ -137,14 +137,14 @@ export default function TopSalespersons() {
               <YAxis type="category" dataKey="salename" hide />
               <Tooltip formatter={format} fontSize={9} />
               <Legend fontSize={9} />
-              <Bar dataKey="total2025" name="📆 2025" barSize={10} fontSize={9}>
+              <Bar dataKey="total2025" name="📆 ຍອດຂາຍ" fill="#06ab9b" barSize={10} fontSize={9}>
                 {data.map((entry, index) => (
-                  <Cell key={`cell-2025-${index}`} fill={entry.color} />
+                  <Cell key={`cell-2025-${index}`} fill={"#06ab9b"} />
                 ))}
                 <LabelList dataKey="salename" content={<CustomTopLabel />} />
                 <LabelList dataKey="total2025" content={CustomInsideLabel} formatter={formatNumber} style={{ fill: '#000', fontSize: 8, fontWeight: 'bold' }} />
               </Bar>
-              <Bar dataKey="total2024" name="📅 2024" fill="#FF9933" barSize={10} fontSize={9}>
+              <Bar dataKey="total2024" name="📅 ປີຜ່ານມາ" fill="#DE5E57" barSize={10} fontSize={9}>
                 <LabelList dataKey="total2024" content={CustomInsideLabel} formatter={formatNumber} style={{ fill: '#000', fontSize: 8, fontWeight: 'bold' }} />
               </Bar>
             </BarChart>

@@ -28,11 +28,13 @@ const SalesChartTabs = ({ year }) => {
     },
   ];
 
+
   return (
-    <div >
-      <div>
-        <Tabs defaultActiveKey="1" items={items} />
-      </div>
+    <div className="bg-white p-4 rounded-xl shadow-sm">
+      <h4 className="font-bold text-[16px] mb-3 font-[Noto_Sans_Lao]">
+        📊 ລາຍງານຍອດຂາຍຕາມເວລາ
+      </h4>
+      <Tabs defaultActiveKey="1" items={items} />
     </div>
   );
 };

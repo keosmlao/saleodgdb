@@ -126,7 +126,7 @@ const AccumulatedBarChart = () => {
 
 
     return (
-        <div className="bg-white p-3 mb-2 rounded-md shadow-sm" style={{height:"700px"}}>
+        <div className="bg-white p-3 mb-2 rounded-md shadow-sm font-[Noto_Sans_Lao]" style={{height:"700px"}}>
             <div className="flex justify-between items-center mb-3 flex-wrap text-[12px]">
                 <h5 className="text-red-600 font-bold mb-0 font-[Noto_Sans_Lao]">
                     📊 ຍອດສະສົມ (Accumulated Bar Chart)

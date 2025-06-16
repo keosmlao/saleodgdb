@@ -68,10 +68,6 @@ const HourlySalesChart = () => {
         <div className="w-full h-[645px]    ">
             <div className="bg-white rounded-lg shadow-sm mb-2">
                 <div className="p-4">
-                    <h5 className="font-bold mb-3 text-[15px] font-[Noto_Sans_Lao]">
-                        📊 ຍອດຂາຍຕາມຊົ່ວໂມງ
-                    </h5>
-
                     {loading ? (
                         <p className="text-center text-gray-500">⏳ ກຳລັງໂຫຼດຂໍ້ມູນ...</p>
                     ) : error ? (
