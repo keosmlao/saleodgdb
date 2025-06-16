@@ -129,7 +129,7 @@ export default function SalesComparisonProgressAllBU({bu}) {
     if (loading) return <div className="text-center py-5">⏳ Loading...</div>;
 
     return (
-        <div className="grid lg:grid-cols-3 grid">
+        <div className="grid lg:grid-cols-3 ">
             <div className="w-full sm:w-full  px-4">
                 <ComparisonCard title="📅 ປຽບທຽບຍອດຂາຍປະຈຳເດືອນ" data={data.total_month}/>
             </div>

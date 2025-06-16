@@ -79,7 +79,7 @@ export default function ProvinceSalesMap() {
   }
 
   return (
-    <div className="bg-white shadow-sm border-0 p-3 rounded-lg">
+    <div className="bg-white shadow-sm border-0 p-3 rounded-lg h-[1000px]">
       <h5 className=" mb-3 font-bold text-[15px] font-[Noto_Sans_Lao]">
         🗺️ ຂໍ້ມູນຍອດຂາຍປະຈຳແຂວງ
       </h5>

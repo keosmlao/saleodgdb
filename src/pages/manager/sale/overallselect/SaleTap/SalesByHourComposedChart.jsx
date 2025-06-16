@@ -58,35 +58,47 @@ const HourlySalesChart = () => {
             fontSize={8}
             style={{
                 fontFamily: 'Noto Sans Lao',
-            }}      
+            }}
         >
             {value}
         </text>
     );
 
     return (
-        <div style={{ width: '100%', height: '100%' }}>
-            <div className="card shadow-sm mb-2">
-                <div className="card-body">
-                    <h5 className="font-bold mb-3 text-[15px] font-[Noto_Sans_Lao]">📊 ຍອດຂາຍຕາມຊົ່ວໂມງ</h5>
+        <div className="w-full h-[645px]    ">
+            <div className="bg-white rounded-lg shadow-sm mb-2">
+                <div className="p-4">
+                    <h5 className="font-bold mb-3 text-[15px] font-[Noto_Sans_Lao]">
+                        📊 ຍອດຂາຍຕາມຊົ່ວໂມງ
+                    </h5>
+
                     {loading ? (
-                        <p className="text-center text-secondary">⏳ ກຳລັງໂຫຼດຂໍ້ມູນ...</p>
+                        <p className="text-center text-gray-500">⏳ ກຳລັງໂຫຼດຂໍ້ມູນ...</p>
                     ) : error ? (
-                        <p className="text-center text-danger">{error}</p>
+                        <p className="text-center text-red-600">{error}</p>
                     ) : (
                         <ResponsiveContainer width="100%" height={500}>
                             <BarChart
                                 data={data}
                                 layout="vertical"
-                                barGap={500}
+                                barGap={30}
                                 maxBarSize={10}
                                 barCategoryGap={20}
                                 barSize={10}
                             >
                                 <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis type="number" tickFormatter={formatNumber} fontSize={10} />
-                                <YAxis dataKey="hour" type="category" width={60} fontSize={10} hide />
-
+                                <XAxis
+                                    type="number"
+                                    tickFormatter={formatNumber}
+                                    fontSize={10}
+                                />
+                                <YAxis
+                                    dataKey="hour"
+                                    type="category"
+                                    width={60}
+                                    fontSize={10}
+                                    hide
+                                />
                                 <Tooltip content={<CustomTooltip />} />
                                 <Bar dataKey="total">
                                     {data.map((entry, index) => (
@@ -101,12 +113,11 @@ const HourlySalesChart = () => {
                                         formatter={formatNumber}
                                         style={{ fontSize: 10, fill: '#000' }}
                                     />
-
                                     <LabelList
                                         dataKey="total"
                                         content={({ x, y, value }) => (
                                             <text
-                                                x={x + 5}   
+                                                x={x + 5}
                                                 y={y + 8}
                                                 fill="#000"
                                                 fontSize={8}
@@ -116,8 +127,6 @@ const HourlySalesChart = () => {
                                             </text>
                                         )}
                                     />
-
-
                                 </Bar>
                             </BarChart>
                         </ResponsiveContainer>
@@ -125,6 +134,7 @@ const HourlySalesChart = () => {
                 </div>
             </div>
         </div>
+
     );
 };
 

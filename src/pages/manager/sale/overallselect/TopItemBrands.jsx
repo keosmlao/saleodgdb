@@ -94,7 +94,7 @@ export default function TopItemBrands() {
 
 
   return (
-    <div className="bg-white p-3 rounded-2xl shadow-sm">
+    <div className="bg-white p-3 rounded-2xl shadow-sm h-[700px]">
       <h5 className="font-bold mb-2 text-[15px] font-[Noto_Sans_Lao]">🏆 10 ອັນດັບແບຮນສີນຄ້າຍອດນິຍົມ</h5>
       <div className="flex flex-wrap gap-2 mb-3 text-[12px] font-[Noto_Sans_Lao]">
         <div className="flex items-center gap-1">

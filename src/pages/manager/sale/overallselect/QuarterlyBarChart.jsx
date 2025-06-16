@@ -128,7 +128,7 @@ export default function QuarterlyBarChart() {
   };
 
   return (
-    <div className="bg-white p-3 mb-2 rounded-sm shadow-sm">
+    <div className="bg-white p-3 mb-2 rounded-sm shadow-sm" style={{height:"600px"}}>
       <div className="flex justify-between items-center mb-3 flex-wrap">
         <h5 className="text-red-600 font-bold mb-2 text-[15px] font-[Noto_Sans_Lao]">
           📊 ສະຫຼຸບຍອດຂາຍລາຍໄຕມາດ

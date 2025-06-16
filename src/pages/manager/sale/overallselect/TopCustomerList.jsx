@@ -75,7 +75,7 @@ export default function TopCustomerListWithChart() {
 
 
   return (
-    <div className="bg-white p-2 mb-2 rounded-sm shadow-sm">
+    <div className="bg-white p-2 mb-2 rounded-sm shadow-sm" style={{ height: "700px" }}>
       <div className="flex justify-between items-center mb-3 flex-wrap text-[12px]">
         <h5 className="text-red-600 font-bold font-[Noto_Sans_Lao] text-[12px]">
           🏆 ຮ້ານຄ້າທີ່ມີຍອດຊື້ສູງສຸດ (Top 10)

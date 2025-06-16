@@ -49,7 +49,7 @@ export default function ProvinceSalesComparison() {
   if (loading) return <div className="text-center py-5 text-lg">⏳ Loading...</div>;
 
   return (
-    <div className="bg-white p-2 shadow rounded-lg mb-2">
+    <div className="bg-white p-2 shadow rounded-lg mb-2 h-[1000px]">
       <h5 className="font-bold mb-3 text-[15px] font-[Noto_Sans_Lao]">  📊 ຍອດຂາຍຕາມແຂວງ ({period === 'thisMonth' ? 'ເດືອນນີ້' : period === 'lastMonth' ? 'ເດືອນກ່ອນ' : 'ທັງປີ'})</h5>
       <div className="flex flex-wrap gap-2 mb-3 items-center text-[12px] font-[Noto_Sans_Lao]">
         <label className="font-bold text-[14px]">🔍 BU:</label>

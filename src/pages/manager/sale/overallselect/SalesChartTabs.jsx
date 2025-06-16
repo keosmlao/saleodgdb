@@ -16,7 +16,7 @@ const SalesChartTabs = ({ year }) => {
       label: 'ເປິດບີນຕາມວັນ',
       children: <WeeklySalesByDay year={year} />,
     },
-        {
+    {
       key: '3',
       label: 'ເປິດບີນຕາມອາທິດ',
       children: <WeeklySalesChart />,
@@ -29,8 +29,8 @@ const SalesChartTabs = ({ year }) => {
   ];
 
   return (
-    <div className="card">
-      <div className="card-body">
+    <div >
+      <div>
         <Tabs defaultActiveKey="1" items={items} />
       </div>
     </div>
