@@ -10,7 +10,7 @@ import api from '../../../../services/api';
 
 const formatCurrency = (value) => parseFloat(value).toLocaleString() + '  ฿';
 
-export default function ProvinceSalesBybu({bu}) {
+export default function ProvinceSalesBybu({ bu }) {
   const [period, setPeriod] = useState('thisMonth');
   const [dataByPeriod, setDataByPeriod] = useState({
     thisMonth: [],
@@ -58,7 +58,7 @@ export default function ProvinceSalesBybu({bu}) {
   if (loading) return <div className="text-center py-5">⏳ Loading...</div>;
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4 mb-2">
+    <div className="bg-white rounded-lg shadow-sm p-4 mb-2 text-black">
       <div className="flex justify-between items-center mb-3 flex-wrap gap-2">
         <h5 className="font-bold text-red-600 text-xs mb-0">
           📊 ຍອດຂາຍຕາມແຂວງ ({period === 'thisMonth' ? 'ເດືອນນີ້' : period === 'lastMonth' ? 'ເດືອນກ່ອນ' : 'ທັງປີ'})
@@ -77,15 +77,19 @@ export default function ProvinceSalesBybu({bu}) {
         </div>
       </div>
 
-      <ResponsiveContainer width="100%" height={500}>
-        <BarChart data={dataByPeriod[period]} margin={{ top: 20, right: 20, bottom: 10, left: 0 }}>
+      <ResponsiveContainer width="100%" height={800}>
+        <BarChart data={dataByPeriod[period]} layout="vertical">
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="province" angle={-15} textAnchor="end" height={90} fontSize={10}/>
-          <YAxis tickFormatter={(v) => v.toLocaleString()} fontSize={10}/>
-          <Tooltip formatter={(v) => formatCurrency(v)} fontSize={10}/>
+          <XAxis type="number" tickFormatter={v => v.toLocaleString()} tick={{ fontSize: 10 }} />
+          <YAxis type="category" dataKey="province" width={120} tick={{ fontSize: 10 }} />
+          <Tooltip formatter={v => parseFloat(v).toLocaleString() + ' ฿'} wrapperStyle={{ fontSize: '10px' }} />
           <Legend />
-          <Bar dataKey="sales" fill="#28a745" name="💰 Sales" fontSize={10}/>
-          <Bar dataKey="lastYear" fill="#ffc107" name="📆 Last Year" fontSize={10} />
+          <Bar dataKey="sales" fill="#06ab9b" name="💰 ຍອດຂາຍ" barSize={20}>
+
+          </Bar>
+          <Bar dataKey="lastYear" fill="#dc3545" name="📆 ປີຜ່ານມາ" barSize={20}>
+
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>

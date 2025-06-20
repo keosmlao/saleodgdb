@@ -23,6 +23,8 @@ export default function TopProductByBu({bu}) {
   const [chartType, setChartType] = useState('bar');
   const [chartData, setChartData] = useState([]);
   const [total, setTotal] = useState(0);
+  const [channel, setChannel] = useState('all');
+  const [viewMode, setViewMode] = useState('chart');
 
   useEffect(() => {
     api.get(`/bu/area-top-product/${bu}`) // ✅ your correct API
@@ -47,13 +49,16 @@ export default function TopProductByBu({bu}) {
     setTotal(sum);
   }, [selectedArea, timeFilter, areaList]);
 
-  const handleExport = () => {
-    const ws = XLSX.utils.json_to_sheet(chartData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, `Top_${timeFilter}_${selectedArea}`);
-    const buffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), `TopProduct_${timeFilter}_${selectedArea}.xlsx`);
-  };
+
+  const channelList = [
+    { name: 'all', display: 'ຊ່ອງທາງທັງໝົດ' },
+    { name: 'ຂາຍສົ່ງ', display: 'ຂາຍສົ່ງ' },
+    { name: 'ຂາຍໜ້າຮ້ານ', display: 'ຂາຍໜ້າຮ້ານ' },
+    { name: 'ຂາຍໂຄງການ', display: 'ຂາຍໂຄງການ' },
+    { name: 'ຂາຍຊ່າງ', display: 'ຂາຍຊ່າງ' },
+    { name: 'ບໍລິການ', display: 'ບໍລິການ' },
+    { name: 'ອື່ນໆ', display: 'ອື່ນໆ' },
+  ];
 
   const CustomTopLabel = ({ x, y, value }) => (
     <text x={x} y={y - 5} textAnchor="start" fill="#000" fontSize={10} style={{ fontFamily: 'Noto Sans Lao' }}>
@@ -61,79 +66,108 @@ export default function TopProductByBu({bu}) {
     </text>
   );
 
+  const formatCurrency = (val) => {
+    const num = parseFloat(val);
+    return isNaN(num) ? '0 B' : num.toLocaleString(undefined, { minimumFractionDigits: 0 }) + ' ฿';
+  };
+
   return (
-    <div className="card shadow-sm border-0 p-3 bg-white rounded-1 mb-3">
-      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-        <h5 className="fw-bold text-danger mb-0" style={{ fontSize: '12px' }}>
+      <div className="bg-white shadow-sm border-0 p-2 rounded text-black">
+
+        <h5 className="font-bold text-red-500 text-[12px] ">
           📦 ສິນຄ້າຂາຍດີ - {areaList.find(a => a.code === selectedArea)?.name_1 || ''}
         </h5>
-        <div className="d-flex gap-2 flex-wrap">
-          <select className="form-select form-select-sm w-auto" value={timeFilter} onChange={(e) => setTimeFilter(e.target.value)} style={{ fontSize: '10px' }}>
-            <option value="this_month">ເດືອນນີ້</option>
-            <option value="last_month">ເດືອນກ່ອນ</option>
-            <option value="fullyear">ປີນີ້</option>
-          </select>
-          <select className="form-select form-select-sm w-auto" value={selectedArea} onChange={(e) => setSelectedArea(e.target.value)} style={{ fontSize: '10px' }}>
-            {areaList.filter(a => a.code !== '00').map(a => (
-              <option key={a.code} value={a.code}>{a.name_1}</option>
-            ))}
-          </select>
-          <select className="form-select form-select-sm w-auto" value={chartType} onChange={(e) => setChartType(e.target.value)} style={{ fontSize: '10px' }}>
-            <option value="bar">Bar</option>
-            <option value="pie">Pie</option>
-          </select>
-          <button className="btn btn-sm btn-outline-secondary" onClick={handleExport} style={{ fontSize: '10px' }}>
-            📤 Export Excel
-          </button>
-        </div>
-      </div>
-
-      {chartData.length === 0 ? (
-        <div className="text-center text-muted py-4">ບໍ່ມີຂໍ້ມູນ</div>
-      ) : (
-        <>
-          {chartType === 'bar' && (
-            <ResponsiveContainer width="100%" height={430}>
-              <BarChart data={chartData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" tickFormatter={(v) => v.toLocaleString()} />
-                <YAxis type="category" dataKey="name" hide />
-                <Tooltip formatter={format} />
-                <Bar dataKey="total" fill="#06ab9b" barSize={20}>
-                  <LabelList dataKey="name" content={<CustomTopLabel />} position="left" />
-                  <LabelList dataKey="total" position="insideRight" formatter={(v) => v.toLocaleString()} style={{ fill: '#fff', fontSize: 10 }} />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          )}
-
-          {chartType === 'pie' && (
-            <ResponsiveContainer width="100%" height={500}>
-              <PieChart>
-                <Pie
-                  data={chartData}
-                  dataKey="total"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={140}
-                  label={({ name, percent }) => `${name.slice(0, 20)} (${percent}%)`}
-                >
-                  {chartData.map((entry, index) => (
-                    <Cell key={index} fill={getColor(entry.total)} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={format} />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-          )}
-
-          <div className="text-end text-muted small mt-2">
-            ລວມຍອດ: {total.toLocaleString()} ₭
+        <div className="flex flex-wrap gap-2 mb-3 text-[12px] font-[Noto_Sans_Lao]">
+          <div className="flex items-center gap-1">
+            <label className="font-bold ">🏪 ຊ່ອງທາງ:</label>
+            <select className="text-sm border rounded px-2 py-1 w-[130px]" value={channel} onChange={e => setChannel(e.target.value)}>
+              {channelList.map(c => <option key={c.name} value={c.name}>{c.display}</option>)}
+            </select>
           </div>
-        </>
-      )}
-    </div>
+          <div className="flex items-center gap-1">
+            <label className="font-bold ">🌍 ຂອບເຂດ:</label>
+            <select className="text-sm border rounded px-2 py-1 w-[130px]" value={selectedArea} onChange={e => setSelectedArea(e.target.value)}>
+              {[
+                { code: 'all', name_1: 'ທຸກ ZONE' },
+                { code: '11', name_1: 'ZONE A' },
+                { code: '12', name_1: 'ZONE B' },
+                { code: '13', name_1: 'ZONE C' },
+                { code: '14', name_1: 'ZONE D' },
+                { code: '15', name_1: 'ZONE E' },
+                { code: '16', name_1: 'ZONE F' },
+              ].map(z => (
+                  <option key={z.code} value={z.code}>{z.name_1}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex items-center gap-1">
+            <label className="font-bold ">📅 ໄລຍະເວລາ:</label>
+            <select className="text-sm border rounded px-2 py-1 w-[130px]" value={timeFilter} onChange={e => setTimeFilter(e.target.value)}>
+              <option value="this_month">ເດືອນນີ້</option>
+              <option value="last_month">ເດືອນກ່ອນ</option>
+              <option value="fullyear">ປີນີ້</option>
+            </select>
+          </div>
+          <div className="flex items-center gap-1">
+            <label className="font-bold ">📊 ຮູບແບບ:</label>
+            <div className="ml-2 inline-flex rounded overflow-hidden border ">
+              <button className={`px-3 py-1 ${viewMode === 'all' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('all')}>ທັງໝົດ</button>
+              <button className={`px-3 py-1 ${viewMode === 'chart' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-r'}`} onClick={() => setViewMode('chart')}>Chart</button>
+              <button className={`px-3 py-1 ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600'}`} onClick={() => setViewMode('table')}>ຕາຕະລາງ</button>
+            </div>
+          </div>
+
+        </div>
+
+        {chartData.length === 0 ? (
+            <div className="text-center text-muted py-4">ບໍ່ມີຂໍ້ມູນ</div>
+        ) : (
+            <>
+              {(viewMode === 'chart' || viewMode === 'all') && (
+                  <ResponsiveContainer width="100%" height={430}>
+                    <BarChart data={chartData} layout="vertical">
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis type="number" tickFormatter={(v) => v.toLocaleString()} />
+                      <YAxis type="category" dataKey="name" hide />
+                      <Tooltip formatter={format} />
+                      <Bar dataKey="total" fill="#06ab9b" barSize={20}>
+                        <LabelList dataKey="name" content={<CustomTopLabel />} position="left" />
+                        <LabelList
+                            dataKey="total"
+                            position="insideRight"
+                            formatter={(v) => v.toLocaleString()}
+                            style={{ fill: '#fff', fontSize: 10 }}
+                        />
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+              )}
+
+              {(viewMode === 'table' || viewMode === 'all') && (
+                  <div className="overflow-x-auto mt-4">
+                    <table className="min-w-full text-sm border border-gray-300">
+                      <thead className="bg-gray-100 text-left">
+                      <tr>
+                        <th className="px-3 py-2 border">#</th>
+                        <th className="px-3 py-2 border">ລາຍການ</th>
+                        <th className="px-3 py-2 border">ຍອດຂາຍ</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {chartData.map((row, i) => (
+                          <tr key={i} className="hover:bg-gray-50">
+                            <td className="px-3 py-1 border">{i + 1}</td>
+                            <td className="px-3 py-1 border">{row.name}</td>
+                            <td className="px-3 py-1 border text-right text-green-600">{formatCurrency(row.total)}</td>
+                          </tr>
+                      ))}
+                      </tbody>
+                    </table>
+                  </div>
+              )}
+            </>
+        )}
+
+      </div>
   );
 }

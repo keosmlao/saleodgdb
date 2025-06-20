@@ -17,9 +17,12 @@ const formatNumber = (value) =>
 
 const ComparisonCard = ({ title, data, icon, color, barColor }) => {
   const target = Number(data.target || 0);
+  console.log("target", target)
   const revenue = Number(data.revenue || 0);
+  console.log("revenue", revenue)
   const lastYear = Number(data.last_year || 0);
   const toPercent = (value) => (target > 0 ? (value / target) * 100 : 0);
+  console.log("to percent", toPercent)
   const percentRevenue = toPercent(revenue);
   const percentLastYear = lastYear > 0 ? (revenue / lastYear) * 100 : 0;
   return (
@@ -92,6 +95,7 @@ export default function SalesComparisonProgressAll() {
   });
   const [bu, setBu] = useState('all');
   const [buList, setBuList] = useState([]);
+  console.log("data 📅 ເດືອນນີ້", data)
 
   const fetchData = () => {
     setLoading(true);

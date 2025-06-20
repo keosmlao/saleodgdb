@@ -4,7 +4,7 @@ import {
   ResponsiveContainer, Cell, LabelList
 } from 'recharts';
 import api from '../../../../services/api';
-export default function QuarterlyBarChartBUchannel({bu, department}) {
+export default function QuarterlyBarChartBUchannel({ bu, department }) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -38,13 +38,13 @@ export default function QuarterlyBarChartBUchannel({bu, department}) {
         }
       })
       .catch((err) => console.error('Error loading API:', err));
-  }, [bu,department]);
+  }, [bu, department]);
 
   const format = (v) => Number(v).toLocaleString('en-US') + ' ฿';
 
   return (
-    <div className="card p-2">
-      <h5 className="text-danger fw-bold mb-3">📊 ສະຫຼຸບຍອດຂາຍລາຍໄຕມາດ</h5>
+    <div className="bg-white rounded-lg shadow p-4 my-2 h-[500px]">
+      <h5 className="text-red-600 font-bold mb-3">📊 ສະຫຼຸບຍອດຂາຍລາຍໄຕມາດ</h5>
 
       <ResponsiveContainer width="100%" height={360}>
         <BarChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 10 }}>

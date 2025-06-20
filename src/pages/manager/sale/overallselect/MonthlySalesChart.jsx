@@ -20,7 +20,7 @@ export default function MonthlySalesChart() {
   const [selectedZone, setSelectedZone] = useState('all');
 
   console.log("select zone monthly", selectedZone);
-  console.log("data", processedData);
+  console.log("data main", processedData);
 
 
   const channelList = [
@@ -52,7 +52,7 @@ export default function MonthlySalesChart() {
   const loadData = () => {
     const params = new URLSearchParams();
     if (selectedBu !== 'all') params.append('bu', selectedBu);
-    if (selectedZone !== 'all') params.append('area', selectedZone); // 🔥 Update เป็น 'area'
+    if (selectedZone !== 'all') params.append('area', selectedZone);
     if (selectedChannel !== 'all') params.append('channel', selectedChannel); // 🔥 เพิ่ม 'channel'
     api.get(`/all/monthly?${params.toString()}`) // 🔥 เรียก API /quarterly
       .then(res => {
@@ -88,26 +88,6 @@ export default function MonthlySalesChart() {
   const formatCurrency = v => {
     const num = Math.round(Number(v));
     return num.toLocaleString('en-US', { maximumFractionDigits: 0, minimumFractionDigits: 0 }) + ' ฿';
-  };
-
-  const handleExportPDF = async () => {
-    const canvas = await html2canvas(chartRef.current);
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF('landscape', 'mm', 'a4');
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const imgProps = pdf.getImageProperties(imgData);
-    const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    pdf.addImage(imgData, 'PNG', 0, 10, pdfWidth, imgHeight);
-    pdf.save('monthly-sales-report.pdf');
-  };
-
-  const handleExportExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(processedData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Monthly Sales');
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const file = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(file, 'monthly-sales-report.xlsx');
   };
 
   const CustomTooltip = ({ active, payload, label }) => {
@@ -210,25 +190,25 @@ export default function MonthlySalesChart() {
 
         <div ref={chartRef}>
           {(viewMode === 'all' || viewMode === 'chart') && (
-            <ResponsiveContainer width="100%" height={400}>
-              <BarChart data={processedData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" fontSize={8} />
-                <YAxis tickFormatter={v => Number(v).toLocaleString()} fontSize={9} />
-                <Tooltip content={<CustomTooltip />} />
-                <Legend />
-                <Bar dataKey="target" name="🎯 ເປົ້າໝາຍ" fill="#FFD580" isAnimationActive animationDuration={1500} animationBegin={0}>
-                  <LabelList dataKey="target" position="top" formatter={formatCurrencies} style={{ fontSize: 8 }} />
-                </Bar>
-                <Bar dataKey="current" name="📆 ຍອດຂາຍ" fill="#06ab9b" isAnimationActive animationDuration={1500} animationBegin={300}>
-                  <LabelList dataKey="percentAchieved" fontSize={8} content={CustomLabel} />
-                  <LabelList fill="#000" dataKey="compareLastYear" position="insideTop" content={CustomCompair} fontSize={8} />
-                </Bar>
-                <Bar dataKey="lastYear" name="📅 ປີຜ່ານມາ" fill="#EF5350" isAnimationActive animationDuration={1500} animationBegin={600} >
-                  <LabelList dataKey="lastYear" position="top" formatter={formatCurrencies} style={{ fontSize: 8 }} />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+              <ResponsiveContainer width="100%" height={400}>
+                <BarChart data={processedData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" fontSize={8} />
+                  <YAxis tickFormatter={v => Number(v).toLocaleString()} fontSize={9} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend />
+                  <Bar dataKey="target" name="🎯 ເປົ້າໝາຍ" fill="#FFD580" isAnimationActive animationDuration={1500} animationBegin={0}>
+                    <LabelList dataKey="target" position="top" formatter={formatCurrencies} style={{ fontSize: 8 }} />
+                  </Bar>
+                  <Bar dataKey="current" name="📆 ຍອດຂາຍ" fill="#06ab9b" isAnimationActive animationDuration={1500} animationBegin={300}>
+                    <LabelList dataKey="percentAchieved" fontSize={8} content={CustomLabel} />
+                    <LabelList fill="#000" dataKey="compareLastYear" position="insideTop" content={CustomCompair} fontSize={8} />
+                  </Bar>
+                  <Bar dataKey="lastYear" name="📅 ປີຜ່ານມາ" fill="#EF5350" isAnimationActive animationDuration={1500} animationBegin={600} >
+                    <LabelList dataKey="lastYear" position="top" formatter={formatCurrencies} style={{ fontSize: 8 }} />
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
           )}
 
           {(viewMode === 'all' || viewMode === 'table') && (
