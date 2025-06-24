@@ -15,6 +15,8 @@ import ProductDefection from './pages/manager/cost/ProductDefection';
 import Tabbu from './pages/manager/sale/Tabbu';
 import AutoLogoutWrapper from './components/AutoLogoutWrapper';
 import HomeLastMonth from './pages/lastmonth/homelastmonth';
+import PurchasingProductPage from './pages/purchasingProduct/PurchasingProduct';
+import CreatePurchasingProduct from './pages/purchasingProduct/component/ListProduct';
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
         <Route path="/sale/laocostunder" element={<ProtectedRoute><SaleUnderLaoCost /></ProtectedRoute>} />
         <Route path="/sale/overallgm" element={<ProtectedRoute><OverallGm /></ProtectedRoute>} />
         <Route path="/sale/productdefection" element={<ProtectedRoute><ProductDefection /></ProtectedRoute>} />
+        <Route path="/sale/purchasing" element={<ProtectedRoute><PurchasingProductPage /></ProtectedRoute>} />
+        <Route path="/sale/create/purchasing" element={<ProtectedRoute><CreatePurchasingProduct /></ProtectedRoute>} />
       </Route>
 
     </Routes>

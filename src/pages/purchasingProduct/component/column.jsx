@@ -1,0 +1,15 @@
+export const columnsPurchasing = [
+  { title: 'Name (Lao)', dataIndex: 'name_1', key: 'name_1' },
+  { title: 'Name (EN)', dataIndex: 'name_2', key: 'name_2' },
+  { title: 'Unit', dataIndex: 'unit_code', key: 'unit_code' },
+  { title: 'PH1', dataIndex: 'ph1', key: 'ph1' },
+  { title: 'PH2', dataIndex: 'ph2', key: 'ph2' },
+  { title: 'PH3', dataIndex: 'ph3', key: 'ph3' },
+  { title: 'PH4', dataIndex: 'ph4', key: 'ph4' },
+  { title: 'PH5', dataIndex: 'ph5', key: 'ph5' },
+  { title: 'PH6', dataIndex: 'ph6', key: 'ph6' },
+  { title: 'PH7', dataIndex: 'ph7', key: 'ph7' },
+  { title: 'PH8', dataIndex: 'ph8', key: 'ph8' },
+  { title: 'Warehouse', dataIndex: 'wh', key: 'wh' },
+  { title: 'Shelf', dataIndex: 'sh', key: 'sh' },
+];

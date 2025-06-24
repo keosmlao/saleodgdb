@@ -26,15 +26,15 @@ export default function MonthlySalesChartbybu({ bu }) {
     if (bu !== 'all') params.append('bu', bu);
     if (selectedZone !== 'all') params.append('area', selectedZone);
     if (selectedChannel !== 'all') params.append('channel', selectedChannel);
-    api.get(`/all/monthly?${params.toString()}`) // 🔥 เรียก API /quarterly
+    api.get(`/monthly?${params.toString()}`)
       .then(res => {
         const processed = Array.isArray(res.data)
           ? res.data.map(item => {
             const target = Number(item.target || 0);
             const revenue = Number(item.revenue || 0);
             const lastYear = Number(item.last_year || 0);
-            const percentAchieved = target > 0 ? Number(((revenue / target) * 100).toFixed(1)) : 0;
-            const compareLastYear = lastYear > 0 ? Number(((revenue / lastYear) * 100).toFixed(1)) : 0;
+            const percentAchieved = target > 0 ? Number(((revenue / target) * 100)) : 0;
+            const compareLastYear = lastYear > 0 ? Number(((revenue / lastYear) * 100)) : 0;
             return {
               quarter: item.quarter,
               target,

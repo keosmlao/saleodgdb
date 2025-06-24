@@ -11,45 +11,39 @@ export default function QuarterlyBarChartBU({ bu }) {
   const [selectedChannel, setSelectedChannel] = useState('all');
   const [viewMode, setViewMode] = useState('chart');
 
-  const loadData = () => {
-    try {
-      const params = new URLSearchParams();
-      if (filter !== 'all') params.append('filter', filter);
-      if (bu !== 'all') params.append('bu', bu);
-      if (selectedZone !== 'all') params.append('area', selectedZone);
-      if (selectedChannel !== 'all') params.append('channel', selectedChannel);
-      api.get(`/all/monthly?${params.toString()}`)
-        .then(res => {
-          const processed = Array.isArray(res.data)
-            ? res.data.map(item => {
-              const target = Number(item.target || 0);
-              const revenue = Number(item.revenue || 0);
-              const lastYear = Number(item.last_year || 0);
-              const percentAchieved = target > 0 ? Number(((revenue / target) * 100).toFixed(1)) : 0;
-              const compareLastYear = lastYear > 0 ? Number(((revenue / lastYear) * 100).toFixed(1)) : 0;
-              return {
-                quarter: item.quarter,
-                target,
-                current: revenue,
-                lastYear,
-                percentAchieved,
-                compareLastYear,
-              };
-            })
-            : [];
-
-          setData(processed);
-        })
-    } catch (error) {
-      console.error('Failed to load monthly sales data:', error);
-    }
-
-  };
-
   useEffect(() => {
-    console.log("Effect triggered:", { filter, bu, selectedZone, selectedChannel });
-    loadData();
-  }, [selectedZone, selectedChannel, bu, filter]);
+    const params = new URLSearchParams();
+    if (filter !== 'all') params.append('filter', filter);
+    if (bu !== 'all') params.append('bu', bu);
+    if (selectedZone !== 'all') params.append('area', selectedZone);
+    if (selectedChannel !== 'all') params.append('channel', selectedChannel);
+    api.get(`/bu/quarterly/${bu}?${params.toString()}`)
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          const processed = res.data.map((item) => {
+            const target = Number(item.target || 0);
+            const revenue = Number(item.revenue || 0);
+            const lastYear = Number(item.last_year || 0);
+            const percentAchieved = target > 0 ? Math.round((revenue / target) * 100) : 0;
+
+            let barColor = '#dc3545'; // red
+            if (percentAchieved >= 80) barColor = '#28a745'; // green
+            else if (percentAchieved >= 50) barColor = '#fd7e14'; // orange
+
+            return {
+              quarter: `Q${item.quarter}`,
+              target,
+              current: revenue,
+              lastYear,
+              percentAchieved,
+              barColor,
+            };
+          });
+          setData(processed);
+        }
+      })
+      .catch((err) => console.error('Error loading API:', err));
+  }, [bu, filter, selectedChannel, selectedZone]);
 
   const channelList = [
     { name: 'all', display: '🌐 ຊອ່ງທາງທັງໝົດ' },
@@ -111,10 +105,10 @@ export default function QuarterlyBarChartBU({ bu }) {
           <p>📆 ຍອດຂາຍ: {formatCurrencies(data.current)}</p>
           <p>📅 ປີຜ່ານມາ: {formatCurrencies(data.lastYear)}</p>
           <p style={{ color: data.percentAchieved >= 100 ? 'green' : 'red' }}>
-            {data.percentAchieved >= 100 ? '▲' : '🔻'} % ບັນລຸ: {data.percentAchieved.toFixed(1)}%
+            {data.percentAchieved >= 100 ? '▲' : '🔻'} % ບັນລຸ: {data.percentAchieved}%
           </p>
           <p style={{ color: data.compareLastYear >= 100 ? 'green' : 'red' }}>
-            {data.compareLastYear >= 100 ? '▲' : '🔻'} % ປຽບທຽບປີຜ່ານມາ: {data.compareLastYear.toFixed(1)}%
+            {data.compareLastYear >= 100 ? '▲' : '🔻'} % ປຽບທຽບປີຜ່ານມາ: {data.compareLastYear}%
           </p>
         </div>
       );
