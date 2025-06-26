@@ -15,6 +15,8 @@ import ProductDefection from './pages/manager/cost/ProductDefection';
 import Tabbu from './pages/manager/sale/Tabbu';
 import AutoLogoutWrapper from './components/AutoLogoutWrapper';
 import HomeLastMonth from './pages/lastmonth/homelastmonth';
+import HomeBcg from './pages/bcg/homebcg';
+import HomePM from './pages/pm/homepm';
 
 function App() {
   return (
@@ -22,6 +24,12 @@ function App() {
       <Route path="/" element={<Login />} />
 
       <Route element={<AutoLogoutWrapper />}>
+
+      
+        <Route path="/pm/home" element={<ProtectedRoute><HomePM /></ProtectedRoute>} />
+
+
+
         <Route path="/admin/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/log/loginlogs" element={<ProtectedRoute><LoginLogs /></ProtectedRoute>} />
         <Route path="/sale/salloverall" element={<ProtectedRoute><Saloverall /></ProtectedRoute>} />
@@ -33,6 +41,7 @@ function App() {
         <Route path="/sale/laocostunder" element={<ProtectedRoute><SaleUnderLaoCost /></ProtectedRoute>} />
         <Route path="/sale/overallgm" element={<ProtectedRoute><OverallGm /></ProtectedRoute>} />
         <Route path="/sale/productdefection" element={<ProtectedRoute><ProductDefection /></ProtectedRoute>} />
+        <Route path="/pm/bcg" element={<ProtectedRoute><HomeBcg /></ProtectedRoute>} />
       </Route>
 
     </Routes>

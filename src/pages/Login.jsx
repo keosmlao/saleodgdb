@@ -29,9 +29,13 @@ export default function Login() {
       localStorage.setItem("role", role);
       localStorage.setItem("user_id", user_id);
       localStorage.setItem("username", user_name);
-
-      // Navigate ตาม role
-      navigate(role === "Manager" ? "/admin/home" : role === "admin" ? "/admin" : "/dashboard");
+      console.log("Login successful:", res.data);
+      if (role === "Manager") {
+        navigate("/admin/home");
+      } else if (role === "pm") {
+        navigate("/pm/home");
+      }
+      // navigate(role === "Manager" ? "/admin/home" : role === "admin" ? "/admin" : "/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     } finally {

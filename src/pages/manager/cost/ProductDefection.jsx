@@ -3,14 +3,14 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import api from '../../../services/api';
 import Navbar from '../../../components/Navbar';
-
+import NavbarPM from '../../../components/NavbarPM';
 export default function ProductDefection() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
+const roles = localStorage.getItem('role'); // Get user role from localStorage
   // Fetch and group data
   useEffect(() => {
     api.get('/cost/item-cost-status')
@@ -59,7 +59,7 @@ export default function ProductDefection() {
 
   return (
     <>
-      <Navbar />
+      {roles === 'Manager' ? <Navbar /> : <NavbarPM />}
       <div className="container mx-auto mt-4">
         <h4 className="text-red-600 font-bold mb-3">🛑 Product Cost Defection Report</h4>
 
