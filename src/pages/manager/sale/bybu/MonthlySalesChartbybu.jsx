@@ -3,11 +3,6 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, LabelList, Cell
 } from 'recharts';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
-import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import api from '../../../../services/api'
 
@@ -26,7 +21,11 @@ export default function MonthlySalesChartbybu({ bu }) {
     if (bu !== 'all') params.append('bu', bu);
     if (selectedZone !== 'all') params.append('area', selectedZone);
     if (selectedChannel !== 'all') params.append('channel', selectedChannel);
+<<<<<<< HEAD
     api.get(`/all/monthly?${params.toString()}`) // 🔥 เรียก API /quarterly
+=======
+    api.get(`/bu/monthly/${bu}`)
+>>>>>>> 1a8f5bc (fix-api-path)
       .then(res => {
         const processed = Array.isArray(res.data)
           ? res.data.map(item => {
@@ -78,7 +77,7 @@ export default function MonthlySalesChartbybu({ bu }) {
             {data.percentAchieved >= 100 ? '▲' : '🔻'} % ບັນລຸ: {data.percentAchieved?.toFixed(1)}%
           </p>
           <p style={{ color: data.compareLastYear >= 100 ? 'green' : 'red' }}>
-            {data.compareLastYear >= 100 ? '▲' : '🔻'} % ປຽບທຽບປີຜ່ານມາ: {data.compareLastYear}%
+            {data.compareLastYear >= 100 ? '▲' : '🔻'} % ປຽບທຽບປີຜ່ານມາ: {data.compareLastYear.toFixed(1)}%
           </p>
         </div>
       );
@@ -100,18 +99,22 @@ export default function MonthlySalesChartbybu({ bu }) {
   const CustomLabel = ({ x, y, value }) => {
     const icon = value >= 100 ? '▲' : '🔻';
     const color = value >= 100 ? 'green' : 'red';
+    const formattedValue = parseFloat(value).toFixed(1); 
+
     return (
       <text x={x} y={y - 10} fontSize={8} textAnchor="middle">
-        <tspan fill={color}>{icon}</tspan> {value}%
+        <tspan fill={color}>{icon}</tspan> {formattedValue}%
       </text>
     );
   };
+
   const CustomCompair = ({ x, y, value }) => {
     const icon = value >= 100 ? '▲' : '🔻';
     const color = value >= 100 ? 'green' : 'red';
+    const formattedValue = parseFloat(value).toFixed(1);
     return (
       <text x={x} y={y - 0} fontSize={8} textAnchor="middle">
-        <tspan fill={color}>{icon}</tspan> {value}%
+        <tspan fill={color}>{icon}</tspan> {formattedValue}%
       </text>
     );
   }

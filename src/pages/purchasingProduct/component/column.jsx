@@ -1,0 +1,16 @@
+export const columnsPurchasing = [
+  { title: 'ID', dataIndex: 'roworder', key: 'roworder' },
+  { title: 'Name (Lao)', dataIndex: 'name_1', key: 'name_1' },
+  { title: 'Name (EN)', dataIndex: 'name_2', key: 'name_2' },
+  { title: 'Unit', dataIndex: 'unit_code', key: 'unit_code' },
+  { title: 'ໝວດສີນຄ້າຫລັກ', dataIndex: 'ph1', key: 'ph1' },
+  { title: 'ໝວດສີນຄ້າຍອ່ຍ1', dataIndex: 'ph2', key: 'ph2' },
+  { title: 'ໝວດສີນຄ້າຍອ່ຍ2', dataIndex: 'ph3', key: 'ph3' },
+  { title: 'ປະເພດສີນຄ່າ', dataIndex: 'ph4', key: 'ph4' },
+  { title: 'ຍີ່ຫໍ້', dataIndex: 'ph5', key: 'ph5' },
+  { title: 'ຮູບແບບ', dataIndex: 'ph6', key: 'ph6' },
+  { title: 'ຂະໜາດ', dataIndex: 'ph7', key: 'ph7' },
+  { title: 'ອອກແບບ', dataIndex: 'ph8', key: 'ph8' },
+  { title: 'Warehouse', dataIndex: 'wh', key: 'wh' },
+  { title: 'Shelf', dataIndex: 'sh', key: 'sh' },
+];

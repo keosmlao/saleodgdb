@@ -17,6 +17,9 @@ import AutoLogoutWrapper from './components/AutoLogoutWrapper';
 import HomeLastMonth from './pages/lastmonth/homelastmonth';
 import HomeBcg from './pages/bcg/homebcg';
 import HomePM from './pages/pm/homepm';
+import PurchasingProductPage from './pages/purchasingProduct/PurchasingProduct';
+import CreatePurchasingProduct from './pages/purchasingProduct/component/ListProduct';
+import TabPurchasing from './pages/purchasingProduct/TabPurchasing';
 
 function App() {
   return (
@@ -42,6 +45,9 @@ function App() {
         <Route path="/sale/overallgm" element={<ProtectedRoute><OverallGm /></ProtectedRoute>} />
         <Route path="/sale/productdefection" element={<ProtectedRoute><ProductDefection /></ProtectedRoute>} />
         <Route path="/pm/bcg" element={<ProtectedRoute><HomeBcg /></ProtectedRoute>} />
+        <Route path="/sale/tabpurchasing" element={<ProtectedRoute><TabPurchasing /></ProtectedRoute>} />
+        <Route path="/sale/purchasing" element={<ProtectedRoute><PurchasingProductPage /></ProtectedRoute>} />
+        <Route path="/sale/create/purchasing" element={<ProtectedRoute><CreatePurchasingProduct /></ProtectedRoute>} />
       </Route>
 
     </Routes>
