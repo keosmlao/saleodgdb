@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import api from '../../../services/api';
 import Navbar from '../../../components/Navbar';
 import DashboardCostSummary from './DashboardCostSummary';
-
+import NavbarPM from '../../../components/NavbarPM';
 export default function ProductSalesPage() {
   const [data, setData] = useState([]);
   const [filtered, setFiltered] = useState([]);
@@ -18,7 +18,7 @@ export default function ProductSalesPage() {
   const [groupSub2Options, setGroupSub2Options] = useState([]);
   const [loading, setLoading] = useState(false);
   const limit = 30;
-
+  const roles = localStorage.getItem('role'); // Get user role from localStorage
   useEffect(() => {
     api.get('/cost/groupmain')
       .then((res) => setGroupMainOptions(res.data.data || []))
@@ -106,9 +106,9 @@ export default function ProductSalesPage() {
 
   return (
     <>
-      <Navbar />
+      {roles === 'Manager' ? <Navbar /> : <NavbarPM />}
       <DashboardCostSummary />
-      <div className="w-full mx-auto mt-8 px-4">
+      <div className=" container   mx-auto mt-8 px-4 ">
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h4 className="text-2xl font-bold text-gray-800 mb-6 font-['Noto_Sans_Lao']">ລາຍການຂາຍສິນຄ້າ</h4>
 

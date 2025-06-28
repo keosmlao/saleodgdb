@@ -7,11 +7,12 @@ import CustomerPointRedeem from './customerPointRedeem';
 import CustomerRedeem from './customerRedeem'
 import DonutGroup from './DonutGroup'
 import PromotionDashboard from './PromotionDashboard';
+import NavbarPM from '../../../components/NavbarPM';
 export default function PromotionLineoa() {
     const [buOptions, setBuOptions] = useState([]);
     const [channelOptions, setChannelOptions] = useState([]);
     const [promotionOptions, setPromotionOptions] = useState([]);
-
+    const roles = localStorage.getItem('role'); // Get user role from localStorage
     const [selectedBU, setSelectedBU] = useState(null);
     const [selectedChannel, setSelectedChannel] = useState(null);
     const [selectedPromotion, setSelectedPromotion] = useState(null);
@@ -77,7 +78,7 @@ export default function PromotionLineoa() {
 
     return (
         <>
-            <Navbar />
+            {roles === 'Manager' ? <Navbar /> : <NavbarPM />}
             <div className="m-3">
                 <PromotionDashboard />
             </div>
