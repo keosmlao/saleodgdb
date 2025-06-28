@@ -21,11 +21,7 @@ export default function MonthlySalesChartbybu({ bu }) {
     if (bu !== 'all') params.append('bu', bu);
     if (selectedZone !== 'all') params.append('area', selectedZone);
     if (selectedChannel !== 'all') params.append('channel', selectedChannel);
-<<<<<<< HEAD
-    api.get(`/all/monthly?${params.toString()}`) // 🔥 เรียก API /quarterly
-=======
     api.get(`/bu/monthly/${bu}`)
->>>>>>> 1a8f5bc (fix-api-path)
       .then(res => {
         const processed = Array.isArray(res.data)
           ? res.data.map(item => {
