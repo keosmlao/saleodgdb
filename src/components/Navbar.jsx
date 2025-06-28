@@ -122,7 +122,7 @@ export default function Navbar() {
                         </button>
                         <button
                             className="group flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-all duration-200"
-                            onClick={() => navigate("/sale/purchasing")}
+                            onClick={() => navigate("/sale/tabpurchasing")}
                         >
                             <span className="text-lg group-hover:scale-110 transition-transform duration-200">🎯</span>
                             <span className="text-sm font-semibold">PURCHASING</span>

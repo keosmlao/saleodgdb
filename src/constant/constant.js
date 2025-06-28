@@ -14,6 +14,15 @@ export const OPTION_TYPE_COST = [
 ]
 
 export const OPTION_MERCHANT = [
-    { value: '00', label: 'ສຳນັກງານໃຫ່ຍ'},
-    { value: '05', label: 'ສາຂາOdein Thai'},
+    { value: '00', label: 'ສຳນັກງານໃຫ່ຍ' },
+    { value: '05', label: 'ສາຂາOdein Thai' },
+]
+
+export const OPTION_PRODUCT_NAME = [
+    { value: '00', label: 'TEST' },
+]
+
+export const  OPTION_UNIT = [
+    { value: '00', label: 'ສີນຄ້າໜວ່ຍນັບດຽງ' },
+    { value: '00', label: 'ສີນຄ້າຫຼາຍໜວ່ຍນັບ' },
 ]

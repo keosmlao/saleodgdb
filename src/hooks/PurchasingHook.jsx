@@ -11,6 +11,7 @@ const PurchasingHook = () => {
     const [getProductPHSeven, setGetProductPHSeven] = useState([])
     const [getProductPHEig, setGetProductPHEig] = useState([])
     const [getWareHouse, setGetWareHouse] = useState([])
+    const [getLocation, setGetLocation] = useState([]);
     const [getIcUnit, setGetIcUnit] = useState([])
     const [selectedPH1, setSelectedPH1] = useState(null);
     const [selectedPH2, setSelectedPH2] = useState(null);
@@ -20,11 +21,15 @@ const PurchasingHook = () => {
     const [selectedPH6, setSelectedPH6] = useState(null);
     const [selectedPH7, setSelectedPH7] = useState(null);
     const [selectedPH8, setSelectedPH8] = useState(null);
-    const [selectIcUnit, setSelectUnit] = useState('ຫົວໜວ່ຍນັບດຽວ')
+    const [selectIcUnit, setSelectUnit] = useState()
     const [selectWareHouse, setSelectWareHouse] = useState();
+    const [selectSellWareHouse, setSelectSellWareHouse] = useState();
     const [selectGroupProduct, setSelectGroupProduct] = useState();
     const [selectUnitCost, setSelectUnitCost] = useState("ຫົວໜວ່ຍນັບດຽວ")
     const [selectTypeUnitCost, setSelectTypeUnitCost] = useState("ຕົ້ນທຶນສະເລ່ຍ")
+    const [getAllProductPending, setGetAllProductpending] = useState([]);
+    const [getModel, setModel] = useState("")
+
 
     const loadPHOne = async () => {
         try {
@@ -110,6 +115,24 @@ const PurchasingHook = () => {
         }
     }
 
+    const loadGetAllProductPending = async () => {
+        try {
+            const res = await api.get(`/pms/productpending?user_created=admin`);
+            setGetAllProductpending(res.data);
+        } catch (error) {
+            throw error
+        }
+    }
+
+    const loadGetAllLocaion = async () => {
+        try {
+            const res = await api.get(`/pms/icshelf`);
+            setGetLocation(res.data);
+        } catch (error) {
+            throw error
+        }
+    }
+
     useEffect(() => {
         loadPHOne();
         loadPHTwo();
@@ -124,6 +147,10 @@ const PurchasingHook = () => {
         loadEig();
         loadIcUnit();
         loadWareHouse();
+        loadGetAllLocaion()
+    }, [])
+    useEffect(() => {
+        loadGetAllProductPending();
     }, [])
 
     return {
@@ -142,7 +169,8 @@ const PurchasingHook = () => {
         selectedPH4, setSelectedPH4, getProductPHFive, selectedPH5, setSelectedPH5, getProductPHSix, selectedPH6, setSelectedPH6,
         getProductPHSeven, selectedPH7, setSelectedPH7, getProductPHEig, selectedPH8, setSelectedPH8,
         selectIcUnit, setSelectUnit, getIcUnit, getWareHouse, selectWareHouse, setSelectWareHouse, selectGroupProduct, setSelectGroupProduct, selectUnitCost, setSelectUnitCost,
-        selectTypeUnitCost, setSelectTypeUnitCost
+        selectTypeUnitCost, setSelectTypeUnitCost, getAllProductPending, getModel, setModel, selectSellWareHouse, setSelectSellWareHouse,
+        getLocation
     }
 
 }

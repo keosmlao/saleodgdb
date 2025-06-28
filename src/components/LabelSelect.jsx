@@ -17,7 +17,8 @@ const LabeledSelect = ({
             <label >{icon}</label>
             <label className="block font-medium text-gray-700 mb-1">{label}</label>
             <Select
-                disabled = {disabled}
+                size='large'
+                disabled={disabled}
                 showSearch
                 placeholder={placeholder}
                 options={options}
