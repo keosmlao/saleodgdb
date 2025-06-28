@@ -24,7 +24,7 @@ export default function TabCharnel({ bu }) {
         else if (activeTab === 'project') department = '2033';
         else if (activeTab === 'installer') department = '2014';
 
-    
+
 
     } else if (bu === '14') {
         if (activeTab === 'wholesale') department = '2041';
@@ -38,7 +38,7 @@ export default function TabCharnel({ bu }) {
         else if (activeTab === 'project') department = '2053';
         else if (activeTab === 'installer') department = '2054';
 
-    
+
     }
     const tabs = [
         { key: 'wholesale', label: '🧑 ຂາຍສົ່ງ' },
@@ -50,17 +50,14 @@ export default function TabCharnel({ bu }) {
 
     return (
         <div>
-            {/* Top Tabs */}
-            <ul className="nav nav-tabs">
+            <ul className="flex border-b border-gray-300">
                 {tabs.map((tab) => (
-                    <li className="nav-item" key={tab.key}>
+                    <li key={tab.key}>
                         <button
-                            className={`nav-link ${activeTab === tab.key ? 'active text-white bg-danger' : ''}`}
-                            style={{
-                                fontSize: '13px',
-                                fontFamily: 'Noto Sans Lao',
-                                borderRadius: '0',
-                            }}
+                            className={`text-[13px] font-sans font-[Noto Sans Lao] px-4 py-2 border-b-2 transition-all duration-200 ${activeTab === tab.key
+                                ? 'bg-red-600 text-white border-red-600'
+                                : 'text-gray-600 hover:text-red-600 hover:border-red-400'
+                                }`}
                             onClick={() => setActiveTab(tab.key)}
                         >
                             {tab.label}
@@ -69,12 +66,12 @@ export default function TabCharnel({ bu }) {
                 ))}
             </ul>
 
-            {/* Tab Content */}
-            <div className="card shadow-sm" style={{ borderRadius: 0 }}>
-                <div className="card-body">
+            <div className="bg-white shadow-sm rounded-none border border-gray-200">
+                <div >
                     <SaleByBuByChannel bu={bu} department={department} />
                 </div>
             </div>
         </div>
+
     );
 }

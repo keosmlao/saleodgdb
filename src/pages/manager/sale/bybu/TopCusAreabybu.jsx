@@ -6,12 +6,6 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 import api from '../../../../services/api';
 
-const getColor = (value) => {
-  if (value >= 1000000) return '#28a745';  // Green
-  if (value >= 500000) return '#ffc107';   // Yellow
-  return '#dc3545';                        // Red
-};
-
 const format = (val) => val.toLocaleString() + ' ₭';
 
 export default function TopCusByAreaName({bu}) {
