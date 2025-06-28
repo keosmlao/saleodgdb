@@ -1,4 +1,4 @@
-import { filterOptionUtil } from "../../../utils/filter_funciton_util";
+
 import LabeledSelect from "../../../components/LabelSelect";
 import { useEffect, useState } from "react";
 import { Save, Package, Tag, Palette, Ruler, Layers, Building2, Users, Calculator, DollarSign } from "lucide-react";
@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import PurchasingHook from "../../../hooks/purchasingHook";
 import api from "../../../services/api";
+import { filterOptionUtil } from "../../../utils/filter";
 
 const CreatePurchasingProduct = () => {
     const [selected, setSelected] = useState(null);
