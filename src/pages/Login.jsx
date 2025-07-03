@@ -24,11 +24,12 @@ export default function Login() {
     setError("");
     try {
       const res = await api.post("/saledblogin", { username, password, device_id: deviceId });
-      const { token, role, user_id, username: user_name } = res.data;
+      const { token, role, bu, user_id, username: user_name } = res.data;
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
       localStorage.setItem("user_id", user_id);
       localStorage.setItem("username", user_name);
+      localStorage.setItem("bu", bu);
       console.log("Login successful:", res.data);
       if (role === "Manager") {
         navigate("/admin/home");

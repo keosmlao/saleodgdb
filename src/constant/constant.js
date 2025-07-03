@@ -23,6 +23,6 @@ export const OPTION_PRODUCT_NAME = [
 ]
 
 export const  OPTION_UNIT = [
-    { value: '00', label: 'ສີນຄ້າໜວ່ຍນັບດຽງ' },
+    { value: '00', label: 'ສີນຄ້າໜວ່ຍນັບດຽວ' },
     { value: '00', label: 'ສີນຄ້າຫຼາຍໜວ່ຍນັບ' },
 ]

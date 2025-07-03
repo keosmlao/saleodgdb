@@ -196,6 +196,12 @@ export default function Navbar() {
                                         >
                                             ສິນຄ້າຜິດປົກກະຕິ
                                         </button>
+                                        <button
+                                            className="block px-5 py-3 w-full text-left text-sm text-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200"
+                                            onClick={() => navigate("/sale/approve")}
+                                        >
+                                            ປະຫວັດການApprove
+                                        </button>
                                     </div>
                                 </>
                             )}

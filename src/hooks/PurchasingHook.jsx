@@ -13,6 +13,8 @@ const PurchasingHook = () => {
     const [getWareHouse, setGetWareHouse] = useState([])
     const [getLocation, setGetLocation] = useState([]);
     const [getIcUnit, setGetIcUnit] = useState([])
+    const [getProduct, setGetProduct] = useState([]);
+    const [selectProduct , setSelectProduct] = useState(null);
     const [selectedPH1, setSelectedPH1] = useState(null);
     const [selectedPH2, setSelectedPH2] = useState(null);
     const [selectedPH3, setSelectedPH3] = useState(null);
@@ -22,9 +24,9 @@ const PurchasingHook = () => {
     const [selectedPH7, setSelectedPH7] = useState(null);
     const [selectedPH8, setSelectedPH8] = useState(null);
     const [selectIcUnit, setSelectUnit] = useState()
-    const [selectWareHouse, setSelectWareHouse] = useState();
+    const [selectWareHouse, setSelectWareHouse] = useState(null);
     const [selectSellWareHouse, setSelectSellWareHouse] = useState();
-    const [selectGroupProduct, setSelectGroupProduct] = useState();
+    const [selectGroupProduct, setSelectGroupProduct] = useState("ປົກກະຕິ");
     const [selectUnitCost, setSelectUnitCost] = useState("ຫົວໜວ່ຍນັບດຽວ")
     const [selectTypeUnitCost, setSelectTypeUnitCost] = useState("ຕົ້ນທຶນສະເລ່ຍ")
     const [getAllProductPending, setGetAllProductpending] = useState([]);
@@ -133,6 +135,15 @@ const PurchasingHook = () => {
         }
     }
 
+    const loadProduct = async () => {
+        try {
+            const res = await api.get("/pms/getproduct");
+            setGetProduct(res.data);
+        } catch (error) {
+            throw error;
+        }
+    }
+
     useEffect(() => {
         loadPHOne();
         loadPHTwo();
@@ -147,7 +158,8 @@ const PurchasingHook = () => {
         loadEig();
         loadIcUnit();
         loadWareHouse();
-        loadGetAllLocaion()
+        loadGetAllLocaion();
+        loadProduct();
     }, [])
     useEffect(() => {
         loadGetAllProductPending();
@@ -170,7 +182,7 @@ const PurchasingHook = () => {
         getProductPHSeven, selectedPH7, setSelectedPH7, getProductPHEig, selectedPH8, setSelectedPH8,
         selectIcUnit, setSelectUnit, getIcUnit, getWareHouse, selectWareHouse, setSelectWareHouse, selectGroupProduct, setSelectGroupProduct, selectUnitCost, setSelectUnitCost,
         selectTypeUnitCost, setSelectTypeUnitCost, getAllProductPending, getModel, setModel, selectSellWareHouse, setSelectSellWareHouse,
-        getLocation
+        getLocation, loadGetAllProductPending, getProduct, selectProduct , setSelectProduct
     }
 
 }

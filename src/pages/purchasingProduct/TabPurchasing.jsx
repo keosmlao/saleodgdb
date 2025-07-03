@@ -2,6 +2,7 @@ import { Tabs } from "antd";
 import PurchasingProductPage from "./PurchasingProduct";
 import Navbar from "../../components/Navbar";
 import ProductPending from "./ProductPending";
+import ApprovePending from "./ApprovePending";
 
 const TabPurchasing = () => {
     const onChange = key => {
@@ -11,7 +12,7 @@ const TabPurchasing = () => {
     const items = [
         {
             key: "1",
-            label: "ສີນຄ້າລໍຖ້າ",
+            label: "ສີນຄ້າການຈັດຊື້",
             children: <PurchasingProductPage />,
         },
         {
@@ -21,8 +22,8 @@ const TabPurchasing = () => {
         },
         {
             key: "3",
-            label: "ອະນຸມັດ",
-            children: <div>Content of Tab 2</div>,
+            label: "ລໍຖ້າອະນຸມັດ",
+            children: <ApprovePending/>,
         },
     ];
 

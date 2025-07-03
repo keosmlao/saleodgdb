@@ -5,7 +5,7 @@ import { Save, Package, Tag, Palette, Ruler, Layers, Building2, Users, Calculato
 import TextInput from "../../../components/InputText";
 import { OPTION_COST, OPTION_MERCHANT, OPTION_PRODUCT_GROUP, OPTION_PRODUCT_NAME, OPTION_TYPE_COST, OPTION_UNIT } from "../../../constant/constant";
 import { Button, Divider, Form } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import PurchasingHook from "../../../hooks/purchasingHook";
 import api from "../../../services/api";
@@ -13,20 +13,23 @@ import { filterOptionUtil } from "../../../utils/filter";
 
 const CreatePurchasingProduct = () => {
     const [selected, setSelected] = useState(null);
-    const [unitCount, setUnitCount] = useState()
+    const [unitCount, setUnitCount] = useState("ສີນຄ້າໜວ່ຍນັບດຽວ")
     const [storageStart, setStorageStart] = useState();
     const [storageEnd, setStorageEnd] = useState();
-    const [wareHouseStart , setWareHouseStart]= useState()
+    const [wareHouseStart, setWareHouseStart] = useState("ສາຂາOdein Thai")
+    const [isUpdate, setIsUpdate] = useState(false);
     const role = localStorage.getItem("role");
     const [name2, setName2] = useState("");
     const [name1, setname1] = useState('');
     const [form] = Form.useForm();
     const navigate = useNavigate();
+    const param = useParams();
+    const id = param.id;
 
     const { getProductPHOne, selectedPH1, setSelectedPH1, getProductPHTwo, selectedPH2, setSelectedPH2, loadPHTwo, getProductPHThree, loadPHThree, selectedPH3, setSelectedPH3, selectedPH4, setSelectedPH4, getProductPHFour, getProductPHFive, selectedPH5, setSelectedPH5, getProductPHSix, selectedPH6, setSelectedPH6, getProductPHSeven, selectedPH7, setSelectedPH7,
         getProductPHEig, selectedPH8, setSelectedPH8, selectIcUnit, setSelectUnit, getIcUnit, getWareHouse, selectWareHouse, setSelectWareHouse, selectGroupProduct, setSelectGroupProduct,
-        selectUnitCost, setSelectUnitCost, selectTypeUnitCost, setSelectTypeUnitCost, getModel, setModel, selectSellWareHouse, setSelectSellWareHouse, getLocation
-
+        selectUnitCost, setSelectUnitCost, selectTypeUnitCost, setSelectTypeUnitCost, getModel, setModel, selectSellWareHouse, setSelectSellWareHouse, getLocation, getProduct,
+        selectProduct, setSelectProduct
     } = PurchasingHook();
 
     useEffect(() => {
@@ -65,43 +68,98 @@ const CreatePurchasingProduct = () => {
         getModel
     ]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await api.get(`/pms/productpending/${id}`);
+            const data = res.data;
+            setSelectedPH1(data.ph1_code);
+            await loadPHTwo(data.ph1_code);
+            setSelectedPH2(data.ph2_code);
+            await loadPHThree(data.ph1_code, data.ph2_code);
+            setSelectedPH3(data.ph3_code);
+            setSelectedPH4(data.ph4_code);
+            setSelectProduct(data.product_code);
+            setSelectedPH5(data.ph5_code);
+            setSelectedPH6(data.ph6_code);
+            setSelectedPH7(data.ph7_code);
+            setSelectedPH8(data.ph8_code);
+            setSelectUnit(data.unit_code)
+            setSelectWareHouse(data.wh)
+            setStorageStart(data.sh)
+            setWareHouseStart(data.warehouse_code);
+            setSelectGroupProduct(data.group_code);
+            setUnitCount(data.unit_type_code);
+            const modelFromName = data.name_1?.split(" - ").pop()?.trim() || '';
+            setModel(modelFromName);
+        };
+
+        fetchData();
+    }, [id]);
+
 
     const handleFormSubmit = async () => {
         try {
-            const data = {
-                ph1: selectedPH1,
-                ph2: selectedPH2,
-                ph3: selectedPH3,
-                ph4: selectedPH4,
-                ph5: selectedPH5,
-                ph6: selectedPH6,
-                ph7: selectedPH7,
-                ph8: selectedPH8,
-                name_1: name1,
-                name_2: name2,
-                unit_code: selectIcUnit,
-                wh_code: selectWareHouse,
-                sh_code: storageStart,
-                user_created:role
-            };
+            if (id && isUpdate) {
+                const data = {
+                    ph1: selectedPH1,
+                    ph2: selectedPH2,
+                    ph3: selectedPH3,
+                    ph4: selectedPH4,
+                    product_name: selectProduct,
+                    ph5: selectedPH5,
+                    ph6: selectedPH6,
+                    ph7: selectedPH7,
+                    ph8: selectedPH8,
+                    name_1: name1,
+                    name_2: name2,
+                    unit_code: selectIcUnit,
+                    wh_code: selectWareHouse?.value,
+                    sh_code: storageStart?.value,
+                    user_created: 'admin'
+                };
+                const res = api.put(`/pms/product-draft/${id}`, data)
+                navigate("/sale/tabpurchasing")
+                return res;
+            } else {
+                const data = {
+                    ph1: selectedPH1,
+                    ph2: selectedPH2,
+                    ph3: selectedPH3,
+                    ph4: selectedPH4,
+                    product_name: selectProduct,
+                    ph5: selectedPH5,
+                    ph6: selectedPH6,
+                    ph7: selectedPH7,
+                    ph8: selectedPH8,
+                    name_1: name1,
+                    name_2: name2,
+                    unit_code: selectIcUnit,
+                    wh_code: selectWareHouse?.value,
+                    sh_code: storageStart?.value,
+                    user_created: 'admin'
+                };
 
-            const res = await api.post("/pms/product-draft", data);
-            form.resetFields();
-            return res;
+                const res = await api.post("/pms/product-draft", data);
+                form.resetFields();
+                navigate("/sale/tabpurchasing")
+                return res;
+            }
         } catch (error) {
             throw error
         }
     };
 
-    const options = [
-        { value: '1', label: 'Jack' },
-        { value: '2', label: 'Lucy' },
-        { value: '3', label: 'Tom' },
-    ];
+    useEffect(() => {
+        if (id) {
+            setIsUpdate(true);
+        } else {
+            setIsUpdate(false);
+        }
+    }, [id]);
+
 
     return <div className="font-['Noto_Sans_Lao'] min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6">
         <div className="max-w-7xl mx-auto">
-            {/* Header Section */}
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
                 <div className="flex items-center gap-4">
                     <Button
@@ -113,7 +171,9 @@ const CreatePurchasingProduct = () => {
                         children={"ຍອ້ນກັບ"}
                     />
                     <div>
-                        <h3 className="text-2xl font-semibold text-slate-800 mb-1">ເພີ່ມສີນຄ້າການຈັດຊື້</h3>
+                        <h3 className="text-2xl font-semibold text-slate-800 mb-1">
+                            {isUpdate ? 'ອັບເດດສີນຄ້າການຈັດຊື້' : 'ເພີ່ມສີນຄ້າການຈັດຊື້'}
+                        </h3>
                         <p className="text-slate-500 text-sm">ຈັດການຂໍ້ມູນສີນຄ້າແລະການຈັດຊື້</p>
                     </div>
                 </div>
@@ -218,14 +278,13 @@ const CreatePurchasingProduct = () => {
                                 icon={<Tag size={16} />}
                                 label="ຊື່ສີນຄ້າ"
                                 placeholder="Select a person"
-                                options={OPTION_PRODUCT_NAME}
+                                options={getProduct.map(item => ({
+                                    label: item.name_1,
+                                    value: item.code
+                                }))}
                                 filterOption={filterOptionUtil}
-                                value={selected}
-                                onChange={(val) => {
-                                    const option = OPTION_PRODUCT_NAME.find(item => item.value === val);
-                                    if (!option) return;
-                                    setname1(option.name_1);
-                                }}
+                                value={selectProduct}
+                                onChange={setSelectProduct}
                                 className="hover:shadow-sm transition-shadow duration-200"
                             />
                         </div>
@@ -367,11 +426,11 @@ const CreatePurchasingProduct = () => {
                             placeholder="Enter model"
                             value={getModel}
                             onChange={(e) => {
-                                const inputValue = e.target.value || '';
-                                setModel(inputValue);
+                                setModel(e.target.value || '');
                             }}
                             className="hover:shadow-sm transition-shadow duration-200"
                         />
+
                         <LabeledSelect
                             icon={<DollarSign size={16} />}
                             label="ຫົວໜວ່ຍຕົ້ນທືນ"
@@ -460,7 +519,12 @@ const CreatePurchasingProduct = () => {
                                     }))}
                                     filterOption={filterOptionUtil}
                                     value={selectWareHouse}
-                                    onChange={setSelectWareHouse}
+                                    onChange={(value) => {
+                                        const selectedOption = getWareHouse.find(item => item.code === value);
+                                        if (selectedOption) {
+                                            setSelectWareHouse({ value, label: selectedOption.name_1 });
+                                        }
+                                    }}
                                     className="hover:shadow-sm transition-shadow duration-200"
                                 />
                                 <LabeledSelect
@@ -473,7 +537,12 @@ const CreatePurchasingProduct = () => {
                                     }))}
                                     filterOption={filterOptionUtil}
                                     value={storageStart}
-                                    onChange={setStorageStart}
+                                    onChange={(value) => {
+                                        const selectedOption = getLocation.find(item => item.code === value);
+                                        if (selectedOption) {
+                                            setStorageStart({ value, label: selectedOption.name_1 });
+                                        }
+                                    }}
                                     className="hover:shadow-sm transition-shadow duration-200"
                                 />
                                 <TextInput
@@ -539,7 +608,7 @@ const CreatePurchasingProduct = () => {
                 <div className="flex justify-end">
                     <button className="group flex items-center gap-3 px-8 py-3 text-white bg-gradient-to-r from-green-600 to-green-700 rounded-xl shadow-lg hover:shadow-xl hover:from-green-700 hover:to-green-800 transition-all duration-300 transform hover:-translate-y-0.5">
                         <Save className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
-                        <span className="font-medium">ບັນທຶກ</span>
+                        <span className="font-medium">{isUpdate ? "ອັບເດດ" : "ບັນທຶກ"}</span>
                     </button>
                 </div>
             </Form>

@@ -20,6 +20,7 @@ import HomePM from './pages/pm/homepm';
 import PurchasingProductPage from './pages/purchasingProduct/PurchasingProduct';
 import CreatePurchasingProduct from './pages/purchasingProduct/component/ListProduct';
 import TabPurchasing from './pages/purchasingProduct/TabPurchasing';
+import HistoryApproved from './pages/purchasingProduct/component/HistoryApprove';
 
 function App() {
   return (
@@ -30,9 +31,6 @@ function App() {
 
       
         <Route path="/pm/home" element={<ProtectedRoute><HomePM /></ProtectedRoute>} />
-
-
-
         <Route path="/admin/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/log/loginlogs" element={<ProtectedRoute><LoginLogs /></ProtectedRoute>} />
         <Route path="/sale/salloverall" element={<ProtectedRoute><Saloverall /></ProtectedRoute>} />
@@ -48,6 +46,8 @@ function App() {
         <Route path="/sale/tabpurchasing" element={<ProtectedRoute><TabPurchasing /></ProtectedRoute>} />
         <Route path="/sale/purchasing" element={<ProtectedRoute><PurchasingProductPage /></ProtectedRoute>} />
         <Route path="/sale/create/purchasing" element={<ProtectedRoute><CreatePurchasingProduct /></ProtectedRoute>} />
+        <Route path="/sale/update/purchasing/:id" element={<ProtectedRoute><CreatePurchasingProduct /></ProtectedRoute>} />
+        <Route path="/sale/approve" element={<ProtectedRoute><HistoryApproved/></ProtectedRoute>} />
       </Route>
 
     </Routes>
