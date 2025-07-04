@@ -19,10 +19,6 @@ export default function MonthlySalesChart() {
   const [selectedChannel, setSelectedChannel] = useState('all');
   const [selectedZone, setSelectedZone] = useState('all');
 
-  console.log("select zone monthly", selectedZone);
-  console.log("data main", processedData);
-
-
   const channelList = [
     { name: 'all', display: '🌐 ຊອ່ງທາງທັງໝົດ' },
     { name: 'ຂາຍສົ່ງ', display: 'ຂາຍສົ່ງ' },
