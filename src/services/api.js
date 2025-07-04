@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5500/api", // ✅ Adjust the IP/port if the server changes
-  // baseURL: "http://localhost:5000/api", // ✅ Adjust the IP/port if the server changes
+  baseURL: "http://119.59.124.56:5000/api", //server
+  // baseURL: "http://localhost:5500/api", //LOCAL 
   timeout: 30000, // 10 seconds
 });
 

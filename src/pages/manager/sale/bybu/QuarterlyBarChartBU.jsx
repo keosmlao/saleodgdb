@@ -11,6 +11,8 @@ export default function QuarterlyBarChartBU({ bu }) {
   const [selectedChannel, setSelectedChannel] = useState('all');
   const [viewMode, setViewMode] = useState('chart');
 
+  console.log("data", data)
+
   const loadData = () => {
     try {
       const params = new URLSearchParams();
@@ -18,7 +20,7 @@ export default function QuarterlyBarChartBU({ bu }) {
       if (bu !== 'all') params.append('bu', bu);
       if (selectedZone !== 'all') params.append('area', selectedZone);
       if (selectedChannel !== 'all') params.append('channel', selectedChannel);
-      api.get(`/all/monthly?${params.toString()}`)
+      api.get(`/bu/quarterly/${bu}`)
         .then(res => {
           const processed = Array.isArray(res.data)
             ? res.data.map(item => {

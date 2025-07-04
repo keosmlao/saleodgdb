@@ -14,6 +14,7 @@ export default function MonthlySalesChartbybu({ bu }) {
   const [selectedChannel, setSelectedChannel] = useState('all');
   const [selectedZone, setSelectedZone] = useState('all');
   const [filter, setFilter] = useState('thisMonth');
+  console.log("processedData", processedData)
 
   const loadData = () => {
     const params = new URLSearchParams();
