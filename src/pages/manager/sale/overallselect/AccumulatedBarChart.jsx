@@ -6,17 +6,32 @@ const AccumulatedBarChart = () => {
     const [data, setData] = useState([]);
     const [viewMode, setViewMode] = useState('chart');
     const [bu, setBu] = useState('ALL');
+    const [selectedZone, setSelectedZone] = useState('all');
     const [buList, setBuList] = useState([]);
+    const [selectedChannel, setSelectedChannel] = useState('all');
+    const channelList = [
+        { name: 'all', display: '🌐 ຊອ່ງທາງທັງໝົດ' },
+        { name: 'ຂາຍສົ່ງ', display: 'ຂາຍສົ່ງ' },
+        { name: 'ຂາຍໜ້າຮ້ານ', display: 'ຂາຍໜ້າຮ້ານ' },
+        { name: 'ຂາຍໂຄງການ', display: 'ຂາຍໂຄງການ' },
+        { name: 'ຂາຍຊ່າງ', display: 'ຂາຍຊ່າງ' },
+        { name: 'ບໍລິການ', display: 'ບໍລິການ' },
+        { name: 'ອື່ນໆ', display: 'ອື່ນໆ' },
+    ];
 
     useEffect(() => {
-        // ดึง BU list จาก backend หรือ static list
-        api.get('/all/bu-list') // สมมติว่ามี endpoint ดึง BU list
+        api.get('/all/bu-list')
             .then(res => setBuList(res.data))
             .catch(err => console.error('❌ Load BU list failed:', err));
     }, []);
 
     useEffect(() => {
-        api.get(`/all/accumulated${bu !== 'ALL' ? `?bu=${bu}` : ''}`)
+        const params = new URLSearchParams();
+        if (bu !== 'all') params.append('bu', bu);
+        if (selectedChannel !== 'all') params.append('channel', selectedChannel);
+        if (selectedZone !== 'all') params.append('area', selectedZone);
+
+        api.get(`/all/accumulated?${params.toString()}`)
             .then(response => {
                 const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                 const processedData = response.data.map(item => {
@@ -38,7 +53,7 @@ const AccumulatedBarChart = () => {
             .catch(error => {
                 console.error('❌ Error fetching accumulated data:', error);
             });
-    }, [bu]);
+    }, [bu, selectedChannel, selectedZone]); 
 
     const CustomTopLabel = ({ x, y, value }) => (
         <text
@@ -126,7 +141,7 @@ const AccumulatedBarChart = () => {
 
 
     return (
-        <div className="bg-white p-3 mb-2 rounded-md shadow-sm font-[Noto_Sans_Lao]" style={{height:"700px"}}>
+        <div className="bg-white p-3 mb-2 rounded-md shadow-sm font-[Noto_Sans_Lao]" style={{ height: "700px" }}>
             <div className="flex justify-between items-center mb-3 flex-wrap text-[12px]">
                 <h5 className="text-red-600 font-bold mb-0 font-[Noto_Sans_Lao]">
                     📊 ຍອດສະສົມ (Accumulated Bar Chart)
@@ -146,11 +161,16 @@ const AccumulatedBarChart = () => {
                         ))}
                     </select>
 
+                    <label className="font-bold ">📢 ຊອ່ງທາງ:</label>
+                    <select className="text-sm border rounded px-2 py-1 w-[130px]" value={selectedChannel} onChange={e => setSelectedChannel(e.target.value)}>
+                        {channelList.map(ch => <option key={ch.name} value={ch.name}>{ch.display}</option>)}
+                    </select>
+
                     <label className="font-bold">🌍 ຂອບເຂດ:</label>
                     <select
                         className="text-sm border rounded px-2 py-1 w-[130px]"
-                        value={bu}
-                        onChange={(e) => setBu(e.target.value)}
+                        value={selectedZone}
+                        onChange={(e) => setSelectedZone(e.target.value)}
                     >
                         {[
                             { code: 'all', name_1: '🌍 ໂຊນທັງໝົດ' },

@@ -38,7 +38,17 @@ export default function ChannelSummary() {
     const [viewMode, setViewMode] = useState('chart');
     const [data, setData] = useState([]);
     const [buList, setBuList] = useState([{ code: 'all', name_1: '📦 ທຸກ BU' }]);
-    console.log("crosee data", data)
+    const [selectedZone, setSelectedZone] = useState('all');
+    const [selectedChannel, setSelectedChannel] = useState('all');
+    const channelList = [
+        { name: 'all', display: '🌐 ຊອ່ງທາງທັງໝົດ' },
+        { name: 'ຂາຍສົ່ງ', display: 'ຂາຍສົ່ງ' },
+        { name: 'ຂາຍໜ້າຮ້ານ', display: 'ຂາຍໜ້າຮ້ານ' },
+        { name: 'ຂາຍໂຄງການ', display: 'ຂາຍໂຄງການ' },
+        { name: 'ຂາຍຊ່າງ', display: 'ຂາຍຊ່າງ' },
+        { name: 'ບໍລິການ', display: 'ບໍລິການ' },
+        { name: 'ອື່ນໆ', display: 'ອື່ນໆ' },
+    ];
     const [bu, setBu] = useState('all');
     useEffect(() => {
         api.get('/all/bu-list')
@@ -49,24 +59,35 @@ export default function ChannelSummary() {
             .catch(err => console.error('❌ Load BU list failed:', err));
     }, []);
 
+    console.log("data", data)
+
     useEffect(() => {
-        api.get(`/all/channel-summary?filter=${filter}`)
+        const params = new URLSearchParams();
+        params.append('filter', filter);
+        if (bu !== 'all') params.append('bu', bu);
+        if (selectedChannel !== 'all') params.append('channel', selectedChannel);
+        if (selectedZone !== 'all') params.append('area', selectedZone); 
+
+        api.get(`/all/channel-summary?${params.toString()}`)
             .then(res => {
                 const raw = res.data?.list || [];
                 setData(raw.map((item, index) => ({
                     channel: item.channel_name || 'Unknown',
                     total2025: Number(item.total_2025 || 0),
                     total2024: Number(item.total_2024 || 0),
-                    color: COLORS[index % COLORS.length], // 👈 Assign color per channel
+                    color: COLORS[index % COLORS.length],
                 })));
             })
-            .catch(err => { console.error('❌ Load channel summary failed:', err); setData([]); });
-    }, [filter]);
+            .catch(err => {
+                console.error('❌ Load channel summary failed:', err);
+                setData([]);
+            });
+    }, [filter, bu, selectedChannel, selectedZone]);
 
     return (
         <div className="bg-white p-3 rounded-2xl shadow-sm h-[700px] font-[Noto_Sans_Lao]">
             <h5 className="font-bold mb-2 text-[15px] font-[Noto_Sans_Lao]">📊 ສະຫຼູບຊອ່ງທາງ</h5>
-            <div className="flex flex-wrap gap-2 mb-3 text-[12px]">
+            <div className="flex flex-wrap gap-2 mb-3 text-[12px] items-center">
                 <div className="flex items-center gap-1">
                     <label className="font-bold">🔍 BU:</label>
                     <select className="text-sm border rounded px-2 py-1 w-[130px]" value={bu} onChange={e => setBu(e.target.value)}>
@@ -82,6 +103,32 @@ export default function ChannelSummary() {
                         <option value="fullYear">ປີນີ້</option>
                     </select>
                 </div>
+
+                <label className="font-bold ">📢 ຊອ່ງທາງ:</label>
+                <select className="text-sm border rounded px-2 py-1 w-[130px]" value={selectedChannel} onChange={e => setSelectedChannel(e.target.value)}>
+                    {channelList.map(ch => <option key={ch.name} value={ch.name}>{ch.display}</option>)}
+                </select>
+
+                <label className="font-bold">🌍 ຂອບເຂດ:</label>
+                <select
+                    className="text-sm border rounded px-2 py-1 w-[130px]"
+                    value={selectedZone}
+                    onChange={(e) => setSelectedZone(e.target.value)}
+                >
+                    {[
+                        { code: 'all', name_1: '🌍 ໂຊນທັງໝົດ' },
+                        { code: '11', name_1: 'ZONE A' },
+                        { code: '12', name_1: 'ZONE B' },
+                        { code: '13', name_1: 'ZONE C' },
+                        { code: '14', name_1: 'ZONE D' },
+                        { code: '15', name_1: 'ZONE E' },
+                        { code: '16', name_1: 'ZONE F' },
+                    ].map((z) => (
+                        <option key={z.code} value={z.code}>
+                            {z.name_1}
+                        </option>
+                    ))}
+                </select>
 
                 <div className="flex items-center gap-1 font-[Noto_Sans_Lao]">
                     <label className="font-bold ">📊 ຮູບແບບ:</label>

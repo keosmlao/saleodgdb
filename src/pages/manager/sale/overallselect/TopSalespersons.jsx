@@ -10,6 +10,7 @@ export default function TopSalespersons() {
   const [filter, setFilter] = useState('thisMonth');
   const [bu, setBu] = useState('all');
   const [channel, setChannel] = useState('all');
+  const [zone, setZone] = useState('all');
   const [viewMode, setViewMode] = useState('chart');
   const [data, setData] = useState([]);
   const [buList, setBuList] = useState([{ code: 'all', name_1: '📦 ທຸກ BU' }]);
@@ -52,7 +53,7 @@ export default function TopSalespersons() {
   }, []);
 
   useEffect(() => {
-    api.get(`/all/top-salespersons?filter=${filter}&bu=${bu}&channel=${channel}`)
+    api.get(`/all/top-salespersons?filter=${filter}&bu=${bu}&channel=${channel}&area=${zone}`)
       .then(res => {
         const raw = res.data?.list || [];
         const totalSum = raw.reduce((sum, c) => sum + Number(c.total_2025 || 0), 0);
@@ -64,8 +65,12 @@ export default function TopSalespersons() {
           color: COLORS[index % COLORS.length],
         })));
       })
-      .catch(err => { console.error('❌ Load API failed:', err); setData([]); });
-  }, [filter, bu, channel]);
+      .catch(err => {
+        console.error('❌ Load API failed:', err);
+        setData([]);
+      });
+  }, [filter, bu, channel, zone]);
+
 
   const CustomInsideLabel = (props) => {
     const { x, y, width, height, value } = props;
@@ -109,6 +114,28 @@ export default function TopSalespersons() {
             <option value="lastMonth">ເດືອນກອ່ນ</option>
             <option value="accumulated">ຍອດສະສົມ</option>
             <option value="fullYear">ທັງໝົດໃນປີ</option>
+          </select>
+        </div>
+        <div className="flex items-center gap-1">
+          <label className="font-bold">🌍 ຂອບເຂດ:</label>
+          <select
+            className="text-sm border rounded px-2 py-1 w-[130px]"
+            value={zone}
+            onChange={(e) => setZone(e.target.value)}
+          >
+            {[
+              { code: 'all', name_1: 'ທຸກ ZONE' },
+              { code: 11, name_1: 'ZONE A' },
+              { code: 12, name_1: 'ZONE B' },
+              { code: 13, name_1: 'ZONE C' },
+              { code: 14, name_1: 'ZONE D' },
+              { code: 15, name_1: 'ZONE E' },
+              { code: 16, name_1: 'ZONE F' },
+            ].map((z) => (
+              <option key={z.code} value={z.code}>
+                {z.name_1}
+              </option>
+            ))}
           </select>
         </div>
 

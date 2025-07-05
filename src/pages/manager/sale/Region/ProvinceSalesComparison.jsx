@@ -9,7 +9,6 @@ export default function ProvinceSalesComparison() {
   const [dataByPeriod, setDataByPeriod] = useState({
     thisMonth: [], lastMonth: [], fullYear: []
   });
-  const [loading, setLoading] = useState(true);
   const formatNumber = v => {
     const num = Math.round(Number(v));
     return num.toLocaleString('en-US', { maximumFractionDigits: 0, minimumFractionDigits: 0 }) + ' ฿';
@@ -25,10 +24,10 @@ export default function ProvinceSalesComparison() {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
-    api.get('/all/province', {
-      params: selectedBU !== 'all' ? { bu_code: selectedBU } : {}
-    })
+    const params = {};
+    if (selectedBU !== 'all') params.bu_code = selectedBU;
+
+    api.get('/all/province', { params })
       .then(res => {
         const mapData = (items) =>
           items.map(item => ({
@@ -42,15 +41,13 @@ export default function ProvinceSalesComparison() {
           fullYear: mapData(res.data.fullyear)
         });
       })
-      .catch(err => console.error(err))
-      .finally(() => setLoading(false));
+      .catch(err => console.error(err));
   }, [selectedBU]);
 
-  if (loading) return <div className="text-center py-5 text-lg">⏳ Loading...</div>;
 
   return (
     <div className="bg-white p-2 rounded-lg mb-2 font-[Noto_Sans_Lao]">
-      <h5 className="font-bold mb-3 text-[15px] font-[Noto_Sans_Lao]">  📊 ຍອດຂາຍຕາມແຂວງ ({period === 'thisMonth' ? 'ເດືອນນີ້' : period === 'lastMonth' ? 'ເດືອນກ່ອນ' : 'ທັງປີ'})</h5>
+      <h5 className="font-bold mb-3 text-[15px] font-[Noto_Sans_Lao]">  📊 ຍອດຂາຍຕາມແຂວງ</h5>
       <div className="flex flex-wrap gap-2 mb-3 items-center text-[12px] font-[Noto_Sans_Lao]">
         <label className="font-bold text-[14px]">🔍 BU:</label>
         <select
